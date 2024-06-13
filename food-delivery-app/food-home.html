@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/food-home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:44:05 GMT -->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="zomo" />
+  <meta name="keywords" content="zomo" />
+  <meta name="author" content="zomo" />
+  <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
+
+  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <title>zomo App</title>
+  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <meta name="theme-color" content="#ff8d2f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="zomo" />
+  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileColor" content="#FFFFFF" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- font link -->
+  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+
+  <!-- remixicon css -->
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+
+  <!-- swiper css -->
+  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper-bundle.min.css" />
+
+  <!-- bootstrap css -->
+  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+
+  <!-- Theme css -->
+  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+</head>
+
+<body>
+  <!-- side bar start -->
+  <div class="offcanvas sidebar-offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
+    <div class="offcanvas-header">
+      <img class="img-fluid profile-pic" src="../assets/images/icons/profile.png" alt="profile" />
+      <h3>Hello, Lina John</h3>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="sidebar-content">
+        <ul class="link-section">
+          <li>
+            <div class="pages">
+              <h3>RTL</h3>
+              <div class="switch-btn">
+                <input id="dir-switch" type="checkbox" />
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="pages">
+              <h3>Dark</h3>
+              <div class="switch-btn">
+                <input id="dark-switch" type="checkbox" />
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <a href="page-listing.html" class="pages">
+              <h3>Pages List</h3>
+              <i class="ri-arrow-drop-right-line"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="setting.html" class="pages">
+              <h3>Setting</h3>
+              <i class="ri-arrow-drop-right-line"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" class="pages">
+              <h3>Privacy Policy</h3>
+              <i class="ri-arrow-drop-right-line"></i>
+            </a>
+          </li>
+
+          <li>
+            <a href="login.html" class="pages">
+              <h3>Logout</h3>
+              <i class="ri-arrow-drop-right-line"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- side bar end -->
+
+  <!-- header start -->
+  <header class="section-t-space">
+    <div class="custom-container">
+      <div class="header">
+        <div class="head-content">
+          <button class="sidebar-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft">
+            <i class="ri-menu-line"></i>
+          </button>
+          <div class="header-location">
+            <a href="#location" data-bs-toggle="modal">
+              <h2>Ontario, Canada</h2>
+              <i class="ri-arrow-down-s-line d-arrow"></i>
+            </a>
+          </div>
+        </div>
+        <a href="notification.html">
+          <i class="ri-notification-2-fill"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+  <!-- header end -->
+
+  <!-- search section starts -->
+  <section class="search-section">
+    <div class="custom-container">
+      <form class="auth-form search-head" target="_blank">
+        <div class="form-group">
+          <div class="form-input">
+            <input type="search" class="form-control search" id="inputusername" placeholder="Restaurant, item & more" />
+            <i class="ri-search-line search-icon"></i>
+          </div>
+
+          <a href="#search-filter" class="btn filter-button mt-0" data-bs-toggle="modal">
+            <i class="ri-equalizer-line"></i>
+          </a>
+        </div>
+      </form>
+    </div>
+  </section>
+  <!-- search section end -->
+
+  <!-- banner section start -->
+  <section class="banner-section section-t-space">
+    <div class="custom-container">
+      <div class="swiper banner1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img class="img-fluid banner-img" src="../assets/images/banner/banner1.png" alt="banner1" />
+          </div>
+
+          <div class="swiper-slide">
+            <div class="home-banner2">
+              <img class="img-fluid banner-img" src="../assets/images/banner/banner2.png" alt="banner2" />
+            </div>
+          </div>
+
+          <div class="swiper-slide">
+            <img class="img-fluid banner-img" src="../assets/images/banner/banner3.png" alt="banner3" />
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- banner section end -->
+
+  <!-- Food Categories section start -->
+  <section class="section-t-space">
+    <div class="custom-container">
+      <div class="title">
+        <h3 class="mt-0">Food Categories</h3>
+        <a href="categories.html">See All</a>
+      </div>
+
+      <div class="swiper categories">
+        <div class="swiper-wrapper ratio_square">
+          <div class="swiper-slide">
+            <a href="listing.html" class="food-categories">
+              <img class="img-fluid categories-img" src="../assets/images/product/pizaa.png" alt="pizza" />
+            </a>
+            <h6>Pizza</h6>
+          </div>
+          <div class="swiper-slide">
+            <a href="listing.html" class="food-categories">
+              <img class="img-fluid categories-img" src="../assets/images/product/burger.png" alt="burger" />
+            </a>
+            <h6>Burger</h6>
+          </div>
+          <div class="swiper-slide">
+            <a href="listing.html" class="food-categories">
+              <img class="img-fluid categories-img" src="../assets/images/product/boritto.png" alt="boritto" />
+            </a>
+            <h6>Boritto</h6>
+          </div>
+          <div class="swiper-slide">
+            <a href="listing.html" class="food-categories">
+              <img class="img-fluid categories-img" src="../assets/images/product/hotdog.png" alt="hotdog" />
+            </a>
+            <h6>Hot Dog</h6>
+          </div>
+          <div class="swiper-slide">
+            <a href="listing.html" class="food-categories">
+              <img class="img-fluid categories-img" src="../assets/images/product/noodles.png" alt="noodles" />
+            </a>
+            <h6>Noodles</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Food Categories section end -->
+
+  <!-- product section start -->
+  <section class="section-t-space">
+    <div class="custom-container">
+      <div class="title">
+        <h3 class="mt-0">Recommended For You</h3>
+        <a href="listing.html">See All</a>
+      </div>
+
+      <div class="swiper products">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="product-box product-box-bg">
+              <a href="details.html" class="product-box-img">
+                <img class="img-fluid" src="../assets/images/product/p1.png" alt="p1" />
+              </a>
+              <div class="product-box-detail">
+                <h5>Chicken karahi</h5>
+                <ul class="timing">
+                  <li>
+                    <span class="star"><i class="ri-star-s-fill"></i></span> 3.7
+                  </li>
+                  <li>20 min</li>
+                </ul>
+                <div class="bottom-panel">
+                  <div class="price">$19.23</div>
+                  <a href="cart.html" class="cart mb-0">
+                    <i class="ri-shopping-cart-2-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="product-box product-box-bg">
+              <a href="details.html" class="product-box-img">
+                <img class="img-fluid" src="../assets/images/product/p2.png" alt="p2" />
+              </a>
+              <div class="product-box-detail">
+                <h5>Mexican Pizza</h5>
+                <ul class="timing">
+                  <li>
+                    <span class="star"><i class="ri-star-s-fill"></i></span> 4.5
+                  </li>
+                  <li>20 min</li>
+                </ul>
+                <div class="bottom-panel">
+                  <div class="price">$9.5</div>
+                  <a href="cart.html" class="cart mb-0">
+                    <i class="ri-shopping-cart-2-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="product-box product-box-bg">
+              <a href="details.html" class="product-box-img">
+                <img class="img-fluid" src="../assets/images/product/p3.png" alt="p3" />
+              </a>
+              <div class="product-box-detail">
+                <h5>Maggie Cheese</h5>
+                <ul class="timing">
+                  <li>
+                    <span class="star"><i class="ri-star-s-fill"></i></span> 4.0
+                  </li>
+                  <li>20 min</li>
+                </ul>
+                <div class="bottom-panel">
+                  <div class="price">$3</div>
+                  <a href="cart.html" class="cart mb-0">
+                    <i class="ri-shopping-cart-2-fill"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- product section start -->
+
+  <!-- Brand section start -->
+  <section class="section-t-space">
+    <div class="custom-container">
+      <div class="title">
+        <h3 class="mt-0">Top Brands</h3>
+        <a href="brand-list.html">See All</a>
+      </div>
+
+      <div class="swiper brands-logo">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="details.html" class="food-brands">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand1.png" alt="brand1" />
+            </a>
+            <h4>La Pino’z</h4>
+
+            <a href="details.html" class="food-brands mt-2">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand6.png" alt="brand6" />
+            </a>
+            <h4>Burger King</h4>
+          </div>
+
+          <div class="swiper-slide">
+            <a href="details.html" class="food-brands">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand2.png" alt="brand2" />
+            </a>
+            <h4>McDonald's</h4>
+            <a href="details.html" class="food-brands mt-2">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand7.png" alt="brand7" />
+            </a>
+            <h4>Subway</h4>
+          </div>
+
+          <div class="swiper-slide">
+            <a href="details.html" class="food-brands">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand3.png" alt="brand3" />
+            </a>
+            <h4>Starbucks</h4>
+            <a href="details.html" class="food-brands mt-2">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand8.png" alt="brand8" />
+            </a>
+            <h4>Domino's</h4>
+          </div>
+          <div class="swiper-slide">
+            <a href="details.html" class="food-brands">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand4.png" alt="brand4" />
+            </a>
+            <h4>Pizza Hut</h4>
+            <a href="details.html" class="food-brands mt-2">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand9.png" alt="brand9" />
+            </a>
+            <h4>Taco Bell</h4>
+          </div>
+          <div class="swiper-slide">
+            <a href="details.html" class="food-brands">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand5.png" alt="brand5" />
+            </a>
+            <h4>Wendy's</h4>
+            <a href="details.html" class="food-brands mt-2">
+              <img class="img-fluid brand-img" src="../assets/images/icons/brand10.png" alt="brand10" />
+            </a>
+            <h4>Chipotle</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Brand section start -->
+
+  <!-- Explore Restaurants section start -->
+  <section class="section-t-space">
+    <div class="custom-container">
+      <div class="title">
+        <h3 class="mt-0">Explore Restaurants</h3>
+      </div>
+      <div class="row gy-3">
+        <div class="col-12">
+          <div class="vertical-product-box">
+            <div class="vertical-box-img">
+              <a href="details.html">
+                <img class="img-fluid img" src="../assets/images/product/vp1.png" alt="vp5" />
+              </a>
+              <div class="like-icon">
+                <i class="ri-heart-3-line outline-icon"></i>
+                <i class="ri-heart-3-fill fill-icon"></i>
+                <div class="effect-group">
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                </div>
+              </div>
+              <div class="offers">
+                <h6>upto $2</h6>
+                <h2>100% OFF</h2>
+              </div>
+            </div>
+
+            <div class="vertical-box-details">
+              <div class="vertical-box-head">
+                <div class="restaurant">
+                  <a href="details.html">
+                    <h5>Ben & Floren</h5>
+                  </a>
+                </div>
+                <h6 class="food-items">Chicken quesadilla, avocado...</h6>
+
+                <h6 class="rating-star">
+                  <span class="star"><i class="ri-star-s-fill"></i></span> 3.7 (1k+ Reviews)
+                </h6>
+              </div>
+              <div class="location-distance">
+                <div class="location">
+                  <h6 class="place">Ontario</h6>
+                  <h6 class="pt-2 pb-2"><span class="theme-color">$5</span> for one</h6>
+                </div>
+                <div class="distance">
+                  <ul>
+                    <li><i class="ri-map-pin-fill theme-color"></i> 2 km</li>
+                    <li><i class="ri-time-fill theme-color"></i> 25 min</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="vertical-product-box">
+            <div class="vertical-box-img">
+              <a href="details.html">
+                <img class="img-fluid img" src="../assets/images/product/vp2.png" alt="vp5" />
+              </a>
+              <div class="like-icon">
+                <i class="ri-heart-3-line outline-icon"></i>
+                <i class="ri-heart-3-fill fill-icon"></i>
+                <div class="effect-group">
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                </div>
+              </div>
+              <div class="offers">
+                <h6>upto $10</h6>
+                <h2>150% OFF</h2>
+              </div>
+            </div>
+            <div class="vertical-box-details">
+              <div class="vertical-box-head">
+                <div class="restaurant">
+                  <h5>242 Pizza</h5>
+                  <h6>
+                    <span class="award"><i class="ri-award-fill"></i></span> Best Seller
+                  </h6>
+                </div>
+                <h6 class="food-items">Detroit style, deep garlic loaf...</h6>
+
+                <h6 class="rating-star">
+                  <span class="star"><i class="ri-star-s-fill"></i></span> 4.5 (10k+ Reviews)
+                </h6>
+              </div>
+              <div class="location-distance">
+                <div class="location">
+                  <h6 class="place">Toronto</h6>
+                  <h6 class="pt-2 pb-2"><span class="theme-color">$19</span> for one</h6>
+                </div>
+                <div class="distance">
+                  <ul>
+                    <li><i class="ri-map-pin-fill theme-color"></i> 3 km</li>
+                    <li><i class="ri-time-fill theme-color"></i> 18 min</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="vertical-product-box">
+            <div class="vertical-box-img">
+              <a href="details.html">
+                <img class="img-fluid img" src="../assets/images/product/vp3.png" alt="vp5" />
+              </a>
+              <div class="like-icon">
+                <i class="ri-heart-3-line outline-icon"></i>
+                <i class="ri-heart-3-fill fill-icon"></i>
+                <div class="effect-group">
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                </div>
+              </div>
+            </div>
+            <div class="vertical-box-details">
+              <div class="vertical-box-head">
+                <div class="restaurant">
+                  <a href="details.html">
+                    <h5>AWS-USA</h5>
+                  </a>
+                  <h6>
+                    <span class="award"><i class="ri-award-fill"></i></span>Best Seller
+                  </h6>
+                </div>
+                <h6 class="food-items">Classic bacon & eggs, sausage...</h6>
+
+                <h6 class="rating-star">
+                  <span class="star"><i class="ri-star-s-fill"></i></span> 4.0 (20k+ Reviews)
+                </h6>
+              </div>
+              <div class="location-distance">
+                <div class="location">
+                  <h6 class="place">New York</h6>
+                  <h6 class="pt-2 pb-2"><span class="theme-color">$3 </span> for one</h6>
+                </div>
+                <div class="distance">
+                  <ul>
+                    <li><i class="ri-map-pin-fill theme-color"></i> 2.5 km</li>
+                    <li><i class="ri-time-fill theme-color"></i> 35 min</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="vertical-product-box">
+            <div class="vertical-box-img">
+              <a href="details.html">
+                <img class="img-fluid img" src="../assets/images/product/vp4.png" alt="vp5" />
+              </a>
+              <div class="like-icon">
+                <i class="ri-heart-3-line outline-icon"></i>
+                <i class="ri-heart-3-fill fill-icon"></i>
+                <div class="effect-group">
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="vertical-box-details">
+              <div class="vertical-box-head">
+                <div class="restaurant">
+                  <a href="details.html">
+                    <h5>Cactus Club Cafe</h5>
+                  </a>
+                </div>
+                <h6 class="food-items">Spicy ahi roll, prawn crunch..</h6>
+
+                <h6 class="rating-star">
+                  <span class="star"><i class="ri-star-s-fill"></i></span> 5.0 (300k+ Reviews)
+                </h6>
+              </div>
+              <div class="location-distance">
+                <div class="location">
+                  <h6 class="place">Victoria</h6>
+                  <h6 class="pt-2 pb-2"><span class="theme-color">$6</span> for one</h6>
+                </div>
+                <div class="distance">
+                  <ul>
+                    <li><i class="ri-map-pin-fill theme-color"></i> 2.6 km</li>
+                    <li><i class="ri-time-fill theme-color"></i> 20 min</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="vertical-product-box">
+            <div class="vertical-box-img">
+              <a href="details.html">
+                <img class="img-fluid img" src="../assets/images/product/vp5.png" alt="vp5" />
+              </a>
+              <div class="like-icon">
+                <i class="ri-heart-3-line outline-icon"></i>
+                <i class="ri-heart-3-fill fill-icon"></i>
+                <div class="effect-group">
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                  <span class="effect"></span>
+                </div>
+              </div>
+              <div class="offers">
+                <h6>upto $20</h6>
+                <h2>50% OFF</h2>
+              </div>
+            </div>
+            <div class="vertical-box-details">
+              <div class="vertical-box-head">
+                <div class="restaurant">
+                  <a href="details.html">
+                    <h5>Moxie Cafe</h5>
+                  </a>
+                  <h6>
+                    <span class="award"><i class="ri-award-fill"></i></span>Best Seller
+                  </h6>
+                </div>
+                <h6 class="food-items">Crispy bottom vegan potsticker...</h6>
+
+                <h6 class="rating-star">
+                  <span class="star"><i class="ri-star-s-fill"></i></span> 4.3 (50k+ Reviews)
+                </h6>
+              </div>
+              <div class="location-distance">
+                <div class="location">
+                  <h6 class="place">Toronto</h6>
+                  <h6 class="pt-2 pb-2"><span class="theme-color">$5</span> for one</h6>
+                </div>
+                <div class="distance">
+                  <ul>
+                    <li><i class="ri-map-pin-fill theme-color"></i>1 km</li>
+                    <li><i class="ri-time-fill theme-color"></i>15 min</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Explore Restaurants section end -->
+
+  <!-- empty section start -->
+  <section class="empty-section section-t-space section-b-space">
+    <div class="custom-container">
+      <h2>Love Your Hunger!</h2>
+      <h5>Crafted with in California, US State</h5>
+    </div>
+  </section>
+  <!-- empty section end -->
+
+  <!-- filter offcanvas start -->
+  <div class="modal search-filter" id="search-filter" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="modal-title">
+          <h3 class="fw-semibold">Filter</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <section class="section-b-space pt-0">
+          <div class="custom-container">
+            <ul class="payment-card-box search-categories">
+              <li class="mt-0">
+                <div class="payment-detail">
+                  <div class="add-img">
+                    <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/truck.svg" alt="truck" />
+                  </div>
+                  <div class="form-check radio-btn">
+                    <label class="form-check-label" for="btn-1">Fast Delivery</label>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="btn-1" checked />
+                  </div>
+                </div>
+              </li>
+              <li class="mt-0">
+                <div class="payment-detail">
+                  <div class="add-img">
+                    <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/location.svg" alt="truck" />
+                  </div>
+                  <div class="form-check radio-btn">
+                    <label class="form-check-label" for="btn-2">Store in my area</label>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="btn-2" />
+                  </div>
+                </div>
+              </li>
+              <li class="mt-0">
+                <div class="payment-detail">
+                  <div class="add-img">
+                    <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/summary.svg" alt="truck" />
+                  </div>
+                  <div class="form-check radio-btn">
+                    <label class="form-check-label" for="btn-3">Previous Orders</label>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="btn-3" />
+                  </div>
+                </div>
+              </li>
+              <li class="mt-0">
+                <div class="payment-detail">
+                  <div class="add-img">
+                    <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/star.svg" alt="truck" />
+                  </div>
+                  <div class="form-check radio-btn">
+                    <label class="form-check-label" for="btn-4">Popular Order</label>
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="btn-4" />
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <section class="pt-0">
+              <div class="amount-range">
+                <div class="range">
+                  <label class="form-label">Min Order Amount</label>
+                  <output class="range-amount" id="rangevalue">$100</output>
+                </div>
+                <input type="range" value="100" min="0" max="500" oninput="rangevalue.value=value" />
+              </div>
+            </section>
+            <section class="pt-0">
+              <div class="amount-range">
+                <div class="range">
+                  <label class="form-label">Location Between</label>
+                  <output class="range-amount" id="rangevalue1">2km</output>
+                </div>
+                <input type="range" value="2" min="0" max="10" oninput="rangevalue1.value=value" />
+              </div>
+            </section>
+            <section class="pt-0">
+              <div class="order-options">
+                <h3 class="mt-3 mb-3 dark-text fw-semibold">Order Type</h3>
+                <div class="order-type">
+                  <div class="auth-form search-form">
+                    <div class="form-check">
+                      <label class="form-check-label" for="fixed1">Delivery</label>
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="fixed1" checked />
+                    </div>
+                  </div>
+                  <div class="auth-form search-form">
+                    <div class="form-check">
+                      <label class="form-check-label" for="fixed2">Pick Up</label>
+                      <input class="form-check-input" type="radio" name="flexRadioDefault" id="fixed2" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="pt-0 section-lg-b-space">
+              <div class="order-options">
+                <h3 class="mb-3 dark-text fw-semibold">Veg/Non-Veg</h3>
+                <div class="order-type">
+                  <div class="auth-form search-form">
+                    <div class="form-check">
+                      <label class="form-check-label" for="fixed3">Pure Veg</label>
+                      <input class="form-check-input" type="radio" name="RadioDefault" id="fixed3" />
+                    </div>
+                  </div>
+                  <div class="auth-form search-form section-b-space">
+                    <div class="form-check">
+                      <label class="form-check-label" for="fixed4">Non Veg</label>
+                      <input class="form-check-input" type="radio" name="RadioDefault" id="fixed4" checked />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <div class="footer-modal d-flex">
+          <a href="food-home.html" class="btn btn-link btn-inline mt-0 w-50">Clear Filter</a>
+          <a href="search.html" class="theme-btn btn btn-inline mt-0 w-50">Apply</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- filter offcanvas end -->
+
+  <!-- location offcanvas start -->
+  <div class="modal fade location-modal" id="location" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content">
+        <div class="d-flex align-items-center">
+          <div class="modal-title">
+            <i class="ri-arrow-down-s-line"></i>
+            <h2 class="fw-semibold">Select a Location</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+        </div>
+        <section class="search-section pt-0">
+          <div class="custom-container">
+            <form class="auth-form search-head" target="_blank">
+              <div class="form-group">
+                <div class="form-input w-100">
+                  <input type="search" class="form-control search" placeholder="Search for area, street name.." />
+                  <i class="ri-search-line search-icon"></i>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+        <div class="custom-container">
+          <a href="food-home.html" class="current-location">
+            <div class="current-address">
+              <i class="ri-focus-3-line focus"></i>
+              <div>
+                <h4>Use current-location</h4>
+                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+              </div>
+            </div>
+
+            <i class="ri-arrow-right-s-line arrow"></i>
+          </a>
+          <h3 class="mt-3 fw-medium dark-text">Recent Location</h3>
+
+          <a href="food-home.html" class="recent-location">
+            <div class="loation-icon text-center">
+              <i class="ri-map-pin-line dark-text"></i>
+            </div>
+
+            <div class="recant-address">
+              <h3>Bayshore</h3>
+              <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- location offcanvas end -->
+
+  <!-- panel-space start -->
+  <section class="panel-space"></section>
+  <!-- panel-space end -->
+
+  <!-- bottom navbar start -->
+  <div class="navbar-menu">
+    <ul>
+      <li>
+        <a href="landing.html" class="icon logo">
+          <img class=" img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-logo.svg" alt="logo" />
+          <span>Zomo</span>
+        </a>
+      </li>
+      <li class="active">
+        <a href="food-home.html" class="icon">
+          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food.svg" alt="food" />
+          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-fill.svg" alt="food" />
+          <span>Food</span>
+        </a>
+      </li>
+      <li>
+        <a href="grocery-home.html" class="icon">
+
+          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery.svg" alt="grocery" />
+          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery-fill.svg" alt="grocery" />
+          <span>Grocery</span>
+        </a>
+      </li>
+
+      <li>
+        <a href="pharmacy-home.html" class="icon">
+
+          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy.svg" alt="pharmacy" />
+          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy-fill.svg" alt="pharmacy" />
+          <span>Pharmacy</span>
+        </a>
+      </li>
+      <li>
+        <a href="profile.html" class="icon">
+
+          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user.svg" alt="user" />
+          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user-fill.svg" alt="user" />
+          <span>Profile</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <!-- bottom navbar end -->
+
+  <!-- bootstrap js -->
+  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+
+  <!-- swiper js -->
+  <script src="../assets/js/swiper-bundle.min.js"></script>
+  <script src="../assets/js/custom-swiper.js"></script>
+
+  <!-- script js -->
+  <script src="../assets/js/script.js"></script>
+</body>
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/food-home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:44:27 GMT -->
+</html>

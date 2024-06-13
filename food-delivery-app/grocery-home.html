@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/grocery-home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:44:28 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="zomo" />
+    <meta name="keywords" content="zomo" />
+    <meta name="author" content="zomo" />
+    <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
+
+    <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+    <title>zomo App</title>
+    <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+    <meta name="theme-color" content="#ff8d2f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="zomo" />
+    <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- font link -->
+    <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper-bundle.min.css" />
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+</head>
+
+<body class="grocery-color">
+    <!-- side bar start -->
+    <div class="offcanvas sidebar-offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
+        <div class="offcanvas-header">
+            <img class="img-fluid profile-pic" src="../assets/images/icons/profile.png" alt="profile" />
+            <h3>Hello, Lina John</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="sidebar-content">
+                <ul class="link-section">
+                    <li>
+                        <div class="pages">
+                            <h3>RTL</h3>
+                            <div class="switch-btn">
+                                <input id="dir-switch" type="checkbox" />
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pages">
+                            <h3>Dark</h3>
+                            <div class="switch-btn">
+                                <input id="dark-switch" type="checkbox" />
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="page-listing.html" class="pages">
+                            <h3>Pages List</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="app-setting.html" class="pages">
+                            <h3>Setting</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="login.html" class="pages">
+                            <h3>Logout</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- side bar end -->
+
+    <!-- header start -->
+    <header class="section-t-space">
+        <div class="custom-container">
+            <div class="header">
+                <div class="head-content">
+                    <button class="sidebar-btn" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasLeft">
+                        <i class="ri-menu-line"></i>
+                    </button>
+                    <div class="header-location">
+                        <a href="#location" data-bs-toggle="modal">
+                            <h2>Ontario, Canada</h2>
+                            <i class="ri-arrow-down-s-line d-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="notification.html">
+                    <i class="ri-notification-2-fill"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+    <!-- search section starts -->
+    <section class="search-section">
+        <div class="custom-container">
+            <form class="auth-form search-head" target="_blank">
+                <div class="form-group">
+                    <div class="form-input">
+                        <input type="search" class="form-control search" id="inputusername"
+                            placeholder="Restaurant, item & more" />
+                        <i class="ri-search-line search-icon"></i>
+                    </div>
+
+                    <a href="#search-filter" class="btn filter-button mt-0" data-bs-toggle="modal">
+                        <i class="ri-equalizer-line"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- search section end -->
+
+    <!-- categories section start -->
+    <section class="search-section">
+        <div class="custom-container">
+            <div class="title">
+                <h3 class="mt-0">Food Categories</h3>
+                <a href="categories.html">See All</a>
+            </div>
+            <div class="swiper grocery-categories">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="grocery-categories-box active">
+                            <img src="https://themes.pixelstrap.com/zomo-app/assets/images/grocery/svg/1.svg" alt="1">
+                            <h6>Bread</h6>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="grocery-categories-box">
+                            <img src="https://themes.pixelstrap.com/zomo-app/assets/images/grocery/svg/2.svg" alt="2">
+                            <h6>Shrimps</h6>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="grocery-categories-box">
+                            <img src="https://themes.pixelstrap.com/zomo-app/assets/images/grocery/svg/3.svg" alt="3">
+                            <h6>Meat</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- categories section start -->
+
+    <!-- banner section starts -->
+    <section class="search-section">
+        <div class="custom-container">
+            <img class="img-fluid banner-img" src="../assets/images/grocery/banner12.png" alt="banner12">
+        </div>
+    </section>
+    <!-- banner section end -->
+
+    <!-- offer product section starts -->
+    <section class="search-section">
+        <div class="custom-container">
+            <div class="title mb-0">
+                <h3 class="mt-0">Essential item</h3>
+                <a href="details.html">See All</a>
+            </div>
+            <h6 class="sub-title light-text mb-3">Special offer on first purchase</h6>
+
+            <div class="swiper grocery-product">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="grocery-product-box">
+                            <h6 class="offer-tag">20% off</h6>
+
+                            <div class="grocery-product-img">
+                                <img class="img-fluid img" src="../assets/images/grocery/p1.png" alt="p1">
+                            </div>
+                            <div class="grocery-product-details">
+                                <h4 class="dark-text">Strawberry Milkshake Powder</h4>
+                                <h4 class="light-text price"><span class="theme-color">$16/kg </span>| 20min</h4>
+                                <a href="cart.html" class="btn theme-btn add-btn w-100   mt-3">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="grocery-product-box">
+                            <h6 class="offer-tag">20% off</h6>
+                            <div class="grocery-product-img">
+                                <img class="img-fluid img" src="../assets/images/grocery/p2.png" alt="p1">
+                            </div>
+                            <div class="grocery-product-details">
+                                <h4 class="dark-text">Fresh Cabbage</h4>
+                                <h4 class="light-text price"><span class="theme-color">$16/kg </span>| 20min</h4>
+                                <a href="cart.html" class="btn theme-btn add-btn w-100 mt-3">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="grocery-product-box">
+                            <h6 class="offer-tag">20% off</h6>
+                            <div class="grocery-product-img">
+                                <img class="img-fluid img" src="../assets/images/grocery/p3.png" alt="p1">
+                            </div>
+                            <div class="grocery-product-details">
+                                <h4 class="dark-text">Orange Juice</h4>
+                                <h4 class="light-text price"><span class="theme-color">$16/kg </span>| 20min</h4>
+                                <a href="cart.html" class="btn theme-btn add-btn w-100 mt-3">+ Add</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- offer product section end -->
+
+    <!-- popular product section starts -->
+    <section>
+        <div class="custom-container">
+            <div class="title mb-0">
+                <h3 class="mt-0">Popular Product</h3>
+                <a href="details.html">See All</a>
+            </div>
+            <h6 class="sub-title light-text mb-3">Fresh product from our mart</h6>
+
+            <ul class="grocery-horizontal-product-box gap-0 mt-3">
+                <li class="w-100">
+                    <div class="horizontal-product-img">
+                        <img class="img-fluid img" src="../assets/images/grocery/p4.png" alt="p4" />
+                    </div>
+                    <div class="horizontal-product-details">
+                        <div>
+                            <h5 class="fw-semibold dark-text">Oatmeal cookies</h5>
+                            <h4 class="light-text price mt-1 mb-1"><span class="theme-color">$16/kg </span>| 20min
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                            <h6 class="rate-color">4.5</h6>
+                        </div>
+
+                        <a href="cart.html" class="btn theme-btn add-btn mt-0">+ Add</a>
+                    </div>
+                </li>
+
+                <li class="w-100">
+                    <div class="horizontal-product-img">
+                        <img class="img-fluid img" src="../assets/images/grocery/p5.png" alt="p5" />
+                    </div>
+                    <div class="horizontal-product-details">
+                        <div>
+                            <h5 class="fw-semibold dark-text">Organic Nuts</h5>
+                            <h4 class="light-text price mt-1 mb-1"><span class="theme-color">$16/kg </span>| 20min
+                            </h4>
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                            <h6 class="rate-color">4.5</h6>
+                        </div>
+                        <a href="cart.html" class="btn theme-btn add-btn mt-0">+ Add</a>
+                    </div>
+                </li>
+                <li class="w-100">
+                    <div class="horizontal-product-img">
+                        <img class="img-fluid img" src="../assets/images/grocery/p6.png" alt="p6" />
+                    </div>
+                    <div class="horizontal-product-details">
+                        <div>
+                            <h5 class="fw-semibold dark-text">Telvita Breakfast Meal</h5>
+                            <h4 class="light-text price mt-1 mb-1"><span class="theme-color">$16/kg </span>| 20min
+                            </h4>
+                        </div>
+                        <div class="d-flex align-items-center gap-1">
+                            <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                            <h6 class="rate-color">4.5</h6>
+                        </div>
+                        <a href="cart.html" class="btn theme-btn add-btn mt-0">+ Add</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- popular product section end -->
+
+    <!-- sale banner section starts -->
+    <section class="search-section">
+        <div class="custom-container">
+            <div class="title mb-0">
+                <h3 class="mt-0">Sale of the week </h3>
+            </div>
+            <h6 class="sub-title light-text mb-3">Get great product on sale of this week</h6>
+            <div class="row">
+                <div class="col-6">
+                    <img class="img-fluid sale-banner" src="../assets/images/grocery/banner13.png" alt="banner13">
+                </div>
+                <div class="col-6">
+                    <img class="img-fluid sale-banner" src="../assets/images/grocery/banner14.png" alt="banner14">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- sale banner section end -->
+
+    <!-- best selling section starts -->
+    <section class="search-section">
+        <div class="custom-container">
+            <div class="title mb-0">
+                <h3 class="mt-0">Best Selling</h3>
+                <a href="details.html">See All</a>
+            </div>
+            <h6 class="sub-title light-text mb-3">Get your product from best seller</h6>
+            <div class="row">
+                <div class="col-6">
+                    <div class="grocery-product-box">
+                        <div class="like-icon animate active inactive">
+                            <i class="ri-heart-3-line outline-icon"></i>
+                            <i class="ri-heart-3-fill fill-icon"></i>
+                            <div class="effect-group">
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                            </div>
+                        </div>
+
+                        <div class="grocery-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p1.png" alt="p1">
+                        </div>
+                        <div class="grocery-product-details">
+                            <h4>Strawberry Milkshake Powder</h4>
+                            <h4 class="light-text price"><span class="theme-color">$16/kg </span>| 20min</h4>
+                            <a href="cart.html" class="btn theme-btn add-btn w-100 mt-3">+ Add</a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="grocery-product-box">
+                        <div class="like-icon">
+                            <i class="ri-heart-3-line outline-icon"></i>
+                            <i class="ri-heart-3-fill fill-icon"></i>
+                            <div class="effect-group">
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                                <span class="effect"></span>
+                            </div>
+                        </div>
+                        <div class="grocery-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p3.png" alt="p1">
+                        </div>
+                        <div class="grocery-product-details">
+                            <h4 class="dark-text">Orange Juice</h4>
+                            <h4 class="light-text price"><span class="theme-color">$16/kg </span>| 20min</h4>
+                            <a href="cart.html" class="btn theme-btn add-btn w-100 mt-3">+ Add</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- best selling section end -->
+
+    <!-- Recent Items section starts -->
+    <section class="section-b-space">
+        <div class="custom-container">
+            <div class="title mb-0">
+                <h3 class="mt-0">Recent Items</h3>
+                <a href="details.html">See All</a>
+            </div>
+            <h6 class="sub-title light-text mb-3">Fresh product from our mart</h6>
+
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="grocery-horizontal-product-box2 ">
+                        <div class="horizontal-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p4.png" alt="p4" />
+                        </div>
+                        <div class="horizontal-product-details">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="fw-semibold dark-text">Oatmeal cookies</h5>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                                    <h6 class="rate-color">4.5</h6>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <h6 class="light-text price mt-1 mb-1">20 min away home</h6>
+                                <h5 class="theme-color"> <span class="fw-semibold">$16</span>/kg</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grocery-horizontal-product-box2">
+                        <div class="horizontal-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p5.png" alt="p5" />
+                        </div>
+                        <div class="horizontal-product-details">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="fw-semibold dark-text">Organic Nuts</h5>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                                    <h6 class="rate-color">4.5</h6>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <h6 class="light-text price mt-1 mb-1">20 min away home</h6>
+                                <h5 class="theme-color"> <span class="fw-semibold">$16</span>/kg</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grocery-horizontal-product-box2">
+                        <div class="horizontal-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p3.png" alt="p3" />
+                        </div>
+                        <div class="horizontal-product-details">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="fw-semibold dark-text">Orange Juice</h5>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                                    <h6 class="rate-color">4.5</h6>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <h6 class="light-text price mt-1 mb-1">20 min away home</h6>
+                                <h5 class="theme-color"> <span class="fw-semibold">$16</span>/kg</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="grocery-horizontal-product-box2">
+                        <div class="horizontal-product-img">
+                            <img class="img-fluid img" src="../assets/images/grocery/p7.png" alt="p7" />
+                        </div>
+                        <div class="horizontal-product-details">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="fw-semibold dark-text">Butter Biscuit
+                                </h5>
+                                <div class="d-flex align-items-center gap-1">
+                                    <img class="img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/rating-star.svg" alt="star">
+                                    <h6 class="rate-color">4.5</h6>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <h6 class="light-text price mt-1 mb-1">20 min away home</h6>
+                                <h5 class="theme-color"> <span class="fw-semibold">$16</span>/kg</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- Recent Items section end -->
+
+    <!-- panel-space start -->
+    <section class="panel-space"></section>
+    <!-- panel-space end -->
+
+    <!-- bottom navbar start -->
+    <div class="navbar-menu">
+        <ul>
+            <li>
+                <a href="landing.html" class="icon logo">
+                    <img class=" img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery-logo.svg" alt="logo" />
+                    <span>Zomo</span>
+                </a>
+            </li>
+            <li>
+                <a href="food-home.html" class="icon">
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food.svg" alt="food" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-fill.svg" alt="food" />
+                    <span>Food</span>
+                </a>
+            </li>
+            <li class="active">
+                <a href="grocery-home.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery.svg" alt="grocery" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery-fill.svg" alt="grocery" />
+                    <span>Grocery</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="pharmacy-home.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy.svg" alt="pharmacy" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy-fill.svg" alt="pharmacy" />
+                    <span>Pharmacy</span>
+                </a>
+            </li>
+            <li>
+                <a href="profile.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user.svg" alt="user" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user-fill.svg" alt="user" />
+                    <span class="active">Profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- bottom navbar end -->
+
+    <!-- bootstrap js -->
+    <script src="../assets/js/bootstrap.bundle.min.js">
+    </script>
+
+    <!-- swiper js -->
+    <script src="../assets/js/swiper-bundle.min.js"> </script>
+    <script src="../assets/js/custom-swiper.js"> </script>
+
+    <!-- script js -->
+    <script src="../assets/js/script.js">
+    </script>
+</body>
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/grocery-home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:44:40 GMT -->
+</html>
