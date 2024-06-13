@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/delivery-boy-app/home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 22:48:03 GMT -->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="zomo" />
+    <meta name="keywords" content="zomo" />
+    <meta name="author" content="zomo" />
+    <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
+
+    <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+    <title>zomo App</title>
+    <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+    <meta name="theme-color" content="#ff8d2f" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="zomo" />
+    <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- font link -->
+    <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/swiper-bundle.min.css" />
+
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+</head>
+
+<body>
+    <!-- side bar start -->
+    <div class="offcanvas sidebar-offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
+        <div class="offcanvas-header">
+            <img class="img-fluid profile-pic" src="../assets/images/icons/profile.png" alt="profile" />
+            <h3>Hello, Lina John</h3>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="sidebar-content">
+                <ul class="link-section">
+                    <li>
+                        <div class="pages">
+                            <h3>RTL</h3>
+                            <div class="switch-btn">
+                                <input id="dir-switch" type="checkbox" />
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="pages">
+                            <h3>Dark</h3>
+                            <div class="switch-btn">
+                                <input id="dark-switch" type="checkbox" />
+                            </div>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a href="page-listing.html" class="pages">
+                            <h3>Pages List</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="app-setting.html" class="pages">
+                            <h3>Setting</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="login.html" class="pages">
+                            <h3>Logout</h3>
+                            <i class="ri-arrow-drop-right-line"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- side bar end -->
+
+    <!-- header start -->
+    <header class="section-t-space">
+        <div class="custom-container">
+            <div class="header">
+                <div class="head-content">
+                    <button class="sidebar-btn" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasLeft">
+                        <i class="ri-menu-line"></i>
+                    </button>
+                    <div class="header-location">
+                        <a href="#location" data-bs-toggle="modal">
+                            <h2>Ontario, Canada</h2>
+                            <i class="ri-arrow-down-s-line d-arrow"></i>
+                        </a>
+                    </div>
+                </div>
+                <a href="notification.html">
+                    <i class="ri-notification-2-fill"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+    <!-- order section starts -->
+    <section class="section-b-space">
+        <div class="custom-container">
+            <div class="status-box">
+                <div>
+                    <h5>Available Status</h5>
+                    <h6>You are online</h6>
+                </div>
+                <div class="switch-btn">
+                    <input type="checkbox" checked>
+                </div>
+            </div>
+
+            <div class="earning-card-background total-earning-background mt-3">
+                <div class="earning-card-details">
+                    <div>
+                        <div class="d-flex align-items-center">
+                            <img class="img-fluid icon " src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/wallet-money.svg"
+                                alt="wallet-money">
+                            <div class="earning-card-content ps-3">
+
+                                <h3>Today Earnings</h3>
+                                <h2>$800</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <i class="ri-arrow-right-line right-arrow"></i>
+                </div>
+            </div>
+
+            <div class="title mt-3">
+                <h3 class="mt-0">Today’s Order</h3>
+            </div>
+            <ul class="profile-details-list order-list">
+                <li>
+                    <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/box.svg" alt="box">
+                    <h2>15</h2>
+                    <h6>Order</h6>
+                </li>
+                <li>
+                    <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/box-time.svg" alt="box">
+                    <h2>03</h2>
+                    <h6>Pending</h6>
+                </li>
+                <li>
+                    <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/box-tick.svg" alt="box">
+                    <h2>15</h2>
+                    <h6>Completed</h6>
+                </li>
+            </ul>
+
+            <div class="title">
+                <h3 class="mt-0">Order List</h3>
+                <a href="order-deliveries.html">See All</a>
+            </div>
+
+            <ul class="earning-list mt-0">
+                <li>
+                    <a href="#order" data-bs-toggle="modal">
+                        <div class="earning-box">
+                            <div class="earning-img">
+                                <img class="img-fluid earning-icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/receipt.svg"
+                                    alt="receipt">
+                            </div>
+
+                            <div class="earning-content">
+                                <div class="text-start">
+                                    <h6 class="light-text fw-normal">Order Id</h6>
+                                    <h6 class="fw-normal dark-text mt-1">#ACR148856</h6>
+                                </div>
+                                <div class="text-end">
+                                    <h6 class="light-text">1 min ago</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="earning-details box-bg d-block border-0 p-3">
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="dark-text fw-normal pe-1">Payment method</h6>
+                            <h6 class="fw-medium dark-text ps-1">online</h6>
+                        </div>
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="fw-normal dark-text pe-1 mt-2">Total payment</h6>
+                            <h6 class="fw-semibold theme-color ps-1 mt-2">$32.00</h6>
+                        </div>
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="fw-normal dark-text pe-1 mt-2">Duration</h6>
+                            <h6 class="fw-normal dark-text ps-1 mt-2">25 min</h6>
+                        </div>
+
+                    </div>
+                    <img class="img-fluid mt-2 w-100" src="../assets/images/delivery-boy/map.png" alt="map">
+                </li>
+
+                <li>
+                    <a href="#order" data-bs-toggle="modal">
+                        <div class="earning-box">
+                            <div class="earning-img">
+                                <img class="img-fluid earning-icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/delivery-boy/svg/receipt.svg"
+                                    alt="receipt">
+                            </div>
+
+                            <div class="earning-content">
+                                <div class="text-start">
+                                    <h6 class="light-text fw-normal">Order Id</h6>
+                                    <h6 class="fw-normal dark-text mt-1">#ACR148856</h6>
+                                </div>
+                                <div class="text-end">
+                                    <h6 class="light-text">1 min ago</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="earning-details box-bg d-block border-0 p-3">
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="dark-text fw-normal pe-1">Payment method</h6>
+                            <h6 class="fw-medium dark-text ps-1">online</h6>
+                        </div>
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="fw-normal dark-text pe-1 mt-2">Total payment</h6>
+                            <h6 class="fw-semibold theme-color ps-1 mt-2">$32.00</h6>
+                        </div>
+                        <div class="earning-details-list d-flex align-items-center justify-content-between">
+                            <h6 class="fw-normal dark-text pe-1 mt-2">Duration</h6>
+                            <h6 class="fw-normal dark-text ps-1 mt-2">25 min</h6>
+                        </div>
+
+                    </div>
+                    <img class="img-fluid mt-2 w-100" src="../assets/images/delivery-boy/map.png" alt="map">
+                </li>
+            </ul>
+        </div>
+    </section>
+    <!-- order section end -->
+
+    <!-- panel-space start -->
+    <section class="panel-space"></section>
+    <!-- panel-space end -->
+
+    <!-- bottom navbar start -->
+    <div class="navbar-menu">
+        <ul>
+            <li class="active w-25">
+                <a href="home.html" class="icon">
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/home.svg" alt="home" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/home-fill.svg" alt="home" />
+                    <span>Home</span>
+                </a>
+            </li>
+            <li class="w-25">
+                <a href="earning.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/earning.svg" alt="earning" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/earning-fill.svg" alt="earning" />
+                    <span>Earning</span>
+                </a>
+            </li>
+
+            <li class="w-25">
+                <a href="history.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/clock.svg" alt="clock" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/clock-fill.svg" alt="clock" />
+                    <span>History</span>
+                </a>
+            </li>
+            <li class="w-25">
+                <a href="profile.html" class="icon">
+
+                    <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user.svg" alt="user" />
+                    <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user-fill.svg" alt="user" />
+                    <span>Profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- bottom navbar end -->
+
+    <!-- location offcanvas start -->
+    <div class="modal fade location-modal" id="location" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+                <div class="d-flex align-items-center">
+                    <div class="modal-title">
+                        <i class="ri-arrow-down-s-line"></i>
+                        <h2 class="fw-semibold">Select a Location</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <section class="search-section pt-0">
+                    <div class="custom-container">
+                        <form class="auth-form search-head" target="_blank">
+                            <div class="form-group">
+                                <div class="form-input w-100">
+                                    <input type="search" class="form-control search"
+                                        placeholder="Search for area, street name.." />
+                                    <i class="ri-search-line search-icon"></i>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                <div class="custom-container">
+                    <a href="home.html" class="current-location">
+                        <div class="current-address">
+                            <i class="ri-focus-3-line focus"></i>
+                            <div>
+                                <h4>Use current-location</h4>
+                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+
+                        <i class="ri-arrow-right-s-line arrow"></i>
+                    </a>
+                    <h3 class="mt-3 fw-medium dark-text">Recent Location</h3>
+
+                    <a href="food-home.html" class="recent-location">
+                        <div class="loation-icon text-center">
+                            <i class="ri-map-pin-line"></i>
+                        </div>
+
+                        <div class="recant-address">
+                            <h3>Bayshore</h3>
+                            <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- location offcanvas end -->
+
+    <!-- order modal starts -->
+    <div class="modal order-modal fade" id="order" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Order ID : #SPS148889</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="bill-details">
+                        <div class="total-detail">
+                            <div class="sub-total mb-2">
+                                <h5 class="light-text">Deal 1</h5>
+                                <h5 class="fw-semibold dark-text">$18</h5>
+                            </div>
+                            <div class="sub-total mb-2">
+                                <h5 class="light-text">7up regular 250ml</h5>
+                                <h5 class="dark-text fw-semibold">$4</h5>
+                            </div>
+                            <div class="sub-total mb-2">
+                                <h5>Delivery Charge</h5>
+                                <h5 class="fw-semibold dark-text">$2</h5>
+                            </div>
+                            <div class="grand-total">
+                                <h5 class="fw-semibold">Grand Total</h5>
+                                <h5 class="fw-semibold amount">$24</h5>
+                            </div>
+
+                            <img class="dots-design" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/dots-design.svg" alt="dots" />
+                        </div>
+                    </div>
+
+                    <div class="details-box">
+                        <h5 class="details-title">Location</h5>
+                        <div class="details-box-content pt-0">
+                            <div class="distance">
+                                <ul>
+                                    <li><i class="ri-map-pin-fill theme-color"></i>Street : 56, Hunters Road, Vepery
+                                    </li>
+                                    <li><i class="ri-time-fill theme-color"></i> Street : Great western, Mcc Lane,
+                                        Fort
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-box">
+                        <h5 class="details-title">Location</h5>
+                        <div class="details-box-content d-flex align-items-center justify-content-between">
+                            <div class="text-start">
+                                <h6 class="fw-normal dark-text">Name</h6>
+                                <h6 class="fw-normal dark-text mt-2">Total payment</h6>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="fw-normal dark-text">Williams John</h6>
+                                <h5 class="fw-normal dark-text mt-2">+1 (641)21-47000</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-box d-flex align-items-center justify-content-between">
+                        <h5 class="details-title pb-0 border-0">Payment Method</h5>
+                        <span>Online</span>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex align-items-center flex-nowrap gap-2 border-0 ">
+                    <a href="order-deliveries.html" class="btn box-bg light-text w-100 mt-0">Reject</a>
+                    <a href="#order2" data-bs-toggle="modal" class="btn theme-btn w-100 mt-0">Accept</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal order-modal fade" id="order2" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Order ID : #SPS148889</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="bill-details">
+                        <div class="total-detail">
+                            <div class="sub-total mb-2">
+                                <h5 class="light-text">Deal 1</h5>
+                                <h5 class="fw-semibold dark-text">$18</h5>
+                            </div>
+                            <div class="sub-total mb-2">
+                                <h5 class="light-text">7up regular 250ml</h5>
+                                <h5 class="dark-text fw-semibold">$4</h5>
+                            </div>
+                            <div class="sub-total mb-2">
+                                <h5>Delivery Charge</h5>
+                                <h5 class="fw-semibold dark-text">$2</h5>
+                            </div>
+                            <div class="grand-total">
+                                <h5 class="fw-semibold">Grand Total</h5>
+                                <h5 class="fw-semibold amount">$24</h5>
+                            </div>
+
+                            <img class="dots-design" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/dots-design.svg" alt="dots" />
+                        </div>
+                    </div>
+
+                    <div class="details-box">
+                        <h5 class="details-title">Location</h5>
+                        <div class="details-box-content pt-0">
+                            <div class="distance">
+                                <ul>
+                                    <li><i class="ri-map-pin-fill theme-color"></i>Street : 56, Hunters Road, Vepery
+                                    </li>
+                                    <li><i class="ri-time-fill theme-color"></i> Street : Great western, Mcc Lane,
+                                        Fort
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-box">
+                        <h5 class="details-title">Location</h5>
+                        <div class="details-box-content d-flex align-items-center justify-content-between">
+                            <div class="text-start">
+                                <h6 class="fw-normal dark-text">Name</h6>
+                                <h6 class="fw-normal dark-text mt-2">Total payment</h6>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="fw-normal dark-text">Williams John</h6>
+                                <h5 class="fw-normal dark-text mt-2">+1 (641)21-47000</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="details-box d-flex align-items-center justify-content-between">
+                        <h5 class="details-title pb-0 border-0">Payment Method</h5>
+                        <span>Online</span>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0">
+                    <a href="delivery-boy-map-tracking.html" class="btn theme-btn w-100 mt-0">Start Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- order modal end -->
+
+    <!-- bootstrap js -->
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+
+    <!-- script js -->
+    <script src="../assets/js/script.js"></script>
+</body>
+
+
+<!-- Mirrored from themes.pixelstrap.com/zomo-app/delivery-boy-app/home.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 22:48:20 GMT -->
+</html>
