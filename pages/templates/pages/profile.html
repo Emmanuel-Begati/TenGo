@@ -1,8 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 
-<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:45:04 GMT -->
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -12,28 +12,31 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+    <!-- font link -->
+    <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
-  <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/swiper-bundle.min.js.css' %}" />
 
-  <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
@@ -54,8 +57,8 @@
         <img class="img-fluid profile-pic" src="../assets/images/icons/profile.png" alt="profile" />
       </div>
       <div class="profile-name">
-        <h5>Lina John</h5>
-        <h6>lina1563@gmail.com</h6>
+        <h5>{{user.username}}</h5>
+        <h6>{{user.email}}</h6>
       </div>
     </div>
   </section>
@@ -68,9 +71,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/profile.svg" alt="profile" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/profile.svg' %}" alt="profile" />
             </div>
-            <a href="profile-setting.html" class="profile-box-name">
+            <a href="{% url 'profile-settings' %}" class="profile-box-name">
               <h5>Profile Setting</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -79,9 +82,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/profile-location.svg" alt="location" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/profile-location.svg' %}" alt="location" />
             </div>
-            <a href="manage-delivery-address.html" class="profile-box-name">
+            <a href="{% url 'manage-delivery-address' %}" class="profile-box-name">
               <h5>Manage Delivery Address</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -90,9 +93,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/whishlist.svg" alt="wishlist" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/whishlist.svg' %}" alt="wishlist" />
             </div>
-            <a href="wishlist.html" class="profile-box-name">
+            <a href="{% url 'wishlist' %}" class="profile-box-name">
               <h5>My Wishlist</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -101,9 +104,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/manage-payment.svg" alt="Payment" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/manage-payment.svg' %}" alt="Payment" />
             </div>
-            <a href="manage-payment.html" class="profile-box-name">
+            <a href="{% url 'manage-payment' %}" class="profile-box-name">
               <h5>Manage Payment</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -112,9 +115,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/my-order.svg" alt="order" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/my-order.svg' %}" alt="order" />
             </div>
-            <a href="order-history.html" class="profile-box-name">
+            <a href="{% url 'order-history' %}" class="profile-box-name">
               <h5>My Orders History</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -123,9 +126,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/ticket.svg" alt="ticket" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/ticket.svg' %}" alt="ticket" />
             </div>
-            <a href="voucher.html" class="profile-box-name">
+            <a href="{% url 'voucher' %}" class="profile-box-name">
               <h5>My Voucher</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -134,9 +137,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/setting.svg" alt="setting" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/setting.svg' %}" alt="setting" />
             </div>
-            <a href="app-setting.html" class="profile-box-name">
+            <a href="{% url 'app-setting' %}" class="profile-box-name">
               <h5>Other Settings</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -145,9 +148,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/notification-bing.svg" alt="bell" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/notification-bing.svg' %}" alt="bell" />
             </div>
-            <a href="notification-setting.html" class="profile-box-name">
+            <a href="{% url 'notification-setting' %}" class="profile-box-name">
               <h5>Notification Setting</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -156,9 +159,9 @@
         <li>
           <div class="profile-box">
             <div class="profile-icon">
-              <img class="img-fluid icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/logout.svg" alt="logout" />
+              <img class="img-fluid icon" src="{% static 'pages/assets/images/svg/logout.svg' %}" alt="logout" />
             </div>
-            <a href="login.html" class="profile-box-name">
+            <a href="{% url 'logout' %}" class="profile-box-name">
               <h5>Log Out</h5>
               <i class="ri-arrow-right-s-line arrow"></i>
             </a>
@@ -176,46 +179,48 @@
   <!-- bottom navbar start -->
   <div class="navbar-menu">
     <ul>
-      <li>
-        <a href="landing.html" class="icon logo">
-          <img class=" img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-logo.svg" alt="logo" />
-          <span>Zomo</span>
-        </a>
-      </li>
-      <li>
-        <a href="food-home.html" class="icon">
-          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food.svg" alt="food" />
-          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-fill.svg" alt="food" />
-          <span>Food</span>
-        </a>
-      </li>
-      <li>
-        <a href="grocery-home.html" class="icon">
+        <li class="active">
+            <a href="{% url 'landing' %}" class="icon logo">
+                <img class=" img-fluid" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-logo.svg" alt="logo" />
+                <span>Zomo</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'food-home' %}" class="icon">
+                <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food.svg" alt="food" />
+                <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/food-fill.svg" alt="food" />
+                <span>Food</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'grocery-home' %}" class="icon">
 
-          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery.svg" alt="grocery" />
-          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery-fill.svg" alt="grocery" />
-          <span>Grocery</span>
-        </a>
-      </li>
+                <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery.svg" alt="grocery" />
+                <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/grocery-fill.svg" alt="grocery" />
+                <span>Grocery</span>
+            </a>
+        </li>
 
-      <li>
-        <a href="pharmacy-home.html" class="icon">
+        <li>
+            <a href="{% url 'pharmacy-home' %}" class="icon">
 
-          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy.svg" alt="pharmacy" />
-          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy-fill.svg" alt="pharmacy" />
-          <span>Pharmacy</span>
-        </a>
-      </li>
-      <li class="active">
-        <a href="profile.html" class="icon">
+                <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy.svg" alt="pharmacy" />
+                <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/pharmacy-fill.svg" alt="pharmacy" />
+                <span>Pharmacy</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'profile' %}" class="icon">
 
-          <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user.svg" alt="user" />
-          <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user-fill.svg" alt="user" />
-          <span>Profile</span>
-        </a>
-      </li>
+                <img class="unactive" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user.svg" alt="user" />
+                <img class="active" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/user-fill.svg" alt="user" />
+                <span>Profile</span>
+            </a>
+        </li>
+            </a>
+        </li>
     </ul>
-  </div>
+</div>
   <!-- bottom navbar end -->
 
   <!-- bootstrap js -->
@@ -226,5 +231,4 @@
 </body>
 
 
-<!-- Mirrored from themes.pixelstrap.com/zomo-app/food-delivery-app/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 13 Jun 2024 21:45:04 GMT -->
 </html>

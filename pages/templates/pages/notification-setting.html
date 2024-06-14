@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,28 +14,31 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+    <!-- font link -->
+    <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
-  <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/swiper-bundle.min.js.css' %}" />
 
-  <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
