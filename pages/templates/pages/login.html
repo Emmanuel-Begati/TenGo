@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,35 +13,34 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+  <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
   <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+  <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
 
   <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+  <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
   <!-- login page start -->
   <section class="section-b-space pt-0">
-    <img class="img-fluid login-img" src="../assets/images/background/login-img.jpg" alt="login-img" />
-    <img class="img-fluid line-vector" src="../assets/images/onboarding/line.png" alt="line" />
+    <img class="img-fluid login-img" src="{%static 'pages/assets/images/background/login-img.jpg' %}" alt="login-img" />
+    <img class="img-fluid line-vector" src="{% static 'pages/assets/images/onboarding/line.png'%}" />
 
     <div class="custom-container">
       <form class="auth-form mt-1">
@@ -71,7 +71,7 @@
         <span>OR</span>
       </div>
 
-      <a href="https://www.google.co.in/" class="btn gray-btn mt-3"> <img class="img-fluid google"
+      <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn gray-btn mt-3"> <img class="img-fluid google"
           src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/google.svg" alt="google" /> Continue with Google</a>
 
       <p class="text-center">By continue, you agree to our Terms of service Privacy Policy Content Policy</p>

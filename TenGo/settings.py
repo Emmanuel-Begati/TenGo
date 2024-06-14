@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'restaurant',
     'delivery_boy',
     'social_django',
+    'pages',
 ]
 
 MIDDLEWARE = [
