@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,28 +13,31 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+    <!-- font link -->
+    <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
-  <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/swiper-bundle.min.js.css' %}" />
 
-  <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
@@ -41,7 +45,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="details.html">
+        <a href="{% url 'details' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Starbucks</h2>
@@ -56,7 +60,7 @@
       <h3 class="fw-semibold dark-text">Food Categories</h3>
       <div class="horizontal-product-box mt-3">
         <div class="product-img">
-          <img class="img-fluid img" src="../assets/images/product/rp1.png" alt="rp1" />
+          <img class="img-fluid img" src="{% static 'pages/assets/images/product/rp1.png' %}" alt="rp1" />
         </div>
         <div class="product-content">
           <h5>Mexican Shred Beef</h5>
@@ -73,7 +77,7 @@
 
       <div class="horizontal-product-box mt-3">
         <div class="product-img">
-          <img class="img-fluid img" src="../assets/images/product/rp2.png" alt="rp2" />
+          <img class="img-fluid img" src="{% static 'pages/assets/images/product/rp2.png' %}" alt="rp2" />
         </div>
         <div class="product-content">
           <h5>Mexican Chicken</h5>
@@ -94,7 +98,7 @@
   <!-- Coupon section start -->
   <section>
     <div class="custom-container">
-      <a href="coupon.html" class="apply-coupon">
+      <a href="{% url 'coupon' %}" class="apply-coupon">
         <div>
           <h5 class="dark-text">Apply Coupon</h5>
           <h6 class="coupon-code">#GOOGLE20</h6>
@@ -137,12 +141,12 @@
       <h3 class="fw-semibold dark-text">Delivery Address</h3>
       <div class="cart-add-box mt-3 mb-5">
         <div class="add-img">
-          <img class="img-fluid img" src="../assets/images/home.png" alt="rp1" />
+          <img class="img-fluid img" src="{% static 'pages/assets/images/home.png' %}" alt="rp1" />
         </div>
         <div class="add-content">
           <h5 class="fw-semibold dark-text">Deliver to : Home</h5>
           <h6 class="address light-text mt-1">1901 Thornridge Cir. Shiloh, Hawaii 81063</h6>
-          <a href="address.html" class="change-add">Change</a>
+          <a href="{% url 'address' %}" class="change-add">Change</a>
         </div>
       </div>
     </div>
@@ -155,15 +159,15 @@
       <h3>$18</h3>
       <h6>2 item Added</h6>
     </div>
-    <a href="address.html" class="btn theme-btn pay-btn mt-0">Pay Now</a>
+    <a href="{% url 'address' %}" class="btn theme-btn pay-btn mt-0">Pay Now</a>
   </div>
   <!-- pay popup end -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

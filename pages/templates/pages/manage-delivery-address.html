@@ -46,7 +46,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="profile.html">
+        <a href="{% url 'profile' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Delivery Address</h2>
@@ -68,7 +68,7 @@
           <div class="address-content">
             <div class="address-place">
               <h5>Home</h5>
-              <a href="address-details.html">
+              <a href="{% url 'address-details' %}">
                 <i class="ri-edit-line edit theme-color"></i>
               </a>
             </div>
@@ -92,7 +92,7 @@
           <div class="address-content">
             <div class="address-place">
               <h5>Work</h5>
-              <a href="address-details.html">
+              <a href="{% url 'address-details' %}">
                 <i class="ri-edit-line edit theme-color"></i>
               </a>
             </div>
@@ -107,16 +107,16 @@
           </div>
         </li>
       </ul>
-      <a href="profile.html" class="btn theme-btn add-select w-100" role="button">Select</a>
+      <a href="{% url 'profile' %}" class="btn theme-btn add-select w-100" role="button">Select</a>
     </div>
   </section>
   <!--choose Address section start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

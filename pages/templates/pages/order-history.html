@@ -45,7 +45,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="profile.html">
+        <a href="{% url 'profile' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Order History</h2>
@@ -60,7 +60,7 @@
         <div class="col-12">
           <div class="vertical-product-box order-box">
             <div class="vertical-box-img">
-              <img class="img-fluid img" src="../assets/images/product/vp1.png" alt="vp1" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/product/vp1.png' %}" alt="vp1" />
             </div>
 
             <div class="vertical-box-details">
@@ -88,7 +88,7 @@
         <div class="col-12">
           <div class="vertical-product-box order-box">
             <div class="vertical-box-img">
-              <img class="img-fluid img" src="../assets/images/product/vp2.png" alt="vp2" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/product/vp2.png' %}" alt="vp2" />
             </div>
 
             <div class="vertical-box-details">
@@ -116,7 +116,7 @@
         <div class="col-12">
           <div class="vertical-product-box order-box">
             <div class="vertical-box-img">
-              <img class="img-fluid img" src="../assets/images/product/vp3.png" alt="vp3" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/product/vp3.png' %}" alt="vp3" />
             </div>
 
             <div class="vertical-box-details">
@@ -145,10 +145,10 @@
     </div>
   </section>
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

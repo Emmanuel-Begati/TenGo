@@ -38,21 +38,21 @@
   <!-- onboarding section start -->
   <section class="home">
     <video autoplay muted loop class="cooking-video">
-      <source src="https://themes.pixelstrap.com/zomo-app/assets/images/video.mp4" type="video/mp4" />
+      <source src="{% static 'pages/assets/images/video.mp4' %}" type="video/mp4" />
     </video>
 
     <div class="theme-content">
       <div class="custom-container bg-transparent">
-        <img class="img-fluid logo" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/logo.svg" alt="logo" />
+        <img class="img-fluid logo" src="{% static 'pages/assets/images/svg/logo.svg' %}" alt="logo" />
         <ul class="slogan">
           <li>Order</li>
-          <li><img src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/slogan-star.svg" alt="star" /></li>
+          <li><img src="{% static 'pages/assets/images/svg/slogan-star.svg' %}" alt="star" /></li>
           <li>Delivered</li>
-          <li><img src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/slogan-star.svg" alt="star" /></li>
+          <li><img src="{% static 'pages/assets/images/svg/slogan-star.svg' %}" alt="star" /></li>
           <li>Enjoy</li>
         </ul>
         <p>Find and try various foods from here</p>
-        <a href="{% url "login" %}" class="btn theme-btn start-btn w-100" role="button">Get Started</a>
+        <a href="{% url 'login' %}" class="btn theme-btn start-btn w-100" role="button">Get Started</a>
       </div>
     </div>
   </section>
@@ -63,7 +63,7 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     <div class="offcanvas-body small">
       <div class="app-info">
-        <img src="../assets/images/logo/48.png" class="img-fluid" alt="" />
+        <img src="{% static 'pages/assets/images/logo/48.png' %}" class="img-fluid" alt="" />
         <div class="content">
           <h3>zomo App</h3>
           <a href="#">www.zomo-app.com</a>
@@ -76,18 +76,19 @@
   <!-- pwa install app popup start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- homescreen popup js -->
-  <script src="../assets/js/homescreen-popup.js"></script>
+  <script src="{% static 'pages/assets/js/homescreen-popup.js' %}"></script>
 
 
   <!-- PWA offcanvas popup js -->
-  <script src="../assets/js/offcanvas-popup.js"></script>
+  <script src="{% static 'pages/assets/js/offcanvas-popup.js' %}"></script>
 
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
+</body>
 </body>
 
 

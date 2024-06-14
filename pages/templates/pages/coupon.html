@@ -12,28 +12,31 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+    <!-- font link -->
+    <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
-  <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/swiper-bundle.min.js.css' %}" />
 
-  <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
@@ -41,7 +44,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="cart.html">
+        <a href="{% url 'cart' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Apply Coupon</h2>
@@ -76,7 +79,7 @@
             <div class="coupon-details">
               <div class="coupon-content">
                 <div class="coupon-name">
-                  <img class="img-fluid coupon-img" src="../assets/images/icons/google-pay.png" alt="c1" />
+                  <img class="img-fluid coupon-img" src="{% static 'pages/assets/images/icons/google-pay.png' %}" alt="c1" />
                   <div>
                     <h5 class="fw-semibold dark-text">Google Pay</h5>
                     <h6 class="light-text mt-1">Use Gpay</h6>
@@ -101,7 +104,7 @@
             <div class="coupon-details">
               <div class="coupon-content">
                 <div class="coupon-name">
-                  <img class="img-fluid coupon-img" src="../assets/images/icons/one-card.png" alt="c1" />
+                  <img class="img-fluid coupon-img" src="{% static 'pages/assets/images/icons/one-card.png' %}" alt="c1" />
                   <div>
                     <h5 class="fw-semibold dark-text">OneCard</h5>
                     <h6 class="light-text mt-1">Use onecard</h6>
@@ -114,7 +117,7 @@
               <p>Valid on order with items wroth $10 or more.<span>More Details</span></p>
               <div class="coupon-apply">
                 <h6 class="unlock">Add item wroth $20 more to unlock</h6>
-                <a href="cart.html" class="theme-color fw-semibold">Apply</a>
+                <a href="{% url 'cart' %}" class="theme-color fw-semibold">Apply</a>
               </div>
             </div>
             <img class="img-fluid coupon-left" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/coupon-left.svg" alt="right-border" />
@@ -127,7 +130,7 @@
             <div class="coupon-details">
               <div class="coupon-content">
                 <div class="coupon-name">
-                  <img class="img-fluid coupon-img" src="../assets/images/icons/citi-bank.png" alt="c1" />
+                  <img class="img-fluid coupon-img" src="{% static 'pages/assets/images/icons/citi-bank.png' %}" alt="c1" />
                   <div>
                     <h5 class="fw-semibold dark-text">Citi Bank</h5>
                     <h6 class="light-text mt-1">Use citibank card</h6>
@@ -140,7 +143,7 @@
               <p>Valid on order with items wroth $10 or more.<span>More Details</span></p>
               <div class="coupon-apply">
                 <h6 class="unlock">Add item wroth $20 more to unlock</h6>
-                <a href="cart.html" class="theme-color fw-semibold">Apply</a>
+                <a href="{% url 'cart' %}" class="theme-color fw-semibold">Apply</a>
               </div>
             </div>
             <img class="img-fluid coupon-left" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/coupon-left.svg" alt="right-border" />
@@ -153,7 +156,7 @@
             <div class="coupon-details">
               <div class="coupon-content">
                 <div class="coupon-name">
-                  <img class="img-fluid coupon-img" src="../assets/images/icons/simpla.png" alt="c1" />
+                  <img class="img-fluid coupon-img" src="{% static 'pages/assets/images/icons/simpla.png' %}" alt="c1" />
                   <div>
                     <h5 class="fw-semibold dark-text">Simpl</h5>
                     <h6 class="light-text mt-1">Use simpl</h6>
@@ -166,7 +169,7 @@
               <p>Valid on order with items wroth $10 or more.<span>More Details</span></p>
               <div class="coupon-apply">
                 <h6 class="unlock">Add item wroth $20 more to unlock</h6>
-                <a href="cart.html" class="theme-color fw-semibold">Apply</a>
+                <a href="{% url 'cart' %}" class="theme-color fw-semibold">Apply</a>
               </div>
             </div>
             <img class="img-fluid coupon-left" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/coupon-left.svg" alt="right-border" />
@@ -179,10 +182,10 @@
   <!-- coupon section start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

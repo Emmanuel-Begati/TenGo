@@ -46,7 +46,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="food-home.html">
+        <a href="{% url 'food-home' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Food Categories</h2>
@@ -61,8 +61,8 @@
       <div class="row gy-4">
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p1.png" alt="p1" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p1.png' %}" alt="p1" />
             </a>
             <div class="product-box-detail">
               <h5>Chicken karahi</h5>
@@ -83,8 +83,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p2.png" alt="p2" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p2.png' %}" alt="p2" />
             </a>
             <div class="product-box-detail">
               <h5>Mexican Pizza</h5>
@@ -105,8 +105,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p3.png" alt="p3" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p3.png' %}" alt="p3" />
             </a>
             <div class="product-box-detail">
               <h5>Maggie Cheese</h5>
@@ -127,8 +127,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p4.png" alt="p4" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p4.png' %}" alt="p4" />
             </a>
             <div class="product-box-detail">
               <h5>Yam Fries</h5>
@@ -149,8 +149,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p5.png" alt="p5" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p5.png' %}" alt="p5" />
             </a>
             <div class="product-box-detail">
               <h5>Mexican Pizza</h5>
@@ -171,8 +171,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p6.png" alt="p6" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p6.png' %}" alt="p6" />
             </a>
             <div class="product-box-detail">
               <h5>Maggie Cheese</h5>
@@ -193,8 +193,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p7.png" alt="p7" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p7.png' %}" alt="p7" />
             </a>
             <div class="product-box-detail">
               <h5>Mexican Pizza</h5>
@@ -215,8 +215,8 @@
         </div>
         <div class="col-6 pt-4">
           <div class="product-box product-box-bg">
-            <a href="details.html" class="product-box-img">
-              <img class="img-fluid" src="../assets/images/product/p8.png" alt="p8" />
+            <a href="{% url 'details' %}" class="product-box-img">
+              <img class="img-fluid" src="{% static 'pages/assets/images/product/p8.png' %}" alt="p8" />
             </a>
             <div class="product-box-detail">
               <h5>Maggie Cheese</h5>
@@ -241,10 +241,10 @@
   <!-- food section start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

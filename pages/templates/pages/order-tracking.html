@@ -48,7 +48,7 @@
   </div>
   <!-- location map end -->
 
-  <!-- tracking popup start -->
+  <!-- tracking popup start --> re
   <div class="tracking-product">
     <div class="tracking-head">
       <img class="img-fluid profile-pic" src="../assets/images/icons/pro1.png" alt="pro1" />
@@ -57,7 +57,7 @@
         <h6>Courier Boy</h6>
       </div>
       <div class="content-option">
-        <a href="chatting.html">
+        <a href="{% url 'chatting' %}">
           <img class="img-fluid message-icon" src="https://themes.pixelstrap.com/zomo-app/assets/images/svg/message.svg" alt="message" />
         </a>
         <a href="#">
@@ -97,19 +97,19 @@
         </li>
       </ul>
     </div>
-    <a href="order-details.html" class="btn theme-btn delivery-btn mt-4 w-100">Order View Details</a>
+    <a href="{% url 'order-details' %}" class="btn theme-btn delivery-btn mt-4 w-100">Order View Details</a>
   </div>
   <!-- tracking popup end -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- google map js -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGCQvcXUsXwCdYArPXo72dLZ31WS3WQRw"></script>
-  <script src="../assets/js/route-map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  <script src="{% static 'pages/assets/js/route-map.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

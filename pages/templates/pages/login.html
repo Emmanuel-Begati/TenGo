@@ -64,7 +64,7 @@
           </div>
         </div>
 
-        <a href="otp.html" class="btn theme-btn w-100 mt-4" role="button">Send OTP</a>
+        <a href="{%url 'otp'%}" class="btn theme-btn w-100 mt-4" role="button">Send OTP</a>
       </form>
 
       <div class="division">
@@ -81,10 +81,10 @@
   <!-- login page end -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

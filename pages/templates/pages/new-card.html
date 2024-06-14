@@ -46,7 +46,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="food-home.html">
+        <a href="{% url 'food-home' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Add New Card</h2>
@@ -92,17 +92,17 @@
   <!-- address form section start -->
   <section class="section-b-space pt-0">
     <div class="custom-container">
-      <form class="auth-form address-form" target="_blank">
+      <form class="auth-form address-form" action="{% url 'payment-method' %}" method="POST">
         <div class="form-group">
           <label class="form-label fw-semibold">Card Number</label>
           <div class="form-input mb-3">
-            <input type="text" class="form-control" placeholder="Enter card number" />
+            <input type="text" class="form-control" placeholder="Enter card number" name="card_number" />
           </div>
         </div>
         <div class="form-group">
           <label class="form-label fw-semibold">Card Holder Name</label>
           <div class="form-input mb-3">
-            <input type="text" class="form-control" placeholder="Enter card holder name" />
+            <input type="text" class="form-control" placeholder="Enter card holder name" name="card_holder_name" />
           </div>
         </div>
 
@@ -110,29 +110,29 @@
           <div class="col-6">
             <div class="form-group">
               <label class="form-label fw-semibold">CVV</label>
-              <div class="form-input mb-3"><input type="email" class="form-control" placeholder="Enter cvv" /></div>
+              <div class="form-input mb-3"><input type="email" class="form-control" placeholder="Enter cvv" name="cvv" /></div>
             </div>
           </div>
           <div class="col-6">
             <div class="form-group">
               <label class="form-label fw-semibold">Exp. Date</label>
               <div class="form-input mb-3">
-                <input type="password" class="form-control" placeholder="Enter date" />
+                <input type="password" class="form-control" placeholder="Enter date" name="exp_date" />
               </div>
             </div>
           </div>
         </div>
-        <a href="payment-method.html" class="btn theme-btn w-100">Add Card</a>
+        <button type="submit" class="btn theme-btn w-100">Add Card</button>
       </form>
     </div>
   </section>
   <!-- address form section start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

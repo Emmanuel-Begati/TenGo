@@ -47,7 +47,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="food-home.html">
+        <a href="{% url 'food-home' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Notification</h2>
@@ -127,10 +127,10 @@
   <!-- notification section end -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

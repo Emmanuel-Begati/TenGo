@@ -12,28 +12,31 @@
   <meta name="author" content="zomo" />
   <link rel="manifest" href="https://themes.pixelstrap.com/zomo-app/manifest.json" />
 
-  <link rel="icon" href="../assets/images/logo/favicon.png" type="image/x-icon" />
+  <link rel="icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" type="image/x-icon" />
   <title>zomo App</title>
-  <link rel="apple-touch-icon" href="../assets/images/logo/favicon.png" />
+  <link rel="apple-touch-icon" href="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="theme-color" content="#ff8d2f" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   <meta name="apple-mobile-web-app-title" content="zomo" />
-  <meta name="msapplication-TileImage" content="../assets/images/logo/favicon.png" />
+  <meta name="msapplication-TileImage" content="{% static 'pages/assets/images/logo/favicon.png' %}" />
   <meta name="msapplication-TileColor" content="#FFFFFF" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <!-- font link -->
-  <link rel="stylesheet" href="../assets/css/vendors/metropolis.min.css" />
+    <!-- font link -->
+    <link rel="stylesheet" href="{% static 'pages/assets/css/vendors/metropolis.min.css' %}" />
 
-  <!-- remixicon css -->
-  <link rel="stylesheet" type="text/css" href="../assets/css/vendors/remixicon.css" />
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/remixicon.css' %}" />
 
-  <!-- bootstrap css -->
-  <link rel="stylesheet" id="rtl-link" type="text/css" href="../assets/css/vendors/bootstrap.min.css" />
+    <!-- swiper css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'pages/assets/css/vendors/swiper-bundle.min.js.css' %}" />
 
-  <!-- Theme css -->
-  <link rel="stylesheet" id="change-link" type="text/css" href="../assets/css/style.css" />
+    <!-- bootstrap css -->
+    <link rel="stylesheet" id="rtl-link" type="text/css" href="{% static 'pages/assets/css/vendors/bootstrap.min.css' %}" />
+
+    <!-- Theme css -->
+    <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'pages/assets/css/style.css' %}" />
 </head>
 
 <body>
@@ -41,7 +44,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="food-home.html">
+        <a href="{% url 'food-home' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Brands</h2>
@@ -55,97 +58,97 @@
     <div class="custom-container">
       <div class="row gy-5 ratio_square">
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand1.png" alt="brand1" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand1.png' %}" alt="brand1" />
             </div>
             <h6>La Pino’z</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand2.png" alt="brand2" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand2.png' %}" alt="brand2" />
             </div>
             <h6>McDonald's</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand3.png" alt="brand3" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand3.png' %}" alt="brand3" />
             </div>
             <h6>Starbucks</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand4.png" alt="brand4" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand4.png' %}" alt="brand4" />
             </div>
             <h6>Pizza Hut</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand5.png" alt="brand5" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand5.png' %}" alt="brand5" />
             </div>
             <h6>Wendy's</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand6.png" alt="brand6" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand6.png' %}" alt="brand6" />
             </div>
             <h6>Burger King</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand7.png" alt="brand7" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand7.png' %}" alt="brand7" />
             </div>
             <h6>Subway</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand8.png" alt="brand8" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand8.png' %}" alt="brand8" />
             </div>
             <h6>Domino's</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand9.png" alt="brand9" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand9.png' %}" alt="brand9" />
             </div>
             <h6>Taco Bell</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/brand10.png" alt="brand10" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand10.png' %}" alt="brand10" />
             </div>
             <h6>Chipotle</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/c3.png" alt="brand11" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand11.png' %}" alt="brand11" />
             </div>
             <h6>KFC</h6>
           </a>
         </div>
         <div class="col-4">
-          <a href="search.html">
+          <a href="{% url 'search' %}">
             <div class="food-categories food">
-              <img class="img-fluid categories-img" src="../assets/images/icons/c1.png" alt="brand12" />
+              <img class="img-fluid categories-img" src="{% static 'pages/assets/images/icons/brand12.png' %}" alt="brand12" />
             </div>
             <h6>Dunkin Donuts</h6>
           </a>
@@ -153,13 +156,14 @@
       </div>
     </div>
   </section>
+  </section>
   <!-- food section start -->
 
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 

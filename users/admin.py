@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Transaction
+from .models import Profile, Address, Category, Product, Order, OrderItem
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -12,4 +12,8 @@ class ProfileAdmin(admin.ModelAdmin):
     ]
 # Register your models here.
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(Transaction)
+admin.site.register(Address)
+admin.site.register(Category)
+admin.site.register(Product)
+admin.site.register(Order)
+admin.site.register(OrderItem)

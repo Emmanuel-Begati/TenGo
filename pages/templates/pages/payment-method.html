@@ -46,7 +46,7 @@
   <header class="section-t-space">
     <div class="custom-container">
       <div class="header-panel">
-        <a href="confirm-location.html">
+        <a href="{% url 'confirm-location' %}">
           <i class="ri-arrow-left-s-line"></i>
         </a>
         <h2>Payment Options</h2>
@@ -80,7 +80,7 @@
           <li class="w-100">
             <div class="payment-detail">
               <div class="add-img">
-                <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/svg/mastercard.svg" alt="mastercard" />
+                <img class="img-fluid img" src="{% static 'pages/assets/images/icons/svg/mastercard.svg' %}" alt="mastercard" />
               </div>
               <div class="add-content">
                 <div>
@@ -95,7 +95,7 @@
           </li>
 
           <li class="new-card w-100">
-            <a href="new-card.html" class="payment-detail">
+            <a href="{% url 'new-card' %}" class="payment-detail">
               <div class="add-img">
                 <i class="ri-add-line theme-color add-square-img"></i>
               </div>
@@ -116,7 +116,7 @@
         <li class="cart-add-box payment-card-box gap-0 mt-3">
           <div class="payment-detail">
             <div class="add-img">
-              <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/svg/paypal.svg" alt="mastercard" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/icons/svg/paypal.svg' %}" alt="mastercard" />
             </div>
             <div class="add-content">
               <div>
@@ -131,7 +131,7 @@
         <li class="cart-add-box payment-card-box gap-0 mt-3">
           <div class="payment-detail">
             <div class="add-img">
-              <img class="img-fluid img1" src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/svg/apple-pay.svg" alt="apple-pay" />
+              <img class="img-fluid img1" src="{% static 'pages/assets/images/icons/svg/apple-pay.svg' %}" alt="apple-pay" />
             </div>
             <div class="add-content">
               <div>
@@ -146,7 +146,7 @@
         <li class="cart-add-box payment-card-box gap-0 mt-3">
           <div class="payment-detail">
             <div class="add-img">
-              <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/svg/google-pay.svg" alt="google-pay" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/icons/svg/google-pay.svg' %}" alt="google-pay" />
             </div>
             <div class="add-content">
               <div>
@@ -161,7 +161,7 @@
         <li class="cart-add-box payment-card-box gap-0 mt-3">
           <div class="payment-detail">
             <div class="add-img">
-              <img class="img-fluid img" src="https://themes.pixelstrap.com/zomo-app/assets/images/icons/svg/cash.svg" alt="cash" />
+              <img class="img-fluid img" src="{% static 'pages/assets/images/icons/svg/cash.svg' %}" alt="cash" />
             </div>
             <div class="add-content">
               <div>
@@ -194,29 +194,28 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="confirm-title">
-            <img class="img-fluid confirm-offer for-light" src="../assets/images/gif/success-payment-light.gif"
+            <img class="img-fluid confirm-offer for-light" src="{% static 'pages/assets/images/gif/success-payment-light.gif' %}"
               alt="success-payment" />
-            <img class="img-fluid confirm-offer for-dark" src="../assets/images/gif/success-payment-dark.gif"
+            <img class="img-fluid confirm-offer for-dark" src="{% static 'pages/assets/images/gif/success-payment-dark.gif' %}"
               alt="success-payment" />
             <h2 class="dark-text text-center fw-semibold mt-2">Payment Success</h2>
             <h5 class="mt-3 dark-text text-center w-75 mx-auto">Your payment was successful! Just wait foodfest arrive
               at home</h5>
           </div>
 
-          <a href="order-tracking.html" class="btn theme-btn w-100 mt-4" role="button">Track Order Now</a>
+          <a href="{% url 'order-tracking' %}" class="btn theme-btn w-100 mt-4" role="button">Track Order Now</a>
 
-          <a href="food-home.html" class="btn btn-link mt-0">Back to Home</a>
+          <a href="{% url 'food-home' %}" class="btn btn-link mt-0">Back to Home</a>
         </div>
       </div>
     </div>
   </div>
   <!-- susses payment modal end -->
-
   <!-- bootstrap js -->
-  <script src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'pages/assets/js/bootstrap.bundle.min.js' %}"></script>
 
   <!-- script js -->
-  <script src="../assets/js/script.js"></script>
+  <script src="{% static 'pages/assets/js/script.js' %}"></script>
 </body>
 
 
