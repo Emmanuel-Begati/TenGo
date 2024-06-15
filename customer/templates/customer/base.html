@@ -8,7 +8,7 @@
         <meta name="description" content="zomo">
         <meta name="keywords" content="zomo">
         <meta name="author" content="zomo">
-        <link rel="icon" href="assets/images/logo/favicon.png" type="image/x-icon">
+        <link rel="icon" href="{% static 'customer/assets/images/logo/favicon.png' %}" type="image/x-icon">
         <title>zomo Web</title>
         <link rel="apple-touch-icon" href="assets/images/logo/favicon.png">
         <meta name="theme-color" content="#ff8d2f">
@@ -26,16 +26,16 @@
             rel="stylesheet">
     
         <!-- bootstrap css -->
-        <link rel="stylesheet" type="text/css" id="rtl-link" href="assets/css/vendors/bootstrap.css">
-    
+        <link rel="stylesheet" type="text/css" id="rtl-link" href="{% static 'customer/assets/css/vendors/bootstrap.css' %}">
+        
         <!-- swiper css -->
-        <link rel="stylesheet" type="text/css" href="assets/css/vendors/swiper-bundle.min.css">
-    
+        <link rel="stylesheet" type="text/css" href="{% static 'customer/assets/css/vendors/swiper-bundle.min.css' %}">
+        
         <!-- remixicon css -->
-        <link rel="stylesheet" type="text/css" href="assets/css/vendors/remixicon.css">
-    
+        <link rel="stylesheet" type="text/css" href="{% static 'customer/assets/css/vendors/remixicon.css' %}">
+        
         <!-- Theme css -->
-        <link rel="stylesheet" id="change-link" type="text/css" href="assets/css/style.css">
+        <link rel="stylesheet" id="change-link" type="text/css" href="{% static 'customer/assets/css/style.css' %}">
     </head>
 
     <body class="position-relative">
@@ -51,7 +51,7 @@
                         </span>
                     </button>
                     <a href="index-2.html">
-                        <img class="img-fluid logo" src="assets/images/svg/logo.svg" alt="logo">
+                        <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
                     </a>
                     <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
                         class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="profile-part dropdown-button order-md-2">
-                            <img class="img-fluid profile-pic" src="assets/images/icons/p5.png" alt="profile">
+                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
                             <div>
                                 <h6 class="fw-normal">Hi, Mark Jecno</h6>
                                 <h5 class="fw-medium">My Account</h5>
@@ -82,24 +82,19 @@
                         </div>
                         <div class="offcanvas-body">
                             <ul class="navbar-nav justify-content-center flex-grow-1">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Home</a>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Order</a>
+                                    <a class="nav-link" href="#">Order</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+                                    <a class="nav-link" href="#">Blog</a>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#!" role="button"
-                                        data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                                </li>
+                                
                                 <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
+                                    <a class="nav-link" href="#">Contact</a>
                                 </li>
                             </ul>
                         </div>
@@ -110,15 +105,307 @@
         <section class="home-wrapper">
             <div class="container text-center">
                 <div class="loader-gif">
-                    <img src="assets/images/gif/food.gif" alt="food-gif" class="img-fluid">
+                    <img src="{% static 'customer/assets/images/gif/food.gif' %}" alt="food-gif" class="img-fluid">
                 </div>
-                <h2>Searching the most delicious dish in your area...</h2>
+                <h2>Searching the most delicious dish in your area...</h2>
             </div>
         </section>
+        <div class="categories-section">
+            <div class="container">
+                <div class="position-relative category-top">
+                    <div class="swiper categories-no-arrow categories-style">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                            <div class="swiper-slide">
+                                <a href="restaurant-listing.html" class="food-categories">
+                                    <span class="categories-img"></span>
+                                    <h4 class="placeholder col-10"></h4>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="section-b-space">
+            <div class="container">
+                <div class="title placeholder-glow">
+                    <span class="placeholder col-md-2 col-5"></span>
+                    <p class="placeholder col-5 w-50"></p>
+                </div>
+                <div class="position-relative">
+                    <div class="swiper banner1-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide placeholder-glow">
+                                <div class="banner-part">
+                                    <a href="offer.html" class="placeholder"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-part">
+                                    <a href="offer.html" class="placeholder"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-part">
+                                    <a href="offer.html" class="placeholder"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-part">
+                                    <a href="offer.html" class="placeholder"></a>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="banner-part">
+                                    <a href="offer.html" class="placeholder"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
-    <main>
-        <!-- Your main content goes here -->
-    </main>
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg p-0">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#offcanvasNavbar">
+                    <span class="navbar-toggler-icon">
+                        <i class="ri-menu-line"></i>
+                    </span>
+                </button>
+                <a href="index-2.html">
+                    <img class="img-fluid logo" src="assets/images/svg/logo.svg" alt="logo">
+                </a>
+                <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
+                    class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
+                    <i class="ri-map-pin-line"></i> Location
+                </a>
+                <div class="nav-option order-md-2">
+                    <div class="dropdown-button">
+                        <div class="cart-button">
+                            <span>5</span>
+                            <i class="ri-shopping-cart-line text-white cart-bag"></i>
+                        </div>
+                        <div class="onhover-box">
+                            {% comment %} List of items in one's cart {% endcomment %}
+                            <ul class="cart-list">
+                                <li class="product-box-contain">
+                                    <div class="drop-cart">
+                                        <a href="#!" class="drop-image">
+                                            <img src="assets/images/product/vp-3.png" class="blur-up lazyloaded" alt="">
+                                        </a>
+                                        <div class="drop-contain">
+                                            <a href="#!">
+                                                <h5>Egg Sandwich</h5>
+                                            </a>
+                                            <h6><span>1 x </span> $80.58</h6>
+                                            <button class="close-button close_button">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="product-box-contain">
+                                    <div class="drop-cart">
+                                        <a href="#!" class="drop-image">
+                                            <img src="assets/images/product/vp-2.png" class="blur-up lazyloaded" alt="">
+                                        </a>
+                                        <div class="drop-contain">
+                                            <a href="#!">
+                                                <h5>Grilled Chicken Quesadilla</h5>
+                                            </a>
+                                            <h6><span>1 x </span> $25.64</h6>
+                                            <button class="close-button close_button">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                                </ul>
+                            <div class="price-box">
+                                <h5>Total :</h5>
+                                <h4 class="theme-color fw-semibold">$155.00</h4>
+                            </div>
+                            <div class="button-group">
+                                <a href="checkout.html" class="btn btn-sm theme-btn w-100 d-block rounded-2">View
+                                    Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-part dropdown-button order-md-2">
+                        <img class="img-fluid profile-pic" src="assets/images/icons/p5.png" alt="profile">
+                        <div>
+                            <h6 class="fw-normal">Hi, Mark Jecno</h6>
+                            <h5 class="fw-medium">My Account</h5>
+                        </div>
+                        <div class="onhover-box onhover-sm">
+                            <ul class="menu-list">
+                                <li>
+                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="my-order.html">My orders</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="saved-address.html">Saved Address</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="saved-card.html">Saved cards</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="setting.html">Settings</a>
+                                </li>
+                            </ul>
+                            <div class="bottom-btn">
+                                <a href="signin.html" class="theme-color fw-medium d-flex"><i
+                                        class="ri-login-box-line me-2"></i>Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                        <button class="navbar-toggler btn-close" id="offcanvas-close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-center flex-grow-1">
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Order</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Blog</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- Header Section end -->
+
+        {% block content %}
+
+        {% endblock %}
 
     <footer class="footer-section section-t-space">
         <div class="subscribe-section">
@@ -145,7 +432,7 @@
                 <div class="row g-3">
                     <div class="col-xl-4 col-lg-12">
                         <div class="footer-logo-part">
-                            <img class="img-fluid logo" src="assets/images/svg/logo.svg" alt="logo">
+                            <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
                             <p>
                                 Welcome to our online order website! Here, you can browse our
                                 wide selection of products and place orders from the comfort
@@ -193,7 +480,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="contact.html">
+                                        <a href="#">
                                             <h6>Contact us</h6>
                                         </a>
                                     </li>
@@ -301,7 +588,7 @@
             <div class="bottom-footer-part">
                 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
                     <h6>@ Copyright 2024 ZOMO. All rights Reserved.</h6>
-                    <img class="img-fluid cards" src="assets/images/icons/footer-card.png" alt="card">
+                    <img class="img-fluid cards" src="{% static 'customer/assets/images/icons/footer-card.png' %}" alt="card">
                 </div>
             </div>
         </div>
@@ -411,23 +698,22 @@
     <div class="responsive-space"></div>
     <!-- responsive space -->
 
-    <!-- bootstrap js -->
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
+ <script src="{% static 'customer/assets/js/bootstrap.bundle.min.js' %}"></script>
 
     <!-- footer accordion js -->
-    <script src="assets/js/footer-accordion.js"></script>
+    <script src="{% static 'customer/assets/js/footer-accordion.js' %}"></script>
 
     <!-- loader js -->
-    <script src="assets/js/loader.js"></script>
+    <script src="{% static 'customer/assets/js/loader.js' %}"></script>
 
     <!-- swiper js -->
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <script src="assets/js/custom-swiper.js"></script>
+    <script src="{% static 'customer/assets/js/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'customer/assets/js/custom-swiper.js' %}"></script>
 
     <!-- menu offcanvas js -->
-    <script src="assets/js/menu-offcanvas.js"></script>
+    <script src="{% static 'customer/assets/js/menu-offcanvas.js' %}"></script>
 
     <!-- script js -->
-    <script src="assets/js/script.js"></script>
+    {% comment %} <script src="{% static 'customer/assets/js/script.js' %}"></script>  {% endcomment %}
 </body>
 </html>
