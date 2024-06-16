@@ -13,3 +13,5 @@ def contact(request):
 def base(request):
     return render(request, 'customer/base.html')
 
+def signin(request):
+    return render(request, 'customer/signin.html')
