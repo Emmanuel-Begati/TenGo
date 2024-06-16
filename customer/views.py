@@ -12,3 +12,4 @@ def contact(request):
 
 def base(request):
     return render(request, 'customer/base.html')
+
