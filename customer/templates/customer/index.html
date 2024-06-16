@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-        
+{% extends "customer/base.html" %}
+{%load static%}
+       
     <!-- skeleton loader end -->
 
     <!-- Header section start -->
 
-
+    {% block content %}
     <!-- home section start -->
     <section id="home" class="home-wrapper home2 section-b-space overflow-hidden">
         <div class="container text-center">
@@ -27,7 +26,8 @@
                     </div>
                 </div>
                 <div class="col-lg-5 position-relative">
-                    <img src="assets/images/home-vector.png" class="img-fluid right-vector" alt="right-vector">
+                    <img src="{% static 'customer/assets/images/home-vector.png' %}" class="img-fluid right-vector" alt="right-vector">
+                </div>
                 </div>
             </div>
         </div>
@@ -36,122 +36,122 @@
 
     <!-- categories section starts -->
     <div class="categories-section">
-        <img src="assets/images/popcorn.png" class="img-fluid popcorn-img" alt="">
+        <img src="{% static 'customer/assets/images/popcorn.png' %}" class="img-fluid popcorn-img" alt="">
         <div class="container">
             <div class="position-relative category-top">
                 <div class="swiper categories-no-arrow categories-style">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-1.png" alt="p-1">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-1.png' %}" alt="p-1">
                                 <h4 class="dark-text">Pizza</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-2.png" alt="p-2">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-2.png' %}" alt="p-2">
                                 <h4 class="dark-text">Chicken</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-3.png" alt="p-3">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-3.png' %}" alt="p-3">
                                 <h4 class="dark-text">Burger</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-5.png" alt="p-5">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-5.png' %}" alt="p-5">
                                 <h4 class="dark-text">Fries</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-6.png" alt="p-6">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-6.png' %}" alt="p-6">
                                 <h4 class="dark-text">Boritto</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-7.png" alt="p-7">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-7.png' %}" alt="p-7">
                                 <h4 class="dark-text">Taco</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-8.png" alt="p-8">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-8.png' %}" alt="p-8">
                                 <h4 class="dark-text">Muffin</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-9.png" alt="p-9">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-9.png' %}" alt="p-9">
                                 <h4 class="dark-text">Meat</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-10.png" alt="p-5">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-10.png' %}" alt="p-5">
                                 <h4 class="dark-text">Panner</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-11.png" alt="p-11">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-11.png' %}" alt="p-11">
                                 <h4 class="dark-text">Hotdog</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-12.png" alt="p-12">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-12.png' %}" alt="p-12">
                                 <h4 class="dark-text">Donuts</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-13.png" alt="p-13">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-13.png' %}" alt="p-13">
                                 <h4 class="dark-text">Coffee</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-14.png" alt="p-14">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-14.png' %}" alt="p-14">
                                 <h4 class="dark-text">Sandwich</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-15.png" alt="p-15">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-15.png' %}" alt="p-15">
                                 <h4 class="dark-text">Noddle</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-16.png" alt="p-16">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-16.png' %}" alt="p-16">
                                 <h4 class="dark-text">Pasta</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-17.png" alt="p-17">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-17.png' %}" alt="p-17">
                                 <h4 class="dark-text">Meggi</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-18.png" alt="p-18">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-18.png' %}" alt="p-18">
                                 <h4 class="dark-text">Momos</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-19.png" alt="p-19">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-19.png' %}" alt="p-19">
                                 <h4 class="dark-text">Salad</h4>
                             </a>
                         </div>
                         <div class="swiper-slide">
                             <a href="restaurant-listing.html" class="food-categories">
-                                <img class="img-fluid categories-img" src="assets/images/product/p-20.png" alt="p-20">
+                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-20.png' %}" alt="p-20">
                                 <h4 class="dark-text">Biryani</h4>
                             </a>
                         </div>
@@ -160,67 +160,7 @@
             </div>
         </div>
     </div>
-    <!-- categories section end -->
-
-    <!-- banner section starts -->
-    <section class="section-b-space">
-        <div class="container">
-            <div class="title">
-                <h2>Today’s Deal</h2>
-                <div class="loader-line"></div>
-                <div class="sub-title">
-                    <p>Take a benefit from our latest offers.</p>
-                </div>
-            </div>
-            <div class="position-relative">
-                <div class="swiper banner1-slider">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="banner-part">
-                                <a href="offer.html">
-                                    <img class="img-fluid banner-img" src="assets/images/banner/banner1.jpg"
-                                        alt="banner">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="banner-part">
-                                <a href="offer.html">
-                                    <img class="img-fluid banner-img" src="assets/images/banner/banner2.jpg"
-                                        alt="banner">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="banner-part">
-                                <a href="offer.html">
-                                    <img class="img-fluid banner-img" src="assets/images/banner/banner3.jpg"
-                                        alt="banner">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="banner-part">
-                                <a href="offer.html">
-                                    <img class="img-fluid banner-img" src="assets/images/banner/banner4.jpg"
-                                        alt="banner">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="banner-part">
-                                <a href="offer.html">
-                                    <img class="img-fluid banner-img" src="assets/images/banner/banner5.jpg"
-                                        alt="banner">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- banner section end -->
+    <!-- categories section end -->>
 
     <!-- Featured Restaurants section starts -->
     <section class="restaurant-list section-b-space banner-section ratio3_2">
@@ -260,8 +200,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-9.png"
-                                            alt="vp1">
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-9.png' %}" alt="vp1">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -296,13 +235,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-10.png" alt="vp-2">
+                                            src="{% static 'customer/assets/images/product/vp-10.png' %}" alt="vp-2">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -334,74 +273,12 @@
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-11.png"
-                                            alt="vp3">
-                                    </a>
-                                </div>
-                                <div class="vertical-product-body">
-                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                        <a href="menu-listing.html">
-                                            <h4 class="vertical-product-title">
-                                                The Grill Master's Cafe
-                                            </h4>
-                                        </a>
-                                        <h6 class="rating-star">
-                                            <span class="star"><i class="ri-star-s-fill"></i></span>4.3
-                                        </h6>
-                                    </div>
-                                    <h5 class="product-items">Bread, Eggs, Butter, Fries...</h5>
-                                    <div
-                                        class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                        <h5 class="place">New York</h5>
-                                        <ul class="distance">
-                                            <li><i class="ri-map-pin-fill icon"></i> 5 km</li>
-                                            <li><i class="ri-time-fill icon"></i> 40 min</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-sm-6">
-                            <div class="vertical-product-box">
-                                <div class="vertical-product-box-img">
-                                    <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-12.png"
-                                            alt="vp-4">
-                                    </a>
-                                </div>
-                                <div class="vertical-product-body">
-                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                        <a href="menu-listing.html">
-                                            <h4 class="vertical-product-title">Cozy Cuppa Cafe</h4>
-                                        </a>
-                                        <h6 class="rating-star">
-                                            <span class="star"><i class="ri-star-s-fill"></i></span>3.6
-                                        </h6>
-                                    </div>
-                                    <h5 class="product-items">
-                                        cheesecake, waffles, Cakes,...
-                                    </h5>
-                                    <div
-                                        class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                        <h5 class="place">Dallas</h5>
-                                        <ul class="distance">
-                                            <li><i class="ri-map-pin-fill icon"></i> 4 km</li>
-                                            <li><i class="ri-time-fill icon"></i> 30 min</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-sm-6">
-                            <div class="vertical-product-box">
-                                <div class="vertical-product-box-img">
-                                    <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-13.png"
-                                            alt="vp-5">
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-13.png' %}" alt="vp-5">
                                     </a>
                                 </div>
                                 <div class="vertical-product-body">
@@ -429,7 +306,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-14.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-14.png' %}"
                                             alt="vp16">
                                     </a>
                                     <div class="offers">
@@ -465,13 +342,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge exclusive-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/crown.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/crown.svg' %}" alt="medal">
                                     <h6>Best seller</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-15.png" alt="vp-7">
+                                            src="{% static 'customer/assets/images/product/vp-15.png' %}" alt="vp-7">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -506,13 +383,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge new-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/star-white.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/star-white.svg' %}" alt="medal">
                                     <h6>Newest</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-16.png" alt="vp-8">
+                                            src="{% static 'customer/assets/images/product/vp-16.png' %}" alt="vp-8">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -552,7 +429,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-1.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}"
                                             alt="vp1">
                                     </a>
                                     <div class="offers">
@@ -588,13 +465,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/star-white.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/star-white.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-2.png" alt="vp-2">
+                                            src="{% static 'customer/assets/images/product/vp-2.png' %}" alt="vp-2">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -844,7 +721,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-1.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}"
                                             alt="vp1">
                                     </a>
                                     <div class="offers">
@@ -880,13 +757,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-2.png" alt="vp-2">
+                                            src="{% static 'customer/assets/images/product/vp-2.png' %}" alt="vp-2">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -922,7 +799,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-3.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-3.png' %}"
                                             alt="vp3">
                                     </a>
                                 </div>
@@ -953,7 +830,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-4.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-4.png' %}"
                                             alt="vp-4">
                                     </a>
                                 </div>
@@ -984,7 +861,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-5.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-5.png' %}"
                                             alt="vp-5">
                                     </a>
                                 </div>
@@ -1013,7 +890,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-6.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-6.png' %}"
                                             alt="vp16">
                                     </a>
                                     <div class="offers">
@@ -1049,13 +926,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-7.png" alt="vp-7">
+                                            src="{% static 'customer/assets/images/product/vp-7.png' %}" alt="vp-7">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -1090,13 +967,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-8.png" alt="vp-8">
+                                            src="{% static 'customer/assets/images/product/vp-8.png' %}" alt="vp-8">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -1169,16 +1046,17 @@
                                 </div>
                             </div>
                         </div>
+                        {% load static %}
+
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-2.png" alt="vp-2">
+                                        <img class="vertical-product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-2.png' %}" alt="vp-2">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -1214,8 +1092,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-3.png"
-                                            alt="vp3">
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-3.png' %}" alt="vp3">
                                     </a>
                                 </div>
                                 <div class="vertical-product-body">
@@ -1230,8 +1107,7 @@
                                         </h6>
                                     </div>
                                     <h5 class="product-items">Bread, Eggs, Butter, Fries...</h5>
-                                    <div
-                                        class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                                    <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
                                         <h5 class="place">New York</h5>
                                         <ul class="distance">
                                             <li><i class="ri-map-pin-fill icon"></i> 5 km</li>
@@ -1245,7 +1121,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-4.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-4.png' %}"
                                             alt="vp-4">
                                     </a>
                                 </div>
@@ -1276,7 +1152,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-5.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-5.png' %}"
                                             alt="vp-5">
                                     </a>
                                 </div>
@@ -1305,7 +1181,7 @@
                             <div class="vertical-product-box">
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
-                                        <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-6.png"
+                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-6.png' %}"
                                             alt="vp16">
                                     </a>
                                     <div class="offers">
@@ -1341,13 +1217,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-7.png" alt="vp-7">
+                                            src="{% static 'customer/assets/images/product/vp-7.png' %}" alt="vp-7">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -1382,13 +1258,13 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
                                 <div class="seller-badge">
-                                    <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
+                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
                                     <h6>Exclusive</h6>
                                 </div>
                                 <div class="vertical-product-box-img">
                                     <a href="menu-listing.html">
                                         <img class="vertical-product-img-top w-100 bg-img"
-                                            src="assets/images/product/vp-8.png" alt="vp-8">
+                                            src="{% static 'customer/assets/images/product/vp-8.png' %}" alt="vp-8">
                                     </a>
                                     <div class="offers">
                                         <h6>upto $2</h6>
@@ -1427,462 +1303,5 @@
     </section>
     <!-- featured Restaurants section end -->
 
-    <!-- brand section starts -->
-    <section class="brand-section">
-        <img class="img-fluid item-4" src="assets/images/svg/item4.svg" alt="item-4">
-        <div class="container">
-            <div class="title">
-                <h2>Brand For You</h2>
-                <div class="loader-line"></div>
-                <div class="sub-title">
-                    <p>
-                        Browse out top brands here to discover different food cuision.
-                    </p>
-                </div>
-            </div>
-            <div class="theme-arrow">
-                <div class="swiper brands-logo">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand1.png" alt="brand1">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>La Pino’z</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand2.png" alt="brand2">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Mc'd</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand3.png" alt="brand3">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Starbucks</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand4.png" alt="brand2">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Pizza Hut</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand5.png" alt="brand2">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Wendy's</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand6.png" alt="brand6">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Burger King</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand7.png" alt="brand7">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Subway</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand8.png" alt="brand8">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Domino's</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand9.png" alt="brand9">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Taco Bell</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand10.png" alt="brand5">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>Chipotle</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="brand-box">
-                                <a href="menu-listing.html" class="food-brands">
-                                    <img class="img-fluid brand-img" src="assets/images/icons/brand11.png"
-                                        alt="brand11">
-                                </a>
-                                <a href="menu-listing.html">
-                                    <h4>KFC</h4>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="swiper-button-next brand-next"></div>
-                <div class="swiper-button-prev brand-prev"></div>
-            </div>
-        </div>
-    </section>
-    <!-- brand section end -->
-
-    <!-- popular restaurant section starts -->
-    <section class="popular-restaurant section-b-space ratio3_2 overflow-hidden">
-        <img class="img-fluid item-5" src="assets/images/svg/item5.svg" alt="item-5">
-        <div class="container">
-            <div class="title">
-                <h2>Popular Restaurants</h2>
-                <div class="loader-line"></div>
-                <div class="sub-title">
-                    <p>Find nearby popular Restaurants.</p>
-                </div>
-            </div>
-            <div class="row g-4">
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-1.png"
-                                    alt="vp1">
-                            </a>
-                            <div class="offers">
-                                <h6>upto $2</h6>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h4>50% OFF</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Poultry Palace</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.9
-                                </h6>
-                            </div>
-                            <h5 class="product-items">Chicken quesadilla, avocado....</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">New Jsercy</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 3.2 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 25 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="seller-badge new-badge">
-                            <img class="img-fluid badge" src="assets/images/svg/star-white.svg" alt="medal">
-                            <h6>Newest</h6>
-                        </div>
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="vertical-product-img-top w-100 bg-img" src="assets/images/product/vp-2.png"
-                                    alt="vp-2">
-                            </a>
-                            <div class="offers">
-                                <h6>upto $2</h6>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h4>50% OFF</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Ribeye Junction</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.2
-                                </h6>
-                            </div>
-                            <h5 class="product-items">Chicken quesadilla, avocado....</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">California</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 1 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 10 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-3.png"
-                                    alt="vp3">
-                            </a>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">
-                                        The Grill Master's Cafe
-                                    </h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>4.3
-                                </h6>
-                            </div>
-                            <h5 class="product-items">Bread, Eggs, Butter, Fries...</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">New York</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 5 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 40 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-4.png"
-                                    alt="vp-4">
-                            </a>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Cozy Cuppa Cafe</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.6
-                                </h6>
-                            </div>
-                            <h5 class="product-items">cheesecake, waffles, Cakes,...</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">Dallas</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 4 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 30 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-5.png"
-                                    alt="vp-5">
-                            </a>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Mocha Magic Cafe</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.2
-                                </h6>
-                            </div>
-                            <h5 class="product-items">Chinese, Momos, Dumplings,...</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">Seattle</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 1 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 8 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="product-img-top w-100 bg-img" src="assets/images/product/vp-6.png"
-                                    alt="vp16">
-                            </a>
-                            <div class="offers">
-                                <h6>upto $2</h6>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h4>50% OFF</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Latte Lounge</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.6
-                                </h6>
-                            </div>
-                            <h5 class="product-items">
-                                Chicken fingers, Chicken goujons,....
-                            </h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">Atlanta</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 3 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 25 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="seller-badge exclusive-badge">
-                            <img class="img-fluid badge" src="assets/images/svg/crown.svg" alt="medal">
-                            <h6>Best seller</h6>
-                        </div>
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="vertical-product-img-top w-100 bg-img" src="assets/images/product/vp-7.png"
-                                    alt="vp-7">
-                            </a>
-                            <div class="offers">
-                                <h6>upto $2</h6>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h4>50% OFF</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">The Burger Barn</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.8
-                                </h6>
-                            </div>
-                            <h5 class="product-items">
-                                Burger, Garlic Bread, Sandwich....
-                            </h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">Chicago</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 2.4 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 20 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                    <div class="vertical-product-box">
-                        <div class="seller-badge">
-                            <img class="img-fluid badge" src="assets/images/svg/medal-fill.svg" alt="medal">
-                            <h6>Exclusive</h6>
-                        </div>
-                        <div class="vertical-product-box-img">
-                            <a href="menu-listing.html">
-                                <img class="vertical-product-img-top w-100 bg-img" src="assets/images/product/vp-8.png"
-                                    alt="vp-8">
-                            </a>
-                            <div class="offers">
-                                <h6>upto $2</h6>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h4>50% OFF</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vertical-product-body">
-                            <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                <a href="menu-listing.html">
-                                    <h4 class="vertical-product-title">Wing Master</h4>
-                                </a>
-                                <h6 class="rating-star">
-                                    <span class="star"><i class="ri-star-s-fill"></i></span>3.2
-                                </h6>
-                            </div>
-                            <h5 class="product-items">Chicken quesadilla, avocado....</h5>
-                            <div
-                                class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                <h5 class="place">New York</h5>
-                                <ul class="distance">
-                                    <li><i class="ri-map-pin-fill icon"></i> 1.8 km</li>
-                                    <li><i class="ri-time-fill icon"></i> 12 min</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- popular restaurant section end -->
-
-    <!-- app section starts -->
-    <section class="app-section">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <div class="app-img">
-                    <img class="img-fluid phone" src="assets/images/service-phone.png" alt="app-phone">
-                </div>
-                <div class="app-content">
-                    <h2>Zomo App : Online & Mobile Ordering</h2>
-                    <h5>
-                        Get the app for free and place takeout orders online whenever you
-                        want.
-                    </h5>
-                    <div class="app-buttons d-flex align-items-center gap-3">
-                        <a href="https://www.apple.com/in/app-store/">
-                            <img class="img-fluid app-btn" src="assets/images/svg/app-store.svg" alt="app-store">
-                        </a>
-                        <a href="https://play.google.com/store/apps">
-                            <img class="img-fluid app-btn" src="assets/images/svg/google-play.svg" alt="google-play">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    </html>
+    
+    {%endblock content %}
