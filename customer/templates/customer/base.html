@@ -285,7 +285,7 @@
                     </span>
                 </button>
                 <a href="index-2.html">
-                    <img class="img-fluid logo" src="assets/images/svg/logo.svg" alt="logo">
+                    <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
                 </a>
                 <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
                     class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
@@ -303,7 +303,7 @@
                                 <li class="product-box-contain">
                                     <div class="drop-cart">
                                         <a href="#!" class="drop-image">
-                                            <img src="assets/images/product/vp-3.png" class="blur-up lazyloaded" alt="">
+                                            <img src="{% static 'customer/assets/images/product/vp-3.png' %}" class="blur-up lazyloaded" alt="">
                                         </a>
                                         <div class="drop-contain">
                                             <a href="#!">
@@ -319,7 +319,7 @@
                                 <li class="product-box-contain">
                                     <div class="drop-cart">
                                         <a href="#!" class="drop-image">
-                                            <img src="assets/images/product/vp-2.png" class="blur-up lazyloaded" alt="">
+                                            <img src="{% static 'customer/assets/images/product/vp-2.png' %}" class="blur-up lazyloaded" alt="">
                                         </a>
                                         <div class="drop-contain">
                                             <a href="#!">
@@ -344,7 +344,7 @@
                         </div>
                     </div>
                     <div class="profile-part dropdown-button order-md-2">
-                        <img class="img-fluid profile-pic" src="assets/images/icons/p5.png" alt="profile">
+                        <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
                         <div>
                             <h6 class="fw-normal">Hi, Mark Jecno</h6>
                             <h5 class="fw-medium">My Account</h5>
@@ -674,19 +674,6 @@
         </div>
     </div>
     <!-- location offcanvas end -->
-
-    <!-- theme btn start -->
-    <div class="theme-btns">
-        <button type="button" class="btntheme mode-change-button">
-            <i id="themeIcon" class="ri-moon-line icon mode-icon"></i>
-            <span class="text-value">Dark</span>
-        </button>
-        <button type="button" id="rtl-btn" class="btntheme rtlBtnEl">
-            <i class="ri-repeat-line icon"></i>
-            <span class="text-value">RTL</span>
-        </button>
-    </div>
-    <!-- theme btn end -->
 
     <!-- tap to top start -->
     <button class="scroll scroll-to-top">
