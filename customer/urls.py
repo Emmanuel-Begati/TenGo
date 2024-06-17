@@ -23,4 +23,10 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('restaurant-listing/', views.restaurant_listing, name='restaurant-listing'),
     path('saved-address/', views.saved_address, name='saved-address'),
+    path('saved-card/', views.saved_card, name='saved-card'),
+    path('settings/', views.settings, name='settings'),
+    path('testimonials/', views.testimonials, name='testimonials'),
+    path('wishlist/', views.wishlist, name='wishlist'),
+    path('menu-grid/', views.menu_grid, name='menu-grid'),
+    path('menu-listing/', views.menu_listing, name='menu-listing'),
 ]

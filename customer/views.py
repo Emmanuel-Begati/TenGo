@@ -57,3 +57,21 @@ def restaurant_listing(request):
 
 def saved_address(request):
     return render(request, 'customer/saved-address.html')
+
+def saved_card(request):
+    return render(request, 'customer/saved-card.html')
+
+def settings(request):
+    return render(request, 'customer/settings.html')
+
+def testimonials(request):
+    return render(request, 'customer/testimonials.html')
+
+def wishlist(request):
+    return render(request, 'customer/wishlist.html')
+
+def menu_grid(request):
+    return render(request, 'customer/menu-grid.html')
+
+def menu_listing(request):
+    return render(request, 'customer/menu-listing.html')
