@@ -30,3 +30,6 @@ def coming_soon(request):
 
 def confirm_order(request):
     return render(request, 'customer/confirm-order.html')
+
+def faq(request):
+    return render(request, 'customer/faq.html')
