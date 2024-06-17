@@ -18,3 +18,15 @@ def login(request):
 
 def signup(request):
     return render(request, 'customer/signup.html')
+
+def address(request):
+    return render(request, 'customer/address.html')
+
+def checkout(request):
+    return render(request, 'customer/checkout.html')
+
+def coming_soon(request):
+    return render(request, 'customer/coming-soon.html')
+
+def confirm_order(request):
+    return render(request, 'customer/confirm-order.html')
