@@ -17,4 +17,10 @@ urlpatterns = [
     path('faq/', views.faq, name='faq'),
     path('my-order/', views.my_order, name='my-order'),
     path('offer/', views.offer, name='offer'),
+    path('order-tracking/', views.order_tracking, name='order-tracking'),
+    path('otp/', views.otp, name='otp'),
+    path('payment/', views.payment, name='payment'),
+    path('profile/', views.profile, name='profile'),
+    path('restaurant-listing/', views.restaurant_listing, name='restaurant-listing'),
+    path('saved-address/', views.saved_address, name='saved-address'),
 ]

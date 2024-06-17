@@ -39,3 +39,21 @@ def my_order(request):
 
 def offer(request):
     return render(request, 'customer/offer.html')
+
+def order_tracking(request):
+    return render(request, 'customer/order-tracking.html')
+
+def otp(request):
+    return render(request, 'customer/otp.html' )
+
+def payment(request):
+    return render(request, 'customer/payment.html')
+
+def profile(request):
+    return render(request, 'customer/profile.html')
+
+def restaurant_listing(request):
+    return render(request, 'customer/restaurant-listing.html')
+
+def saved_address(request):
+    return render(request, 'customer/saved-address.html')
