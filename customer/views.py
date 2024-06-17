@@ -33,3 +33,9 @@ def confirm_order(request):
 
 def faq(request):
     return render(request, 'customer/faq.html')
+
+def my_order(request):
+    return render(request, 'customer/my-order.html')
+
+def offer(request):
+    return render(request, 'customer/offer.html')
