@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from .models import MenuItem
+from django.views import View
 
 # Create your views here.
 def home(request):
@@ -75,3 +77,60 @@ def menu_grid(request):
 
 def menu_listing(request):
     return render(request, 'customer/menu-listing.html')
+
+class Order(View):
+    
+    def get(self, request, *args, **kwargs):
+        appetizers = MenuItem.objects.filter(category__name_contains='Appetizer')
+        desserts = MenuItem.objects.filter(category__name_contains='Dessert')
+        drinks = MenuItem.objects.filter(category__name_contains='Drink')
+        sandwiches = MenuItem.objects.filter(category__name_contains='Sandwich')
+        Best_Sellers = MenuItem.objects.filter(category__name_contains='Best Seller')
+        Special_Combos = MenuItem.objects.filter(category__name_contains='Special Combos')
+        wraps = MenuItem.objects.filter(category__name_contains='Wraps')
+        noodles = MenuItem.objects.filter(category__name_contains='Noodles')
+        pasta = MenuItem.objects.filter(category__name_contains='Pasta')
+        tacos = MenuItem.objects.filter(category__name_contains='Tacos')
+        
+        
+        context = {
+            'appetizers': appetizers,
+            'desserts': desserts,
+            'drinks': drinks,
+            'sandwiches': sandwiches,
+            'Best_Sellers': Best_Sellers,
+            'Special_Combos': Special_Combos,
+            'wraps': wraps,
+            'noodles': noodles,
+            'pasta': pasta,
+            'tacos': tacos,
+            
+        }   
+        return render(request, 'customer/order-detail.html', context)   
+    
+    def post(self, request, *args, **kwargs):
+        order_items = {
+            'items': []
+        }
+        items = request.POST.getlist('order')
+        for item in items:
+            menu_item = MenuItem.objects.get(pk__contains=int(item))
+            item_data = {
+                'id': menu_item.pk,
+                'name': menu_item.name,
+                'price': menu_item.price,
+            }
+            order_items['items'].append(item_data)
+            price = 0
+            item_ids = []
+            for item in order_items['items']:
+                price += item['price']
+                item_ids.append(item['id'])
+            
+            order = Order.objects.create(price=price)
+            order.items.add(*item_ids)
+            context = {
+                'items': order_items['items'],
+                'price': price,
+            }
+            return render(request, 'customer/order-detail.html', context)
