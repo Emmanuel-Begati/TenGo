@@ -1,8 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.conf import settings
 from django.contrib.auth.models import User
-
 
 
 class UserProfile(models.Model):
@@ -13,43 +10,33 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-class MenuItem(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    image = models.ImageField(upload_to='menu_images')
-    price = models.DecimalField(max_digits=6, decimal_places=2)
-    category = models.ManyToManyField('Category', related_name='item')
-    
-    def __str__(self):
-        return self.name
-    
-class Category(models.Model):
-    name = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.name
-    
-class Order(models.Model):
-    items = models.ManyToManyField('MenuItem', related_name='order', blank=True)
-    customer_name = models.CharField(max_length=100)
-    customer_address = models.TextField()
-    customer_phone = models.CharField(max_length=20)
-    total = models.DecimalField(max_digits=6, decimal_places=2)
-    order_time = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return f'Order: {self.order_time.strftime("%Y-%m-%d %H:%M")}'
-
-
-    
 
 class Address(models.Model):
-    user = models.ForeignKey('UserProfile', on_delete=models.CASCADE, related_name='user_address')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='addresses')
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
-    zip = models.CharField(max_length=10)
-    
+    zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
+
     def __str__(self):
-        return f'{self.user.username}\'s address'
+        return f'{self.user.user.username}\'s address'
+
+
+class Order(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='orders', null=True, blank=True, default=None)
+    restaurant = models.ForeignKey('restaurant.Restaurant', on_delete=models.CASCADE, related_name='orders', null=True, blank=True, default=None)
+    items = models.ManyToManyField('restaurant.MenuItem', related_name='orders')
+    total = models.DecimalField(max_digits=6, decimal_places=2)
+    order_time = models.DateTimeField(auto_now_add=True)
+    delivery_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[
+        ('Pending', 'Pending'),
+        ('Preparing', 'Preparing'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ], default='Pending')
+
+    def __str__(self):
+        return f'Order {self.id} by {self.user.user.username}'
+

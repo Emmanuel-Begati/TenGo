@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import MenuItem
+from restaurant.models import MenuItem
 from django.views import View
 
 # Create your views here.

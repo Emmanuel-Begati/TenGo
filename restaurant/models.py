@@ -1,1 +1,91 @@
-# from django.db import models
+from django.db import models
+from django.conf import settings
+
+class Restaurant(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    address = models.CharField(max_length=255)
+    phone = models.CharField(max_length=20)
+    email = models.EmailField()
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
+
+    def __str__(self):
+        return self.name
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer_orders')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders_at_restaurant')
+    total = models.DecimalField(max_digits=6, decimal_places=2)
+    order_time = models.DateTimeField(auto_now_add=True)
+    delivery_time = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[
+        ('Pending', 'Pending'),
+        ('Preparing', 'Preparing'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ], default='Pending')
+
+    def __str__(self):
+        return f'Order {self.id} - {self.restaurant.name}'
+
+class Menu(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menus')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return f'{self.name} - {self.restaurant.name}'
+
+class MenuItem(models.Model):
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu_items')
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    image = models.ImageField(upload_to='menu_items/')
+    is_available = models.BooleanField(default=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
+    customer_orders = models.ManyToManyField(Order, related_name='menu_items_ordered')  # Changed from 'items_ordered'
+
+    def __str__(self):
+        return f'{self.name} ({self.menu.name})'
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class Review(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    comment = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Review by {self.user.username} for {self.restaurant.name}'
+
+class DeliveryPerson(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='delivery_person')
+    phone = models.CharField(max_length=20)
+    vehicle_details = models.TextField()
+    is_available = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.user.username} (Delivery Person)'
+
+class Delivery(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='delivery')
+    delivery_person = models.ForeignKey(DeliveryPerson, on_delete=models.SET_NULL, null=True, related_name='deliveries')
+    delivery_time = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[
+        ('Pending', 'Pending'),
+        ('Picked Up', 'Picked Up'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ], default='Pending')
+
+    def __str__(self):
+        return f'Delivery for Order {self.order.id}'
