@@ -1,3 +1,5 @@
+# In restaurant/models.py (assuming this is your primary app)
+
 from django.db import models
 from django.conf import settings
 
@@ -11,22 +13,6 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
-
-class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer_orders')
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders_at_restaurant')
-    total = models.DecimalField(max_digits=6, decimal_places=2)
-    order_time = models.DateTimeField(auto_now_add=True)
-    delivery_time = models.DateTimeField(null=True, blank=True)
-    status = models.CharField(max_length=50, choices=[
-        ('Pending', 'Pending'),
-        ('Preparing', 'Preparing'),
-        ('Delivered', 'Delivered'),
-        ('Cancelled', 'Cancelled'),
-    ], default='Pending')
-
-    def __str__(self):
-        return f'Order {self.id} - {self.restaurant.name}'
 
 class Menu(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menus')
@@ -44,12 +30,10 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
-    customer_orders = models.ManyToManyField(Order, related_name='menu_items_ordered')  # Changed from 'items_ordered'
+    customer_orders = models.ManyToManyField('Order', related_name='menu_items')  # Use 'orders' as the related name
 
     def __str__(self):
         return f'{self.name} ({self.menu.name})'
-
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -77,7 +61,7 @@ class DeliveryPerson(models.Model):
         return f'{self.user.username} (Delivery Person)'
 
 class Delivery(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='delivery')
+    order = models.OneToOneField('Order', on_delete=models.CASCADE, related_name='delivery')
     delivery_person = models.ForeignKey(DeliveryPerson, on_delete=models.SET_NULL, null=True, related_name='deliveries')
     delivery_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=[
@@ -89,3 +73,31 @@ class Delivery(models.Model):
 
     def __str__(self):
         return f'Delivery for Order {self.order.id}'
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
+    items = models.ManyToManyField(MenuItem, related_name='orders')  # Consolidated here
+    total = models.DecimalField(max_digits=6, decimal_places=2)
+    order_time = models.DateTimeField(auto_now_add=True)
+    delivery_address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[
+        ('Pending', 'Pending'),
+        ('Preparing', 'Preparing'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ], default='Pending')
+
+    def __str__(self):
+        return f'Order {self.id} - {self.restaurant.name}'
+
+class Address(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='addresses')
+    country = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
+
+    def __str__(self):
+        return f'{self.user.username}\'s address'

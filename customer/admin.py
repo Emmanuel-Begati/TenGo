@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Order, UserProfile, Address
+from .models import UserProfile, Address, Cart, CartItem
 
 
-admin.site.register(Order)
 admin.site.register(UserProfile)
 admin.site.register(Address)
+admin.site.register(Cart)
+admin.site.register(CartItem)
 
 

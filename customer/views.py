@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from restaurant.models import MenuItem
 from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+
 
 # Create your views here.
 def home(request):
@@ -134,3 +138,32 @@ class Order(View):
                 'price': price,
             }
             return render(request, 'customer/order-detail.html', context)
+        
+from .models import MenuItem, Cart, CartItem
+
+@login_required
+def add_to_cart(request, menu_item):
+    menu_item = get_object_or_404(MenuItem, id=menu_item)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('cart_detail')
+
+@login_required
+def cart_detail(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.cartitem_set.all()
+    return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
+
+@login_required
+def remove_from_cart(request):
+    if request.method == 'POST':
+        cart_item_id = request.POST.get('cart_item_id')
+        cart_item = get_object_or_404(CartItem, id=cart_item_id)
+        cart_item.delete()
+        return JsonResponse({'message': 'Item removed from cart.'})
+    return JsonResponse({'error': 'Invalid request.'}, status=400)

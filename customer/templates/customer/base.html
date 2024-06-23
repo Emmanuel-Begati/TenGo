@@ -65,50 +65,39 @@
                             <i class="ri-shopping-cart-line text-white cart-bag"></i>
                         </div>
                         <div class="onhover-box">
-                            {% comment %} List of items in one's cart {% endcomment %}
-                            <ul class="cart-list">
-                                <li class="product-box-contain">
-                                    <div class="drop-cart">
-                                        <a href="#!" class="drop-image">
-                                            <img src="{% static 'customer/assets/images/product/vp-3.png' %}" class="blur-up lazyloaded" alt="">
-                                        </a>
-                                        <div class="drop-contain">
-                                            <a href="#!">
-                                                <h5>Egg Sandwich</h5>
-                                            </a>
-                                            <h6><span>1 x </span> $80.58</h6>
-                                            <button class="close-button close_button">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="product-box-contain">
-                                    <div class="drop-cart">
-                                        <a href="#!" class="drop-image">
-                                            <img src="{% static 'customer/assets/images/product/vp-2.png' %}" class="blur-up lazyloaded" alt="">
-                                        </a>
-                                        <div class="drop-contain">
-                                            <a href="#!">
-                                                <h5>Grilled Chicken Quesadilla</h5>
-                                            </a>
-                                            <h6><span>1 x </span> $25.64</h6>
-                                            <button class="close-button close_button">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </li>
+                            {% if cart_items %}
+                                <ul class="cart-list">
+                                    {% for cart_item in cart_items %}
+                                        <li class="product-box-contain">
+                                            <div class="drop-cart">
+                                                <a href="#!" class="drop-image">
+                                                    <img src="{{ cart_item.product.image.url }}" class="blur-up lazyloaded" alt="{{ cart_item.product.name }}">
+                                                </a>
+                                                <div class="drop-contain">
+                                                    <a href="#!">
+                                                        <h5>{{ cart_item.product.name }}</h5>
+                                                    </a>
+                                                    <h6><span>{{ cart_item.quantity }} x </span> ${{ cart_item.product.price }}</h6>
+                                                    <button class="close-button close_button" data-cart-item-id="{{ cart_item.id }}">
+                                                        <i class="fa-solid fa-xmark"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
-                            <div class="price-box">
-                                <h5>Total :</h5>
-                                <h4 class="theme-color fw-semibold">$155.00</h4>
-                            </div>
-                            <div class="button-group">
-                                <a href="checkout.html" class="btn btn-sm theme-btn w-100 d-block rounded-2">View
-                                    Cart</a>
-                            </div>
+                                <div class="price-box">
+                                    <h5>Total :</h5>
+                                    <h4 class="theme-color fw-semibold">${{ total_price }}</h4>
+                                </div>
+                                <div class="button-group">
+                                    <a href="{% url 'checkout' %}" class="btn btn-sm theme-btn w-100 d-block rounded-2">View Cart</a>
+                                </div>
+                            {% else %}
+                                <p>Your cart is empty.</p>
+                            {% endif %}
                         </div>
+                        
                     </div>
                     <div class="profile-part dropdown-button order-md-2">
                         <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
@@ -481,5 +470,31 @@
 
     <!-- script js -->
 <script src="{% static 'customer/assets/js/script.js' %}"></script> 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.close_button').on('click', function(e) {
+            e.preventDefault();
+            var cartItemId = $(this).data('cart-item-id');
+            $.ajax({
+                url: '{% url "remove_from_cart" %}',
+                method: 'POST',
+                data: {
+                    'cart_item_id': cartItemId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Update the cart view or remove the item from the DOM
+                    location.reload(); // Example: Reload the page after successful removal
+                },
+                error: function(error) {
+                    console.error('Error removing item from cart:', error);
+                }
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>

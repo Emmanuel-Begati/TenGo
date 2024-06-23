@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from restaurant.models import MenuItem
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-
+    phone = models.CharField(max_length=15, null=True, blank=True)
+    image = models.ImageField(upload_to='profile_pics', default='default.jpg')
+    
     def __str__(self):
         return self.user.username
 
@@ -22,21 +22,23 @@ class Address(models.Model):
     def __str__(self):
         return f'{self.user.user.username}\'s address'
 
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Cart of {self.user.username}"
+    
+    def total_price(self):
+        return sum(item.total_price() for item in self.cartitem_set.all())
 
-class Order(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='orders', null=True, blank=True, default=None)
-    restaurant = models.ForeignKey('restaurant.Restaurant', on_delete=models.CASCADE, related_name='orders', null=True, blank=True, default=None)
-    items = models.ManyToManyField('restaurant.MenuItem', related_name='orders')
-    total = models.DecimalField(max_digits=6, decimal_places=2)
-    order_time = models.DateTimeField(auto_now_add=True)
-    delivery_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
-    status = models.CharField(max_length=50, choices=[
-        ('Pending', 'Pending'),
-        ('Preparing', 'Preparing'),
-        ('Delivered', 'Delivered'),
-        ('Cancelled', 'Cancelled'),
-    ], default='Pending')
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
-        return f'Order {self.id} by {self.user.user.username}'
-
+        return f"{self.quantity} of {self.menu_item.name}"
+    
+    def total_price(self):
+        return self.quantity * self.MenuItem.price
