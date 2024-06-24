@@ -51,8 +51,9 @@
                         <i class="ri-menu-line"></i>
                     </span>
                 </button>
-                <a href="index-2.html">
+                <a href="{% url 'home' %}">
                     <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
+                </a>
                 </a>
                 <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
                     class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
@@ -114,19 +115,20 @@
                         <div class="onhover-box onhover-sm">
                             <ul class="menu-list">
                                 <li>
-                                    <a class="dropdown-item" href="profile.html">Profile</a>
+                                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="my-order.html">My orders</a>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'my-order' %}">My orders</a>
+                                    </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'saved-address' %}">Saved Address</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="saved-address.html">Saved Address</a>
+                                    <a class="dropdown-item" href="{% url 'saved-card' %}">Saved cards</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="saved-card.html">Saved cards</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="setting.html">Settings</a>
+                                    <a class="dropdown-item" href="{% url 'settings' %}">Settings</a>
                                 </li>
                             </ul>
                             <div class="bottom-btn">
@@ -145,17 +147,17 @@
                         <ul class="navbar-nav justify-content-center flex-grow-1">
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Home</a>
+                                <a class="nav-link" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Order</a>
+                                <a class="nav-link" href="{% url 'my-order' %}">Order</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Blog</a>
+                                <a class="nav-link" href="{% url 'about' %}">About</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
+                                <a class="nav-link" href="{% url 'contact' %}">Contact</a>
                             </li>
                         </ul>
                     </div>
@@ -241,22 +243,22 @@
                                 <h5 class="footer-title">Company</h5>
                                 <ul class="content">
                                     <li>
-                                        <a href="about.html">
+                                        <a href="{% url 'about' %}">
                                             <h6>About us</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{% url 'contact' %}">
                                             <h6>Contact us</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="offer.html">
+                                        <a href="{% url 'offer' %}">
                                             <h6>Offer</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="faq.html">
+                                        <a href="{% url 'faq' %}">
                                             <h6>FAQs</h6>
                                         </a>
                                     </li>
@@ -266,22 +268,22 @@
                                 <h5 class="footer-title">Account</h5>
                                 <ul class="content">
                                     <li>
-                                        <a href="my-order.html">
+                                        <a href="{% url 'my-order' %}">
                                             <h6>My orders</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="wishlist.html">
+                                        <a href="{% url 'wishlist' %}">
                                             <h6>Wishlist</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="checkout.html">
+                                        <a href="{% url 'checkout' %}">
                                             <h6>Shopping Cart</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="saved-address.html">
+                                        <a href="{% url 'saved-address' %}">
                                             <h6>Saved Address</h6>
                                         </a>
                                     </li>
@@ -290,28 +292,28 @@
                             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 col-12">
                                 <h5 class="footer-title">Useful links</h5>
                                 <ul class="content">
-                                    <li>
-                                        <a href="blog-grid-left-sidebar.html">
+                                    {% comment %} <li>
+                                        <a href="{% url 'blog_grid_left_sidebar' %}">
                                             <h6>Blogs</h6>
                                         </a>
-                                    </li>
+                                    </li> {% endcomment %}
                                     <li>
-                                        <a href="signin.html">
+                                        <a href="{% url 'login' %}">
                                             <h6>Login</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="signup.html">
+                                        <a href="{% url 'signup' %}">
                                             <h6>Register</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="profile.html">
+                                        <a href="{% url 'profile' %}">
                                             <h6>Profile</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="setting.html">
+                                        <a href="{% url 'settings' %}">
                                             <h6>Settings</h6>
                                         </a>
                                     </li>
@@ -321,27 +323,27 @@
                                 <h5 class="footer-title">Top Brands</h5>
                                 <ul class="content">
                                     <li>
-                                        <a href="menu-listing.html">
+                                        <a href="{% url 'menu-listing' %}">
                                             <h6>PizzaBoy</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="menu-listing.html">
+                                        <a href="{% url 'menu-listing' %}">
                                             <h6>Saladish</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="menu-listing.html">
+                                        <a href="{% url 'menu-listing' %}">
                                             <h6>IcePops</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="menu-listing.html">
+                                        <a href="{% url 'menu-listing' %}">
                                             <h6>Maxican Hoy</h6>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="menu-listing.html">
+                                        <a href="{% url 'menu-listing' %}">
                                             <h6>La Foodie</h6>
                                         </a>
                                     </li>
@@ -365,28 +367,28 @@
     <div class="mobile-menu d-md-none d-block mobile-cart">
         <ul>
             <li class="active">
-                <a href="index-2.html" class="menu-box">
-                    <i class="ri-home-4-line"></i>
-                    <span>Home</span>
-                </a>
+            <a href="{% url 'home' %}" class="menu-box">
+                <i class="ri-home-4-line"></i>
+                <span>Home</span>
+            </a>
             </li>
             <li class="mobile-category">
-                <a href="#!" class="menu-box">
-                    <i class="ri-apps-line"></i>
-                    <span>Category</span>
-                </a>
+            <a href="#!" class="menu-box">
+                <i class="ri-apps-line"></i>
+                <span>Category</span>
+            </a>
             </li>
             <li>
-                <a href="wishlist.html" class="menu-box">
-                    <i class="ri-heart-3-line"></i>
-                    <span>Wishlist</span>
-                </a>
+            <a href="{% url 'wishlist' %}" class="menu-box">
+                <i class="ri-heart-3-line"></i>
+                <span>Wishlist</span>
+            </a>
             </li>
             <li>
-                <a href="checkout.html" class="menu-box">
-                    <i class="ri-shopping-cart-2-line"></i>
-                    <span>Cart</span>
-                </a>
+            <a href="{% url 'checkout' %}" class="menu-box">
+                <i class="ri-shopping-cart-2-line"></i>
+                <span>Cart</span>
+            </a>
             </li>
         </ul>
     </div>

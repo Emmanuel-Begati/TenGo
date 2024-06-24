@@ -6,85 +6,109 @@ from django.http import JsonResponse
 from django.contrib.auth.models import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
+from .models import MenuItem, Cart, CartItem
 
 
-
-
-# Create your views here.
-def home(request):
+def cart_content(request):
+    context = {}
     if request.user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_items = cart.cart_items.all()  # Use related_name here
-        print (cart_items)  # Print the cart items to the console
-        
-        return render(request, 'customer/index.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
-    return render(request, 'customer/index.html')
+        cart = Cart.objects.get(user=request.user)
+        cart_items = cart.cart_items.all()
+        total_price = cart.total_price()
+        context = {'cart_items': cart_items, 'total_price': total_price}
+    return context
 
+@login_required
+def home(request):
+    return render(request, 'customer/index.html', context=cart_content(request))
+
+@login_required
 def about(request):
-    return render(request, 'customer/about.html')
+    return render(request, 'customer/about.html', context=cart_content(request))
 
+@login_required
 def contact(request):
-    return render(request, 'customer/contact.html')
+    return render(request, 'customer/contact.html', context=cart_content(request))
 
+@login_required
 def base(request):
-    return render(request, 'customer/base.html')
+    return render(request, 'customer/base.html', context=cart_content(request))
 
+@login_required
 def address(request):
-    return render(request, 'customer/address.html')
+    return render(request, 'customer/address.html', context=cart_content(request))
 
+@login_required
 def checkout(request):
-    return render(request, 'customer/checkout.html')
+    return render(request, 'customer/checkout.html', context=cart_content(request))
 
+@login_required
 def coming_soon(request):
-    return render(request, 'customer/coming-soon.html')
+    return render(request, 'customer/coming-soon.html', context=cart_content(request))
 
+@login_required
 def confirm_order(request):
-    return render(request, 'customer/confirm-order.html')
+    return render(request, 'customer/confirm-order.html', context=cart_content(request))
 
+@login_required
 def faq(request):
-    return render(request, 'customer/faq.html')
+    return render(request, 'customer/faq.html', context=cart_content(request))
 
+@login_required
 def my_order(request):
-    return render(request, 'customer/my-order.html')
+    return render(request, 'customer/my-order.html', context=cart_content(request))
 
+@login_required
 def offer(request):
-    return render(request, 'customer/offer.html')
+    return render(request, 'customer/offer.html', context=cart_content(request))
 
+@login_required
 def order_tracking(request):
-    return render(request, 'customer/order-tracking.html')
+    return render(request, 'customer/order-tracking.html', context=cart_content(request))
 
+@login_required
 def otp(request):
-    return render(request, 'customer/otp.html' )
+    return render(request, 'customer/otp.html', context=cart_content(request))
 
+@login_required
 def payment(request):
-    return render(request, 'customer/payment.html')
+    return render(request, 'customer/payment.html', context=cart_content(request))
 
+@login_required
 def profile(request):
-    return render(request, 'customer/profile.html')
+    return render(request, 'customer/profile.html', context=cart_content(request))
 
+@login_required
 def restaurant_listing(request):
-    return render(request, 'customer/restaurant-listing.html')
+    return render(request, 'customer/restaurant-listing.html', context=cart_content(request))
 
+@login_required
 def saved_address(request):
-    return render(request, 'customer/saved-address.html')
+    return render(request, 'customer/saved-address.html', context=cart_content(request))
 
+@login_required
 def saved_card(request):
-    return render(request, 'customer/saved-card.html')
+    return render(request, 'customer/saved-card.html', context=cart_content(request))
 
+@login_required
 def settings(request):
-    return render(request, 'customer/settings.html')
+    return render(request, 'customer/settings.html', context=cart_content(request))
 
+@login_required
 def testimonials(request):
-    return render(request, 'customer/testimonials.html')
+    return render(request, 'customer/testimonials.html', context=cart_content(request))
 
+@login_required
 def wishlist(request):
-    return render(request, 'customer/wishlist.html')
+    return render(request, 'customer/wishlist.html', context=cart_content(request))
 
+@login_required
 def menu_grid(request):
-    return render(request, 'customer/menu-grid.html')
+    return render(request, 'customer/menu-grid.html', context=cart_content(request))
 
+@login_required
 def menu_listing(request):
-    return render(request, 'customer/menu-listing.html')
+    return render(request, 'customer/menu-listing.html', context=cart_content(request))
 
 class Order(View):
     
@@ -142,8 +166,7 @@ class Order(View):
                 'price': price,
             }
             return render(request, 'customer/order-detail.html', context)
-        
-from .models import MenuItem, Cart, CartItem
+
 
 @login_required
 def add_to_cart(request, menu_item):
