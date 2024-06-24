@@ -14827,7 +14827,7 @@ body.dark .login-hero-section {
 }
 /*# sourceMappingURL=style.css.map */
 
-#id_first_name, #id_last_name, #id_email, #id_password1, #id_password2, #id_username, #id_phone, #id_address, #id_city, #id_zip_code, #id_country, #id_state, #id_image, #id_description, #id_category, #id_price, #id_discount_price, #id_quantity, #id_delivery_time, #id_delivery_charge, #id_tax, #id_order_id, #id_payment_id, #id_payment_method, #id_payment_status, #id_order_status, #id_user, #id_product, #id_coupon, #id_coupon_code, #id_coupon_type, #id_coupon_amount, #id_min_order_amount, #id_start_date, #id_end_date, #id_min_amount, #id_max_discount_amount, #id_max_use, #id_used_by, #id_image, #id_is_active, #id_is_featured, #id_is_default, #id_is_verified, #id_role{
+#id_first_name, #id_last_name, #id_email, #id_password, #id_password1, #id_password2, #id_username, #id_phone, #id_address, #id_city, #id_zip_code, #id_country, #id_state, #id_image, #id_description, #id_category, #id_price, #id_discount_price, #id_quantity, #id_delivery_time, #id_delivery_charge, #id_tax, #id_order_id, #id_payment_id, #id_payment_method, #id_payment_status, #id_order_status, #id_user, #id_product, #id_coupon, #id_coupon_code, #id_coupon_type, #id_coupon_amount, #id_min_order_amount, #id_start_date, #id_end_date, #id_min_amount, #id_max_discount_amount, #id_max_use, #id_used_by, #id_image, #id_is_active, #id_is_featured, #id_is_default, #id_is_verified, #id_role{
   color: rgba(var(--content-color), 1);
   background-color: rgba(var(--box-bg), 1);
   border: none;

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, CustomAuthenticationForm
 
 def signup(request):
     if request.method == 'POST':
@@ -15,14 +15,14 @@ def signup(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = UserLoginForm(request, data=request.POST)
+        form = CustomAuthenticationForm(request, request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
+            login(request, form.get_user())
+            # Redirect to a success page after login
+            return redirect('home')  # Replace with your success URL name
+        else:
+            print(form.errors)  
     else:
-        form = UserLoginForm()
+        form = CustomAuthenticationForm(request)
+
     return render(request, 'user/login.html', {'form': form})

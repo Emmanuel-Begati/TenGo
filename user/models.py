@@ -29,20 +29,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('restaurant', 'Restaurant'),
         ('delivery_person', 'Delivery Person'),
     ]
-
+    
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     is_active = models.BooleanField(_('active'), default=True)
     is_staff = models.BooleanField(_('staff status'), default=False)
     role = models.CharField(max_length=15, choices=ROLE_CHOICES, default='customer')
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)  # Added 'date_joined' field
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     groups = models.ManyToManyField(Group, related_name='custom_user_set', blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name='custom_user_permissions_set', blank=True)
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email'  # Set email as the unique identifier for authentication
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def __str__(self):

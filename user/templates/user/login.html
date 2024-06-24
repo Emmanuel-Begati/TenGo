@@ -1,3 +1,5 @@
+<!-- login.html -->
+
 {% extends "customer/base.html" %}
 {% load static %}
 
@@ -11,23 +13,38 @@
         <div class="row">
             <div class="col-xl-5 col-lg-6 col-md-10 m-auto">
                 <div class="login-data">
-                    <form class="auth-form">
+                    <form method="post" class="auth-form">
+                        {% csrf_token %}
                         <h2>Sign in</h2>
                         <h5>
                             or
-                            <a href="signup.html"><span class="theme-color">create an a account</span></a>
+                            <a href="{% url 'signup' %}"><span class="theme-color">create an account</span></a>
                         </h5>
+
+                        <!-- Display form fields -->
                         <div class="form-input">
-                            <input type="tel" class="form-control" placeholder="Enter your number">
-                            <i class="ri-phone-line"></i>
+                            {{ form.username }}
+                            <i class="ri-mail-line"></i>
                         </div>
                         <div class="form-input">
-                            <input type="password" class="form-control" placeholder="Enter your password">
+                            {{ form.password }}
                             <i class="ri-lock-password-line"></i>
                         </div>
-                        <a href="index-2.html" class="btn theme-btn submit-btn w-100 rounded-2">CONTINUE</a>
+
+                        <!-- Display form errors -->
+                        {% if form.errors %}
+                            <ul class="errorlist">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <button type="submit" class="btn theme-btn submit-btn w-100 rounded-2">CONTINUE</button>
                         <p class="fw-normal content-color">
-                            By creating an account, I accept the
+                            By signing in, I accept the
                             <span class="fw-semibold">
                                 Terms & Conditions & Privacy Policy</span>
                         </p>
