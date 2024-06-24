@@ -2,6 +2,8 @@
 
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
+
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -9,7 +11,7 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='restaurants')
 
     def __str__(self):
         return self.name
@@ -42,7 +44,7 @@ class Category(models.Model):
         return self.name
 
 class Review(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
@@ -52,7 +54,7 @@ class Review(models.Model):
         return f'Review by {self.user.username} for {self.restaurant.name}'
 
 class DeliveryPerson(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='delivery_person')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='delivery_person')
     phone = models.CharField(max_length=20)
     vehicle_details = models.TextField()
     is_available = models.BooleanField(default=True)
@@ -75,7 +77,7 @@ class Delivery(models.Model):
         return f'Delivery for Order {self.order.id}'
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
     items = models.ManyToManyField(MenuItem, related_name='orders')  # Consolidated here
     total = models.DecimalField(max_digits=6, decimal_places=2)
@@ -92,7 +94,7 @@ class Order(models.Model):
         return f'Order {self.id} - {self.restaurant.name}'
 
 class Address(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='addresses')
+    restaurant_related = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
