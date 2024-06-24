@@ -24,48 +24,6 @@ def contact(request):
 def base(request):
     return render(request, 'customer/base.html')
 
-# def signup(request):
-#     if request.method == 'POST':
-#         email = request.POST['email']
-#         password1 = request.POST['password1']
-#         password2 = request.POST['password2']
-
-#         if password1 == password2:
-#             username = email.split('@')[0]  # Generate username from email
-#             if User.objects.filter(username=username).exists():
-#                 messages.error(request, 'Username already taken.')
-#             elif User.objects.filter(email=email).exists():
-#                 messages.error(request, 'Email already registered.')
-#             else:
-#                 user = User.objects.create_user(username=username, email=email, password=password1)
-#                 user.save()
-#                 messages.success(request, 'Account created successfully!')
-#                 return redirect('signup')
-#         else:
-#             messages.error(request, 'Passwords do not match.')
-
-#     return render(request, 'customer/signup.html')
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         email = request.POST['email']
-#         password = request.POST['password']
-
-#         # Assuming the username is the email without the domain part
-#         username = email.split('@')[0]
-
-#         # Authenticate the user
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('home')
-#         else:
-#             messages.error(request, 'Invalid email or password.')
-    
-#     return render(request, 'customer/login.html')
-
-# Sample home view to redirect to after login
 def home(request):
     return render(request, 'customer/index.html')
 def address(request):
