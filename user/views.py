@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from .forms import UserRegistrationForm, UserLoginForm
 
-def register(request):
+def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -11,9 +11,9 @@ def register(request):
             return redirect('home')
     else:
         form = UserRegistrationForm()
-    return render(request, 'user/register.html', {'form': form})
+    return render(request, 'user/signup.html', {'form': form})
 
-def user_login(request):
+def login_view(request):
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
