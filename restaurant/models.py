@@ -30,7 +30,6 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
-    customer_orders = models.ManyToManyField('Order', related_name='menu_items')
 
     def __str__(self):
         return f'{self.name} ({self.menu.name})'

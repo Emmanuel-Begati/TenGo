@@ -24,10 +24,10 @@ class Cart(models.Model):
         return f"Cart of {self.user.email}"
     
     def total_price(self):
-        return sum(item.total_price() for item in self.cartitem_set.all())
+        return sum(item.total_price() for item in self.cart_items.all())
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE)
     menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 

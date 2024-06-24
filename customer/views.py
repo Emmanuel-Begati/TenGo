@@ -3,7 +3,6 @@ from restaurant.models import MenuItem
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -13,6 +12,12 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_items = cart.cart_items.all()  # Use related_name here
+        print (cart_items)  # Print the cart items to the console
+        
+        return render(request, 'customer/index.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
     return render(request, 'customer/index.html')
 
 def about(request):
@@ -24,8 +29,6 @@ def contact(request):
 def base(request):
     return render(request, 'customer/base.html')
 
-def home(request):
-    return render(request, 'customer/index.html')
 def address(request):
     return render(request, 'customer/address.html')
 
@@ -157,8 +160,10 @@ def add_to_cart(request, menu_item):
 @login_required
 def cart_detail(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = cart.cartitem_set.all()
+    cart_items = cart.cart_items.all()  # Use related_name here
+    print (cart_items)  # Print the cart items to the console
     return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
+
 
 @login_required
 def remove_from_cart(request):
@@ -168,3 +173,8 @@ def remove_from_cart(request):
         cart_item.delete()
         return JsonResponse({'message': 'Item removed from cart.'})
     return JsonResponse({'error': 'Invalid request.'}, status=400)
+
+@login_required
+def empty_cart(request):
+    
+    return render(request, 'customer/empty-cart.html')

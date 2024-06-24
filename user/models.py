@@ -29,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('restaurant', 'Restaurant'),
         ('delivery_person', 'Delivery Person'),
     ]
-    
+
     email = models.EmailField(_('email address'), unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
