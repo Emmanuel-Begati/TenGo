@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import UserRegistrationForm, UserLoginForm, CustomAuthenticationForm
+from .forms import UserRegistrationForm, UserLoginForm
 
 def signup(request):
     if request.method == 'POST':
@@ -15,14 +15,12 @@ def signup(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, request.POST)
+        form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            # Redirect to a success page after login
-            return redirect('home')  # Replace with your success URL name
+            return redirect('home')  # Replace 'home' with your desired redirect URL
         else:
-            print(form.errors)  
+            print(form.errors)
     else:
-        form = CustomAuthenticationForm(request)
-
+        form = UserLoginForm(request)
     return render(request, 'user/login.html', {'form': form})
