@@ -1,9 +1,11 @@
+# customer/models.py
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from restaurant.models import MenuItem
+from user.models import User
 
 class Address(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer_addresses', null=True, blank=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -11,14 +13,15 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
 
     def __str__(self):
-        return f'{self.user.user.username}\'s address'
+        return f'{self.customer.email}\'s address'
+
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
-        return f"Cart of {self.user.username}"
+        return f"Cart of {self.user.email}"
     
     def total_price(self):
         return sum(item.total_price() for item in self.cartitem_set.all())
@@ -30,6 +33,6 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.menu_item.name}"
-    
+
     def total_price(self):
-        return self.quantity * self.MenuItem.price
+        return self.quantity * self.menu_item.price

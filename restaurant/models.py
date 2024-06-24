@@ -1,9 +1,7 @@
-# In restaurant/models.py (assuming this is your primary app)
-
+# restaurant/models.py
 from django.db import models
-from django.conf import settings
-from django.contrib.auth.models import User
-
+from django.conf import settings  # Updated to use settings.AUTH_USER_MODEL
+from user.models import User
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -11,7 +9,7 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     email = models.EmailField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='restaurants')
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
 
     def __str__(self):
         return self.name
@@ -32,7 +30,7 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
-    customer_orders = models.ManyToManyField('Order', related_name='menu_items')  # Use 'orders' as the related name
+    customer_orders = models.ManyToManyField('Order', related_name='menu_items')
 
     def __str__(self):
         return f'{self.name} ({self.menu.name})'
@@ -44,23 +42,23 @@ class Category(models.Model):
         return self.name
 
 class Review(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='reviews')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='reviews')
     rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
     comment = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'Review by {self.user.username} for {self.restaurant.name}'
+        return f'Review by {self.user.email} for {self.restaurant.name}'
 
 class DeliveryPerson(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='delivery_person')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='delivery_person')
     phone = models.CharField(max_length=20)
     vehicle_details = models.TextField()
     is_available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.user.username} (Delivery Person)'
+        return f'{self.user.email} (Delivery Person)'
 
 class Delivery(models.Model):
     order = models.OneToOneField('Order', on_delete=models.CASCADE, related_name='delivery')
@@ -77,9 +75,9 @@ class Delivery(models.Model):
         return f'Delivery for Order {self.order.id}'
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
-    items = models.ManyToManyField(MenuItem, related_name='orders')  # Consolidated here
+    items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
     delivery_address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True)
@@ -94,7 +92,7 @@ class Order(models.Model):
         return f'Order {self.id} - {self.restaurant.name}'
 
 class Address(models.Model):
-    restaurant_related = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')
+    restaurant_related = models.ForeignKey(User, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -102,4 +100,4 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
 
     def __str__(self):
-        return f'{self.user.username}\'s address'
+        return f'{self.restaurant_related.email}\'s address'
