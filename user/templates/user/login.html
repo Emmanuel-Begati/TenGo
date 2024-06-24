@@ -1,5 +1,4 @@
 <!-- login.html -->
-
 {% extends "customer/base.html" %}
 {% load static %}
 
@@ -25,20 +24,33 @@
                         <div class="form-input">
                             {{ form.username }}
                             <i class="ri-mail-line"></i>
+                            <!-- Display errors for username field -->
+                            {% for error in form.username.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.password }}
                             <i class="ri-lock-password-line"></i>
+                            <!-- Display errors for password field -->
+                            {% for error in form.password.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
 
-                        <!-- Display form errors -->
-                        {% if form.errors %}
-                            <ul class="errorlist">
-                                {% for field in form %}
-                                    {% for error in field.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
+                        <!-- Display non-field errors -->
+                        {% if form.non_field_errors %}
+                            <ul class="errorlist" id="error-messages">
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
                                 {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <!-- Display success message (if any) -->
+                        {% if success_message %}
+                            <ul class="successlist" id="success-message">
+                                <li>{{ success_message }}</li>
                             </ul>
                         {% endif %}
 

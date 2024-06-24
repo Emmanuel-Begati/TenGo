@@ -14840,3 +14840,15 @@ body.dark .login-hero-section {
   margin-bottom: 20px;
   
 }
+
+/* Error messages */
+#error-messages {
+  color: red;  /* Red color for error messages */
+  /* Add other styles as needed */
+}
+
+/* Success message */
+#success-message {
+  color: green;  /* Green color for success message */
+  /* Add other styles as needed */
+}
