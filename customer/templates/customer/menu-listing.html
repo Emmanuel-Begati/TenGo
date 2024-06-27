@@ -242,6 +242,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-8">
+                                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
                                         <div class="product-box-section section-b-space">
                                             <div data-bs-spy="scroll" data-bs-target="#navbar"data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">                                                 <div class="product-details-box-list">                                                     <div class="product-details-box-title pt-0">                                                         Best Seller                                                     </div>                                                     <div id="item-1">                                                         <div class="product-details-box">                                                             <div class="product-img">                                                                 <img class="img-fluid img"                                                                     src="{% static 'customer/assets/images/menu/13.jpg' %}" alt="rp1">g                                                            </div>                                                             <div class="product-content">                                                                 <div class="description d-flex align-items-center justify-content-between">t                                                                    <div>
                                                                         <div class="d-flex align-items-center gap-2">
@@ -1041,7 +1043,6 @@
         </div>
     </section>
     <!-- tab section end -->
-{% endblock content%}
 
 <!-- cart fix panel -->
 <div class="fixed-btn d-lg-none d-block">
@@ -1193,3 +1194,6 @@
 <!-- Bg Overlay Start -->
 <div class="bg-overlay" id="overlay"></div>
 <!-- Bg Overlay end -->
+
+
+{% endblock content%}

@@ -168,17 +168,6 @@ class Order(View):
             return render(request, 'customer/order-detail.html', context)
 
 
-@login_required
-def add_to_cart(request, menu_item):
-    menu_item = get_object_or_404(MenuItem, id=menu_item)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
-    if not created:
-        cart_item.quantity += 1
-        cart_item.save()
-
-    return redirect('cart_detail')
 
 @login_required
 def cart_detail(request):
