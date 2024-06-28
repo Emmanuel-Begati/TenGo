@@ -283,8 +283,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $40
                                                                         </h2>
-                                                                        <a href="#customized" class="btn theme-outline add-btn mt-0" data-bs-toggle="modal">+Add</a>
-                                                                    </div>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -339,8 +338,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $30 <span>/ <del>$60</del></span>
                                                                         </h2>
-                                                                        <a href="#customized" class="btn theme-outline add-btn mt-0" data-bs-toggle="modal">+Add</a>
-                                                                    </div>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -393,8 +391,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $26
                                                                         </h2>
-                                                                        <a href="#" class="btn theme-outline add-btn mt-0">+Add</a>
-                                                                    </div>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -444,7 +441,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $30
                                                                         </h2>
-                                                                        <a href="#customized" class="btn theme-outline add-btn mt-0" data-bs-toggle="modal">+Add</a>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>                                                                    </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -500,8 +497,9 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $40
                                                                         </h2>
-                                                                        <a href="#"
-                                                                            class="btn theme-outline add-btn mt-0">+Add</a>
+                                                                        btn theme-outline add-btn mt-0 data-bs-toggle="modal"
+                                                                        
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>                                                                    </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -553,7 +551,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $50
                                                                         </h2>
-                                                                        <a href="#" class="btn theme-outline add-btn mt-0">+Add</a>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -604,7 +602,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $46
                                                                         </h2>
-                                                                        <a href="#" class="btn theme-outline add-btn mt-0">+Add</a>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -658,7 +656,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $20
                                                                         </h2>
-                                                                        <a href="#" class="btn theme-outline add-btn mt-0">+Add</a>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -712,8 +710,7 @@
                                                                         <h2 class="theme-color fw-semibold">
                                                                             $12
                                                                         </h2>
-                                                                        <a href="#"
-                                                                            class="btn theme-outline add-btn mt-0">+Add</a>
+                                                                        <a href="#" class="add-to-cart-btn btn theme-outline add-btn mt-0" data-bs-toggle="modal" data-menu-item-id="{{ menu_item.id }}">+Add</a>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -1195,5 +1192,29 @@
 <div class="bg-overlay" id="overlay"></div>
 <!-- Bg Overlay end -->
 
+<script>
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const menuItemId = this.getAttribute('data-menu-item-id');
+            fetch('/add_to_cart/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ menu_item_id: menuItemId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    alert('Item added to cart');
+                    // Update UI accordingly
+                } else {
+                    alert('Failed to add item to cart');
+                }
+            });
+        });
+    });
+    </script>
 
 {% endblock content%}

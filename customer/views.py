@@ -7,6 +7,9 @@ from django.contrib.auth.models import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import MenuItem, Cart, CartItem
+from django.views.decorators.http import require_POST
+import json
+
 
 
 def cart_content(request):
@@ -110,83 +113,45 @@ def menu_grid(request):
 def menu_listing(request):
     return render(request, 'customer/menu-listing.html', context=cart_content(request))
 
-class Order(View):
-    
-    def get(self, request, *args, **kwargs):
-        appetizers = MenuItem.objects.filter(category__name_contains='Appetizer')
-        desserts = MenuItem.objects.filter(category__name_contains='Dessert')
-        drinks = MenuItem.objects.filter(category__name_contains='Drink')
-        sandwiches = MenuItem.objects.filter(category__name_contains='Sandwich')
-        Best_Sellers = MenuItem.objects.filter(category__name_contains='Best Seller')
-        Special_Combos = MenuItem.objects.filter(category__name_contains='Special Combos')
-        wraps = MenuItem.objects.filter(category__name_contains='Wraps')
-        noodles = MenuItem.objects.filter(category__name_contains='Noodles')
-        pasta = MenuItem.objects.filter(category__name_contains='Pasta')
-        tacos = MenuItem.objects.filter(category__name_contains='Tacos')
-        
-        
-        context = {
-            'appetizers': appetizers,
-            'desserts': desserts,
-            'drinks': drinks,
-            'sandwiches': sandwiches,
-            'Best_Sellers': Best_Sellers,
-            'Special_Combos': Special_Combos,
-            'wraps': wraps,
-            'noodles': noodles,
-            'pasta': pasta,
-            'tacos': tacos,
-            
-        }   
-        return render(request, 'customer/order-detail.html', context)   
-    
-    def post(self, request, *args, **kwargs):
-        order_items = {
-            'items': []
-        }
-        items = request.POST.getlist('order')
-        for item in items:
-            menu_item = MenuItem.objects.get(pk__contains=int(item))
-            item_data = {
-                'id': menu_item.pk,
-                'name': menu_item.name,
-                'price': menu_item.price,
-            }
-            order_items['items'].append(item_data)
-            price = 0
-            item_ids = []
-            for item in order_items['items']:
-                price += item['price']
-                item_ids.append(item['id'])
-            
-            order = Order.objects.create(price=price)
-            order.items.add(*item_ids)
-            context = {
-                'items': order_items['items'],
-                'price': price,
-            }
-            return render(request, 'customer/order-detail.html', context)
-
+@login_required
+def cart_detail(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.cart_items.all()
+    return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
 
 
 @login_required
 def cart_detail(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = cart.cart_items.all()  # Use related_name here
-    print (cart_items)  # Print the cart items to the console
+    cart_items = cart.cart_items.all()
     return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
 
 
 @login_required
-def remove_from_cart(request):
-    if request.method == 'POST':
-        cart_item_id = request.POST.get('cart_item_id')
-        cart_item = get_object_or_404(CartItem, id=cart_item_id)
-        cart_item.delete()
-        return JsonResponse({'message': 'Item removed from cart.'})
-    return JsonResponse({'error': 'Invalid request.'}, status=400)
+@require_POST
+def add_to_cart(request):
+    data = json.loads(request.body)
+    menu_item_id = data.get('menu_item_id')
+    if not menu_item_id or not menu_item_id.isdigit():
+        return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
+    menu_item = get_object_or_404(MenuItem, id=menu_item_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
+    cart_item.quantity += 1
+    cart_item.save()
+    return JsonResponse({'success': True, 'message': 'Item added to cart'})
 
 @login_required
+@require_POST
+def remove_from_cart(request):
+    cart_item_id = request.POST.get('cart_item_id')
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+    return JsonResponse({'message': 'Item removed from cart.'})
+
+@login_required
+@require_POST
 def empty_cart(request):
-    
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart.cart_items.all().delete()
     return render(request, 'customer/empty-cart.html')

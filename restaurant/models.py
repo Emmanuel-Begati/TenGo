@@ -23,6 +23,7 @@ class Menu(models.Model):
         return f'{self.name} - {self.restaurant.name}'
 
 class MenuItem(models.Model):
+    menu_item_id = models.AutoField(primary_key=True, blank=True, null=False)  # Explicit auto-incrementing primary key
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu_items')
     name = models.CharField(max_length=100)
     description = models.TextField()
