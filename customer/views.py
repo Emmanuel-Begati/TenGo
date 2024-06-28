@@ -126,20 +126,32 @@ def cart_detail(request):
     cart_items = cart.cart_items.all()
     return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
 
+import logging
+logger = logging.getLogger(__name__)
 
 @login_required
 @require_POST
 def add_to_cart(request):
-    data = json.loads(request.body)
-    menu_item_id = data.get('menu_item_id')
-    if not menu_item_id or not menu_item_id.isdigit():
-        return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
-    menu_item = get_object_or_404(MenuItem, id=menu_item_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
-    cart_item.quantity += 1
-    cart_item.save()
-    return JsonResponse({'success': True, 'message': 'Item added to cart'})
+    logger.info("Starting add_to_cart view")
+    try:
+        data = json.loads(request.body)
+        menu_item_id = data.get('menu_item_id')
+        logger.debug(f"Received menu_item_id: {menu_item_id}")
+
+        if not menu_item_id or not menu_item_id.isdigit():
+            logger.warning(f"Invalid menu item ID: {menu_item_id}")
+            return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
+
+        menu_item = get_object_or_404(MenuItem, id=menu_item_id)
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
+        cart_item.quantity += 1
+        cart_item.save()
+        logger.info(f"Item added to cart: {menu_item_id}")
+        return JsonResponse({'success': True, 'message': 'Item added to cart'})
+    except Exception as e:
+        logger.error(f"Error in add_to_cart: {str(e)}")
+        return JsonResponse({'success': False, 'message': 'An error occurred'})
 
 @login_required
 @require_POST

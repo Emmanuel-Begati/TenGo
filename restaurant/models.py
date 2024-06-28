@@ -23,7 +23,6 @@ class Menu(models.Model):
         return f'{self.name} - {self.restaurant.name}'
 
 class MenuItem(models.Model):
-    menu_item_id = models.AutoField(primary_key=True, blank=True, null=False)  # Explicit auto-incrementing primary key
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu_items')
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -31,6 +30,8 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
+    # menu_item_id = models.AutoField(primary_key=True, blank=True, null=False)
+
 
     def __str__(self):
         return f'{self.name} ({self.menu.name})'
