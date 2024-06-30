@@ -30,8 +30,7 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
-    # menu_item_id = models.AutoField(primary_key=True, blank=True, null=False)
-
+    menu_item_id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return f'{self.name} ({self.menu.name})'

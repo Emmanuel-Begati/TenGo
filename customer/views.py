@@ -15,7 +15,7 @@ import json
 def cart_content(request):
     context = {}
     if request.user.is_authenticated:
-        cart = Cart.objects.get(user=request.user)
+        cart, created = Cart.objects.get_or_create(user=request.user)
         cart_items = cart.cart_items.all()
         total_price = cart.total_price()
         context = {'cart_items': cart_items, 'total_price': total_price}
