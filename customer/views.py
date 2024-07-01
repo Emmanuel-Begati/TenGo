@@ -9,6 +9,7 @@ from django.contrib import messages
 from .models import MenuItem, Cart, CartItem
 from django.views.decorators.http import require_POST
 import json
+from restaurant.models import Category
 
 
 
@@ -111,13 +112,15 @@ def menu_grid(request):
 
 @login_required
 def menu_listing(request):
-    return render(request, 'customer/menu-listing.html', context=cart_content(request))
-
-@login_required
-def cart_detail(request):
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = cart.cart_items.all()
-    return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': cart.total_price()})
+    menu_items = MenuItem.objects.all()  # Assuming you're displaying multiple items
+    category =  Category.objects.all()
+    cart_context = cart_content(request)  # Get cart context
+    context = {
+        'menu_items': menu_items,
+        'category': category,
+        **cart_context,  # Merge cart context with the current context
+    }
+    return render(request, 'customer/menu-listing.html', context=context)
 
 
 @login_required
@@ -142,10 +145,16 @@ def add_to_cart(request):
             logger.warning(f"Invalid menu item ID: {menu_item_id}")
             return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
 
-        menu_item = get_object_or_404(MenuItem, id=menu_item_id)
+        menu_item = get_object_or_404(MenuItem, pk=menu_item_id)  # Ensure correct lookup field is used (pk for primary key)
+        
+        if menu_item.price is None:
+            logger.warning(f"Menu item price is None for item ID: {menu_item_id}")
+            return JsonResponse({'success': False, 'message': 'Menu item price not set'})
+
         cart, created = Cart.objects.get_or_create(user=request.user)
         cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
         cart_item.quantity += 1
+        cart_item.price = menu_item.price  # Assumes menu_item.price is not None
         cart_item.save()
         logger.info(f"Item added to cart: {menu_item_id}")
         return JsonResponse({'success': True, 'message': 'Item added to cart'})
