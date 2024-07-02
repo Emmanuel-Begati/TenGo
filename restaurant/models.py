@@ -6,10 +6,11 @@ from user.models import User
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    address = models.CharField(max_length=255)
+    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, related_name='restaurants', blank=True)  # Added line
     phone = models.CharField(max_length=20)
     email = models.EmailField()
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
+    
 
     def __str__(self):
         return self.name
@@ -92,7 +93,7 @@ class Order(models.Model):
         return f'Order {self.id} - {self.restaurant.name}'
 
 class Address(models.Model):
-    restaurant_related = models.ForeignKey(User, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)
+    restaurant_related = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -100,4 +101,4 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
 
     def __str__(self):
-        return f'{self.restaurant_related.email}\'s address'
+        return f'{self.restaurant_related.name}\'s address'
