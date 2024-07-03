@@ -17,7 +17,6 @@
         <meta name="apple-mobile-web-app-title" content="zomo">
         <meta name="msapplication-TileImage" content="assets/images/logo/favicon.png">
         <meta name="msapplication-TileColor" content="#FFFFFF">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
         <!--Google font-->
         <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -30,6 +29,9 @@
         
         <!-- swiper css -->
         <link rel="stylesheet" type="text/css" href="{% static 'customer/assets/css/vendors/swiper-bundle.min.css' %}">
+
+        <!-- fancybox css -->
+        {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'customer/assets/css/vendors/fancybox.css' %}"> {% endcomment %}
         
         <!-- remixicon css -->
         <link rel="stylesheet" type="text/css" href="{% static 'customer/assets/css/vendors/remixicon.css' %}">
@@ -54,7 +56,6 @@
                 </button>
                 <a href="{% url 'home' %}">
                     <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
-                </a>
                 </a>
                 <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
                     class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
