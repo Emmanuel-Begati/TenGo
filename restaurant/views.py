@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order, Restaurant
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
 from restaurant.models import MenuItem, Menu, Order
 import json
-from .forms import MenuItemForm
+from .forms import MenuItemForm, OrderStatusUpdateForm
 from datetime import datetime, timedelta
 
 
@@ -24,13 +24,16 @@ def resturant_dashboard(request):
 
 @login_required
 def order_list(request):
-    # Assuming the user is the owner of the restaurant
     user = request.user
-    # Retrieve Restaurant instances owned by the user
     restaurants = Restaurant.objects.filter(owner=user)
-    # Filter orders by the retrieved restaurants
     orders = Order.objects.filter(restaurant__in=restaurants)
-    # Render your template with the orders context
+
+    # Calculate and save the total for each order
+    for order in orders:
+        order_total = order.calculate_total()
+        order.total = order_total  
+        order.save()
+
     return render(request, 'restaurant/order-list.html', {'orders': orders})
 
 @login_required
@@ -58,3 +61,14 @@ def menu_item_list(request):
         return render(request, 'restaurant/menu-item-list.html', {'menu_items': menu_items})
     else:
         return redirect('home')
+    
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        form = OrderStatusUpdateForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('order-list')  # Adjust the redirect to your order list page's name
+    else:
+        form = OrderStatusUpdateForm(instance=order)
+    return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})

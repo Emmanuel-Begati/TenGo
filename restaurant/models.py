@@ -2,6 +2,7 @@
 from django.db import models
 from django.conf import settings  # Updated to use settings.AUTH_USER_MODEL
 from user.models import User
+# from customer.models import Cart
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
@@ -81,6 +82,12 @@ class Delivery(models.Model):
         return f'Delivery for Order {self.order.id}'
 
 class Order(models.Model):
+    STATUS_CHOICES=[
+        ('Pending', 'Pending'),
+        ('Preparing', 'Preparing'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
     items = models.ManyToManyField(MenuItem, related_name='orders')
@@ -96,6 +103,12 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order {self.id} - {self.restaurant.name}'
+    
+    def calculate_total(self):
+        total = 0
+        for item in self.items.all():
+            total += item.price
+        return total
 
 class Address(models.Model):
     restaurant_related = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)

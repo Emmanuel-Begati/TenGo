@@ -1,5 +1,5 @@
 from django import forms
-from .models import MenuItem, Category
+from .models import MenuItem, Category, Order
 
 class MenuItemForm(forms.ModelForm):
     class Meta:
@@ -11,3 +11,9 @@ class MenuItemForm(forms.ModelForm):
             # Assuming you want to use a select widget for the menu as well
             'menu': forms.Select(),
         }
+        
+
+class OrderStatusUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['status']

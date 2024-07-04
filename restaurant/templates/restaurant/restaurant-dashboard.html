@@ -182,16 +182,18 @@
                                         {% for item in order.items.all %}
                                             {{ item.name }} <br>{% if not forloop.last %} {% endif %}
                                         {% endfor %}
+
                                     </h5>
+
                                     <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                        <h5 class="place">{{ order.delivery_address }}</h5>
+                                        <h5 class="place">{{ order.delivery_address.city }}, {{order.delivery_address.street}}</h5>
                                         <ul class="distance">
                                             <li><i class="ri-map-pin-fill icon"></i> N/A km</li>
                                             <li><i class="ri-time-fill icon"></i> {{ order.order_time }}</li>
                                         </ul>
                                     </div>
                                     <br>
-                                    <a href="{% url 'order-list' %}#{{ order.id }}" class="btn btn-primary">Manage Order</a>
+                                    <a href="{% url 'order-list' %}#{{ order.id }}" class="btn theme-outline add-btn mt-0">Manage Order</a>
 
                                 </div>
                             </div>
