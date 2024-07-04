@@ -8,7 +8,6 @@ class Restaurant(models.Model):
     description = models.TextField()
     address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, related_name='restaurants', blank=True)  # Added line
     phone = models.CharField(max_length=20)
-    email = models.EmailField()
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
     image = models.ImageField(upload_to='restaurants/', null=True, blank=True)
     
@@ -20,6 +19,11 @@ class Menu(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menus')
     name = models.CharField(max_length=100)
     description = models.TextField()
+    
+    def save(self, *args, **kwargs):
+        if not self.name:  # Check if name is not set
+            self.name = f'{self.restaurant.name} Menu'  # Set default name
+        super(Menu, self).save(*args, **kwargs)  # Call the "real" save() method.
 
     def __str__(self):
         return f'{self.name} - {self.restaurant.name}'
@@ -82,7 +86,7 @@ class Order(models.Model):
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
-    delivery_address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, blank=True)
+    delivery_address = models.ForeignKey('customer.Address', on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=50, choices=[
         ('Pending', 'Pending'),
         ('Preparing', 'Preparing'),

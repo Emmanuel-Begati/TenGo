@@ -27,7 +27,7 @@ def home(request):
     if request.user.role == 'restaurant':
         return redirect('restaurant-dashboard')
     else:
-        return render(request, 'customer/home.html', context=cart_content(request))
+        return render(request, 'customer/index.html', context=cart_content(request))
 
 @login_required
 def about(request):

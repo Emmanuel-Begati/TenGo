@@ -1,5 +1,5 @@
 
-{%extends "customer/base.html"%}
+{%extends "restaurant/base.html"%}
 {%load static%}
 {% block content %}
     <!-- profile section starts -->
@@ -94,6 +94,126 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    <div class="modal order-details-modal fade" id="order" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-medium" id="exampleModalToggleLabel">
+                        Order details
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="order-details-box">
+                        <div class="order-icon">
+                            <img class="img-fluid icon" src="assets/images/icons/brand3.png" alt="brand3">
+                        </div>
+                        <div class="order-content">
+                            <h5 class="brand-name dark-text fw-medium">Starbucks</h5>
+                            <h6 class="order-deliver-label">Delivered</h6>
+                        </div>
+                    </div>
+                    <div class="delivery-address">
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                            <i class="ri-map-pin-fill theme-color"></i>
+                            <p>93, Songbird Cir, Blackville, SC, USA-29817</p>
+                        </div>
+                    </div>
+                    <div class="delivery-on-going">
+                        <ul class="delivery-list">
+                            <li>
+                                <h6>Id Transaction</h6>
+                                <h5>#ACB12345613</h5>
+                            </li>
+                            <li>
+                                <h6>Date & Time</h6>
+                                <h5>10 Aug 2024, <span>05:00 PM</span></h5>
+                            </li>
+                        </ul>
+                        <ul class="delivery-list">
+                            <li>
+                                <div class="order-address">
+                                    <img class="img-fluid place-icon" src="assets/images/svg/placed.svg"
+                                        alt="restaurant">
+                                    <h5>Restaurant Address</h5>
+                                </div>
+                                <h6 class="delivery-place">Starbucks</h6>
+                            </li>
+                            <li>
+                                <div class="order-address">
+                                    <img class="img-fluid place-icon" src="assets/images/svg/user-map.svg"
+                                        alt="delivery">
+                                    <h5>Delivery Address</h5>
+                                </div>
+                                <h6 class="delivery-place">Blackville</h6>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="order-list">
+                        <li>
+                            <div class="order-content-box">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h6>Mexican Pizza</h6>
+                                    <h6>$30</h6>
+                                </div>
+                                <div>
+                                    <p>Qty:2</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="order-content-box">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <h6>Chicken karahi</h6>
+                                    <h6>$20</h6>
+                                </div>
+                                <div>
+                                    <p>Qty:1</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="total-amount">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h6 class="fw-medium dark-text">Total</h6>
+                            <h6 class="fw-medium dark-text">$50</h6>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="fw-normal content-color">Delivery Charge</p>
+                            <p class="fw-normal content-color">Free</p>
+                        </div>
+                        <div class="grand-amount d-flex align-items-center justify-content-between">
+                            <h6 class="fw-medium dark-text">Grand Total</h6>
+                            <h6 class="fw-medium dark-text">$50</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- order details modal end -->
+
+    <!-- logout modal starts -->
+    <div class="modal address-details-modal fade" id="log-out" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Logging Out</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you Sure, You are logging out</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="saved-card.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                    <a href="index-2.html" class="btn theme-btn mt-0">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- logout modal end -->
                 </div>
             </div>
         </div>

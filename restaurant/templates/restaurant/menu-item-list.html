@@ -1,0 +1,146 @@
+{% extends 'restaurant/base.html' %}
+{% block content %}
+{% load static %}
+<!-- tab section starts -->
+<section class="tab-details-section section-b-space">
+    <div class="container">
+        <div class="category-detail-tab">
+            <div class="row g-4">
+                
+                                <div class="col-lg-8">
+                                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                                    <div class="product-box-section section-b-space">
+                                        <div data-bs-spy="scroll" data-bs-target="#navbar"data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
+                                            <div class="product-details-box-list">
+                                                <div class="product-details-box-title">
+                                                    {{category.name}}
+                                                {% for menu_item in menu_items %}
+                                                <div id="item-2">
+                                                    <div class="product-details-box">
+                                                        <div class="product-img">
+                                                            <img class="img-fluid img"
+                                                                src="{{menu_item.image.url}}" alt="rp1">
+                                                        </div>
+                                                        <div class="product-content">
+                                                            <div class="description d-flex align-items-center justify-content-between">
+                                                                <div>
+                                                                    <div class="d-flex align-items-center gap-2">
+                                                                        <img class="img-fluid"
+                                                                            src="{% static 'customer/assets/images/svg/veg.svg' %}" alt="non-veg">
+                                                                        <h6 class="product-name">
+                                                                            {{menu_item.name}}
+                                                                        </h6>
+                                                                        {% comment %} <h6 class="customized">Customized</h6> {% endcomment %}
+                                                                    </div>
+                                                                    <div class="rating-section">
+                                                                        <ul class="rating-star">
+                                                                            <li>
+                                                                                <i class="ri-star-fill star"></i>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="ri-star-fill star"></i>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="ri-star-fill star"></i>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="ri-star-fill star"></i>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="ri-star-fill star"></i>
+                                                                            </li>
+                                                                        </ul>
+                                                                        <h6 class="rating-amount">
+                                                                            1k+ Ratings
+                                                                        </h6>
+                                                                    </div>
+                                                                    <p>
+                                                                        {{menu_item.description}}, {{menu_item.menu_item_id}}
+                                                                    </p>
+                                                                </div>
+                                                                <div class="product-box-price">
+                                                                    <h2 class="theme-color fw-semibold">
+                                                                         {{menu_item.price}} {% comment %}<span>/ <del>$60</del></span> {% endcomment %}
+                                                                    </h2>
+                                                                    <!-- Add these styles for the edit and delete buttons -->
+                                                                    <style>
+                                                                        .edit-btn {
+                                                                            background-color: #ffc107;
+                                                                            color: #fff;
+                                                                            border: none;
+                                                                            padding: 10px 20px;
+                                                                            border-radius: 5px;
+                                                                            cursor: pointer;
+                                                                        }
+                                                                        .delete-btn {
+                                                                            background-color: #dc3545;
+                                                                            color: #fff;
+                                                                            border: none;
+                                                                            padding: 10px 20px;
+                                                                            border-radius: 5px;
+                                                                            cursor: pointer;
+                                                                        }
+                                                                        .edit-btn:hover {
+                                                                            background-color: #e0a800;
+                                                                        }
+                                                                        .delete-btn:hover {
+                                                                            background-color: #c82333;
+
+                                                                        }
+                                                                        .omo {
+                                                                            margin-bottom: 0;
+                                                                            display: flex;
+                                                                            justify-content: center;
+                                                                            flex-wrap: wrap;
+                                                                            display: flex;
+                                                                            flex-direction: column;
+                                                                            padding: 0 10px;
+                                                                            margin-top: 10px;
+                                                                        }
+                                                                        .btn{
+                                                                            margin: 5px;
+
+                                                                        }
+                                                                    </style>
+                                                                    <div class="form-group">
+                                                                        <div class="col-sm-offset-2 col-sm-10 omo">
+                                                                            <button type="button" class="btn edit-btn">Edit</button>
+                                                                            <button type="button" class="btn delete-btn">Delete</button>
+                                                                        </div>
+                                                                    </div>                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                             
+                                                {% endfor %}
+                                                
+                       
+                       
+
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- tab section end -->
+<script>
+    document.querySelector('.edit-btn').addEventListener('click', function() {
+        // Logic to handle edit action
+        alert('Edit button clicked');
+        // You might want to redirect to an edit form or enable form fields for editing
+    });
+    
+    document.querySelector('.delete-btn').addEventListener('click', function() {
+        // Logic to handle delete action
+        if(confirm('Are you sure you want to delete this item?')) {
+            alert('Delete action confirmed');
+            // Here you would typically send a request to the server to delete the item
+            // For example, using fetch API or redirecting to a server-side route that handles deletion
+        }
+    });
+    </script>
+{% endblock %}
+

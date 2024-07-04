@@ -1,13 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import UserRegistrationForm, UserLoginForm
+from restaurant.models import Restaurant
+
 
 
 def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
+        restaurant = Restaurant.objects.all()
         if form.is_valid():
             user = form.save()
+            if user.role == 'restaurant':
+                user.save()
+                restaurant = Restaurant.objects.create(owner=user)
+                restaurant.name = user.first_name
+                restaurant.description = 'This is a restaurant'
+                restaurant.save()                
             login(request, user)
             return redirect('home')
     else:
