@@ -14852,3 +14852,8 @@ body.dark .login-hero-section {
   color: green;  /* Green color for success message */
   /* Add other styles as needed */
 }
+
+section {
+  display: block;
+  unicode-bidi: isolate;
+}

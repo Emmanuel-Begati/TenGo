@@ -50,7 +50,7 @@
                     <div class="my-order-content">
                         <div class="title">
                             <div class="loader-line"></div>
-                            <h3>My Orders</h3>
+                            <h3>Customer Orders</h3>
                         </div>
                         <ul class="order-box-list">
                             {% for order in orders %}
@@ -66,7 +66,9 @@
                                             <div class="d-flex align-items-center justify-content-between w-100">
                                                 <h5 class="brand-name
                                                 dark-text fw-medium">
-                                                    {{order.restaurant.name}}
+                                                    {{order.user.first_name}}
+                                                    {{order.user.last_name}}
+
                                                 </h5>
                                                 <h6 class="fw-medium content-color text-end">
                                                     {{order.order_time | date:"D, d M Y"}}
@@ -90,40 +92,6 @@
                                 </div>
                             </li>
                             {% endfor %}
-
-                            <li>
-                                <div class="order-box">
-                                    <div class="order-box-content">
-                                        <div class="brand-icon">
-                                            <img class="img-fluid icon" src="{% static 'customer/assets/images/icons/brand2.png' %}"
-                                                alt="brand3">
-                                        </div>
-                                        <div class="order-details">
-                                            <div class="d-flex align-items-center justify-content-between w-100">
-                                                <h5 class="brand-name dark-text fw-medium">
-                                                    Mcdonald's
-                                                </h5>
-                                                <h6 class="fw-medium content-color text-end">
-                                                    Today, 3:00 PM
-                                                </h6>
-                                            </div>
-                                            <h6 class="fw-medium dark-text">
-                                                <span class="fw-normal content-color">Transaction Id :
-                                                </span>
-                                                #ACB12345458
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                        <h6 class="fw-medium dark-text">
-                                            <span class="fw-normal content-color">Total Amount :</span>
-                                            $ 40.00
-                                        </h6>
-                                        <a href="#order" class="btn theme-outline details-btn"
-                                            data-bs-toggle="modal">Details</a>
-                                    </div>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                 </div>

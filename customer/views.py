@@ -9,7 +9,7 @@ from django.contrib import messages
 from .models import MenuItem, Cart, CartItem
 from django.views.decorators.http import require_POST
 import json
-from restaurant.models import Category
+from restaurant.models import Category, Order
 
 
 
@@ -24,7 +24,10 @@ def cart_content(request):
 
 @login_required
 def home(request):
-    return render(request, 'customer/index.html', context=cart_content(request))
+    if request.user.role == 'restaurant':
+        return redirect('restaurant-dashboard')
+    else:
+        return render(request, 'customer/home.html', context=cart_content(request))
 
 @login_required
 def about(request):
@@ -60,7 +63,13 @@ def faq(request):
 
 @login_required
 def my_order(request):
-    return render(request, 'customer/my-order.html', context=cart_content(request))
+    orders = Order.objects.all()
+    cart_context = cart_content(request)  # Get cart context
+    context = {
+        'orders': orders,
+        **cart_context,  # Merge cart context with the current context
+    }
+    return render(request, 'customer/my-order.html', context=context)
 
 @login_required
 def offer(request):
@@ -121,6 +130,18 @@ def menu_listing(request):
         **cart_context,  # Merge cart context with the current context
     }
     return render(request, 'customer/menu-listing.html', context=context)
+
+@login_required
+def menu_listing1(request):
+    menu_items = MenuItem.objects.all()  # Assuming you're displaying multiple items
+    category =  Category.objects.all()
+    cart_context = cart_content(request)  # Get cart context
+    context = {
+        'menu_items': menu_items,
+        'category': category,
+        **cart_context,  # Merge cart context with the current context
+    }
+    return render(request, 'customer/menu-listing1.html', context=context)
 
 
 @login_required

@@ -19,7 +19,10 @@ def login_view(request):
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return redirect('home')  # Replace 'home' with your desired redirect URL
+            if request.user.role == 'restaurant':
+                return redirect('restaurant-dashboard')
+            else:
+                return redirect('home')  # Replace 'home' with your desired redirect URL
         else:
             print(form.errors)
     else:
