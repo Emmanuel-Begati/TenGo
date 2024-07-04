@@ -6,7 +6,7 @@
     <div class="container">
         <div class="category-detail-tab">
             <div class="row g-4">
-                
+                <a href="{% url 'add-menu-item' %}" class="btn btn-primary">Add Menu Item</a>
                                 <div class="col-lg-8">
                                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                     <div class="product-box-section section-b-space">
@@ -107,11 +107,11 @@
                                                                             <button type="button" class="btn edit-btn">Edit</button>
                                                                             <button type="button" class="btn delete-btn">Delete</button>
                                                                         </div>
-                                                                    </div>                                                                </div>
+                                                                    </div>    
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                             
                                                 {% endfor %}
                                                 
                        
@@ -119,9 +119,11 @@
 
                     </div>
                 </div>
+                <a href="{% url 'add-menu-item' %}" class="btn btn-primary">Add Menu Item</a>
                 
             </div>
         </div>
+
     </div>
 
 </section>

@@ -57,45 +57,40 @@
                             <li>
                                 <div class="order-box">
                                     <div class="order-box-content">
-                                        <div class="brand-icon
-                                        ">
-                                            <img class="img-fluid icon" src="{{order.restaurant.logo.url}}"
-                                                alt="brand1">
+                                        <div class="brand-icon">
+                                            <img class="img-fluid icon" src="{{ order.restaurant.logo.url }}" alt="brand1">
                                         </div>
                                         <div class="order-details">
                                             <div class="d-flex align-items-center justify-content-between w-100">
-                                                <h5 class="brand-name
-                                                dark-text fw-medium">
-                                                    {{order.user.first_name}}
-                                                    {{order.user.last_name}}
-
+                                                <h5 class="brand-name dark-text fw-medium">
+                                                    {{ order.user.first_name }} {{ order.user.last_name }}
                                                 </h5>
                                                 <h6 class="fw-medium content-color text-end">
-                                                    {{order.order_time | date:"D, d M Y"}}
+                                                    {{ order.order_time | date:"D, d M Y" }}
                                                 </h6>
                                             </div>
                                             <h6 class="fw-medium dark-text">
-                                                <span class="fw-normal content-color">Transaction Id :
-                                                </span>
-                                                #{{order.id}}
+                                                <span class="fw-normal content-color">Transaction Id :</span>
+                                                #{{ order.id }}
                                             </h6>
                                         </div>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
                                         <h6 class="fw-medium dark-text">
                                             <span class="fw-normal content-color">Total Amount :</span>
-                                            $ {{order.total}}
+                                            $ {{ order.total }}
                                         </h6>
-                                        <a href="#order" class="btn theme-outline details-btn"
-                                            data-bs-toggle="modal">Details</a>
+                                        <!-- Update the href to include the order ID dynamically -->
+                                        <a href="#order-{{ order.id }}" class="btn theme-outline details-btn" data-bs-toggle="modal">Details</a>
                                     </div>
                                 </div>
                             </li>
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="modal order-details-modal fade" id="order" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-        tabindex="-1">
+                    <!-- Ensure the modal ID matches the dynamic link -->
+                    <div class="modal order-details-modal fade" id="order-{{ order.id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                    <div class="modal order-details-modal fade" id="order" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -219,4 +214,15 @@
         </div>
     </section>
     <!-- profile section end -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if(window.location.hash) {
+                const orderId = window.location.hash.replace('#', '');
+                const orderElement = document.getElementById(orderId);
+                if(orderElement) {
+                    orderElement.scrollIntoView();
+                }
+            }
+        });
+        </script>
     {% endblock content %}

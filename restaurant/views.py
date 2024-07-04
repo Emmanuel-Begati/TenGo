@@ -3,9 +3,10 @@ from .models import Order, Restaurant
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
-from restaurant.models import MenuItem, Menu
+from restaurant.models import MenuItem, Menu, Order
 import json
 from .forms import MenuItemForm
+from datetime import datetime, timedelta
 
 
 
@@ -14,7 +15,9 @@ def resturant_dashboard(request):
     if request.user.role != 'restaurant':
         return redirect('home')
     elif request.user.role == 'restaurant':
-        return render(request, 'restaurant/restaurant-dashboard.html')
+        recent_threshold = datetime.now() - timedelta(days=7)
+        recent_orders = Order.objects.filter(order_time__gte=recent_threshold)
+        return render(request, 'restaurant/restaurant-dashboard.html', {'recent_orders': recent_orders})
     else:
         return redirect('home')
     
