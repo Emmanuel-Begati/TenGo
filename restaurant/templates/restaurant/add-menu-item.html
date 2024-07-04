@@ -32,7 +32,7 @@
 
 <div class="form-container">
 <h2 class="form-title">Add Menu Item</h2>
-<form method="post" class="form-horizontal" role="form">
+<form method="post" class="form-horizontal" role="form" enctype="multipart/form-data" >
     {% csrf_token %}
     <div class="form-group">
         {% for field in form %}

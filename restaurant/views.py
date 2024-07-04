@@ -39,6 +39,8 @@ def add_menu_item(request):
             return redirect('menu-item-list')  # Redirect to a new URL
     else:
         form = MenuItemForm()
+        print (form.errors)
+
     return render(request, 'restaurant/add-menu-item.html', {'form': form})
 
 
