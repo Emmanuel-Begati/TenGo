@@ -704,11 +704,11 @@ body {
   background: rgba(var(--white), 1) !important;
   overflow-x: hidden;
 }
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   scrollbar-width: none;
   scrollbar-color: #000000;
   width: 0px;
-}
+} */
 body::-webkit-scrollbar-track {
   background-color: rgba(var(--box-bg), 1);
 }

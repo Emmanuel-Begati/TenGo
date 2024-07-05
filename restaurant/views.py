@@ -72,3 +72,20 @@ def update_order_status(request, order_id):
     else:
         form = OrderStatusUpdateForm(instance=order)
     return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})
+
+
+def edit_menu_item(request, item_id):
+    item = get_object_or_404(MenuItem, pk=item_id)
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('menu-item-list')  # Adjust the redirect as needed
+    else:
+        form = MenuItemForm(instance=item)
+    return render(request, 'add-menu-item.html', {'form': form})
+
+def delete_menu_item(request, item_id):
+    item = get_object_or_404(MenuItem, pk=item_id)
+    item.delete()
+    return redirect('menu-item-list')  # Adjust the redirect as needed

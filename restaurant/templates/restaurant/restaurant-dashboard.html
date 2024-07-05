@@ -1,211 +1,84 @@
 {% extends "restaurant/base.html" %}
 {%load static%}
-       
-    
-
-    {% block content %}
-    <!-- skeleton loader start -->
-    {% comment %} <div class="skeleton-loader">
-        <header>
-            <div class="container">
-                <nav class="navbar navbar-expand-lg p-0">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#offcanvasNavbar">
-                        <span class="navbar-toggler-icon">
-                            <i class="ri-menu-line"></i>
-                        </span>
-                    </button>
-                    <a href="{% url 'home' %}">
-                        <img class="img-fluid logo" src="{% static 'customer/assets/images/svg/logo.svg' %}" alt="logo">
-                    </a>
-                    </a>
-                    <a target="_blank" href="#!" data-bs-toggle="modal" data-bs-target="#location"
-                        class="btn btn-sm theme-btn location-btn mt-0 ms-3 d-flex align-content-center gap-1">
-                        <i class="ri-map-pin-line"></i> Location
-                    </a>
-                    <div class="nav-option order-md-2">
-                        <div class="dropdown-button">
-                            <div class="cart-button">
-                                <span>5</span>
-                                <i class="ri-shopping-cart-line text-white cart-bag"></i>
-                            </div>
-                        </div>
-                        <div class="profile-part dropdown-button order-md-2">
-                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
-                            <div>
-                                <h6 class="fw-normal">Hi, Restaurant</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSkeleton">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasSkeletonLabel">
-                                Menu
-                            </h5>
-                            <button class="navbar-toggler btn-close" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#offcanvasSkeleton" data-bs-dismiss="offcanvas"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <ul class="navbar-nav justify-content-center flex-grow-1">
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Order</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Blog</a>
-                                </li>
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Contact</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
-        <section class="home-wrapper">
-            <div class="container text-center">
-                <div class="loader-gif">
-                    <img src="{% static 'customer/assets/images/gif/food.gif' %}" alt="food-gif" class="img-fluid">
-                </div>
-                <h2>Searching the most delicious dish in your area...</h2>
-            </div>
-        </section>
-        
-        <section class="section-b-space">
-            <div class="container">
-                <div class="title placeholder-glow">
-                    <span class="placeholder col-md-2 col-5"></span>
-                    <p class="placeholder col-5 w-50"></p>
-                </div>
-                <div class="position-relative">
-                    <div class="swiper banner1-slider">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide placeholder-glow">
-                                <div class="banner-part">
-                                    <a href="#" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="#" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="#" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="#" class="placeholder"></a>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="banner-part">
-                                    <a href="#" class="placeholder"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div> {% endcomment %}
-    <!-- skeleton loader end -->
-
-    <!-- home section start -->
-    <section id="home" class="home-wrapper home2 section-b-space overflow-hidden">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-lg-7 col-12">
-                    <h2>Hello {{ user.first_name }}!! You will be able to manage your menuitems and orders here</h2>
-                    {% comment %} <div class="search-section">
-                        <form class="auth-form search-head" target="_blank">
-                            <div class="form-group">
-                                <div class="form-input mb-0">
-                                    <input type="search" class="form-control search" id="inputusername"
-                                        placeholder="Search for Restaurant">
-                                    <i class="ri-search-line search-icon"></i>
-                                </div>
-                            </div>
-                        </form>
-                        <a class="btn theme-btn mt-0" href="#" role="button">Search</a>
-                    </div> {% endcomment %}
-                </div>
-                <div class="col-lg-5 position-relative">
-                    <img src="{% static 'customer/assets/images/home-vector.png' %}" class="img-fluid right-vector" alt="right-vector">
-                </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- home section end -->
-
-    
-
+{% block content %}
     <!-- Recent Orders section starts -->
     <section class="restaurant-list section-b-space banner-section ratio3_2">
         <div class="container">
             <div class="title restaurant-title w-border pb-0">
-                <h2>Recent Orders</h2>
+                <h2>Dashboard</h2>
                 <div class="loader-line"></div>
             </div>
-            <div class="tab-content restaurant-content" id="TabContent">
-                <div class="tab-pane fade show active" id="delivery-tab">
-                    <div class="row g-lg-4 g-3">
-                        {% for order in recent_orders %}
-                        <div class="col-xl-3 col-lg-4 col-sm-6">
-                            <div class="vertical-product-box">
-                                <div class="vertical-product-box-img">
-                                    <a href="{% url 'order-list' %}">
-                                        <!-- Assuming each order has a primary menu item to represent the order visually -->
-                                        <img class="product-img-top w-100 bg-img" src="{{ order.items.first.image.url }}" alt="order-image">
-                                    </a>
+            <div class="container py-4">
+
+        
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Menus</h5>
+                                <p class="card-text display-4">56</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Revenue</h5>
+                                <p class="card-text display-4">12k</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Orders</h5>
+                                <p class="card-text display-4">20</p>
+                                <i class="fa-solid fa-receipt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Clients</h5>
+                                <p class="card-text display-4">65</p>
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-header">
+                                <h5>Orders Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-around mb-3">
+                                    <p>New Orders: <span>25</span></p>
+                                    <p>On Delivery: <span>25</span></p>
+                                    <p>Delivered: <span>60</span></p>
+                                    <p>Canceled: <span>7</span></p>
                                 </div>
-                                <div class="vertical-product-body">
-                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                        <a href="{% url 'order-list' %}">
-                                            <h4 class="vertical-product-title">{{ order.restaurant.name }}</h4>
-                                        </a>
-                                        <!-- Placeholder for rating, adjust as necessary -->
-                                        <h6 class="rating-star">
-                                            <span class="star"><i class="ri-star-s-fill"></i></span>N/A
-                                        </h6>
-                                    </div>
-                                    <h5 class="product-items">
-                                        <!-- Summarizing items in the order -->
-                                        {% for item in order.items.all %}
-                                            {{ item.name }} <br>{% if not forloop.last %} {% endif %}
-                                        {% endfor %}
-
-                                    </h5>
-
-                                    <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                        <h5 class="place">{{ order.delivery_address.city }}, {{order.delivery_address.street}}</h5>
-                                        <ul class="distance">
-                                            <li><i class="ri-map-pin-fill icon"></i> N/A km</li>
-                                            <li><i class="ri-time-fill icon"></i> {{ order.order_time }}</li>
-                                        </ul>
-                                    </div>
-                                    <br>
-                                    <a href="{% url 'order-list' %}#{{ order.id }}" class="btn theme-outline add-btn mt-0">Manage Order</a>
-
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-header">
+                                <h5>Revenue</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-around mb-3">
+                                    <p>Income: $41,512k</p>
+                                    <p>Expense: $41,512k</p>
+                                </div>
+                                <div class="text-center">
+                                    <canvas id="revenueChart"></canvas>
                                 </div>
                             </div>
                         </div>
-
-                        {% endfor %}
-                    </div>
-                    <!-- Assuming `order` is the context variable for the current order -->
-                </div>
-            </div>
-        </div>
-    </section>
                     </div>
                 </div>
             </div>
