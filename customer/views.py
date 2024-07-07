@@ -9,7 +9,9 @@ from django.contrib import messages
 from .models import MenuItem, Cart, CartItem
 from django.views.decorators.http import require_POST
 import json
-from restaurant.models import Category, Order
+from restaurant.models import Category, Order, Restaurant
+from django.contrib.auth import get_user_model
+
 
 
 
@@ -23,11 +25,17 @@ def cart_content(request):
     return context
 
 @login_required
+@login_required
 def home(request):
     if request.user.role == 'restaurant':
         return redirect('restaurant-dashboard')
     else:
-        return render(request, 'customer/index.html', context=cart_content(request))
+        restaurants = Restaurant.objects.all()
+    context = {
+        'restaurants': restaurants,
+    }
+    context.update(cart_content(request))  # Assuming cart_content is a context processor or a function returning a dictionary
+    return render(request, 'customer/index.html', context=context)
 
 @login_required
 def about(request):

@@ -3105,7 +3105,6 @@ li {
   border-bottom: none;
   max-width: 110px;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
   font-size: calc(14px + 2 * (100vw - 320px) / 1600);
 }
@@ -3132,7 +3131,7 @@ li {
           transform: translateY(-50%);
   width: 5px;
   height: 5px;
-  background-color: rgba(var(--black), 1);
+  /* background-color: rgba(var(--black), 1); */
   border-radius: 100%;
 }
 [dir=rtl] .vertical-product-box .vertical-product-body .location-distance .place::after {
