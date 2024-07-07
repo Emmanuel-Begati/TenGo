@@ -72,9 +72,11 @@ def faq(request):
 @login_required
 def my_order(request):
     orders = Order.objects.all()
+    restaurant = Restaurant.objects.filter(orders__in=orders).distinct().first()
     cart_context = cart_content(request)  # Get cart context
     context = {
         'orders': orders,
+        'restaurant': restaurant,
         **cart_context,  # Merge cart context with the current context
     }
     return render(request, 'customer/my-order.html', context=context)
