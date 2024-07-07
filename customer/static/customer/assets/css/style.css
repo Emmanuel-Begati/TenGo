@@ -10657,7 +10657,7 @@ header.header2 .navbar .nav-option .profile-part h6 {
 .product-banner-section .restaurant-box .restaurant-image .img {
   width: calc(60px + 20 * (100vw - 320px) / 1600);
   height: calc(60px + 20 * (100vw - 320px) / 1600);
-  border-radius: 4px;
+  border-radius: 360px;
 }
 .product-banner-section .restaurant-box .restaurant-details {
   width: calc(100% - (60px + 20 * (100vw - 320px) / 1600) - (10px + 8 * (100vw - 320px) / 1600));
