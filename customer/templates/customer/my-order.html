@@ -119,7 +119,15 @@
                     </div>
                     <div class="order-content">
                         <h5 class="brand-name dark-text fw-medium">{{restaurant.name}}</h5>
-                        <h6 class="order-deliver-label">Delivered</h6>
+                        {% if order.status == 'Delivered' %}
+                            <h6 class="order-deliver-label">Delivered</h6>
+                        {% elif order.status == 'Pending' %}
+                            <h6 class="order-deliver-label">Pending</h6>
+                        {% elif order.status == 'Preparing' %}
+                            <h6 class="order-deliver-label">Preparing</h6>
+                        {% elif order.status == 'Cancelled' %}
+                            <h6 class="order-deliver-label">Cancelled</h6>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="delivery-address">
@@ -168,7 +176,7 @@
                                 <h6>${{ item.price }}</h6>
                             </div>
                             <div>
-                                <p>Qty: {{ item.quantity }}</p>
+                                {% comment %} <p>Qty: {{ cart_items.first  }}</p> <!-- Will work on this later --> {% endcomment %}
                             </div>
                         </div>
                     </li>
@@ -177,7 +185,7 @@
                 <div class="total-amount">
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="fw-medium dark-text">Total</h6>
-                        <h6 class="fw-medium dark-text">$50</h6>
+                        <h6 class="fw-medium dark-text">${{ order.total }}</h6>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="fw-normal content-color">Delivery Charge</p>
@@ -185,7 +193,7 @@
                     </div>
                     <div class="grand-amount d-flex align-items-center justify-content-between">
                         <h6 class="fw-medium dark-text">Grand Total</h6>
-                        <h6 class="fw-medium dark-text">$50</h6>
+                        <h6 class="fw-medium dark-text">${{ order.total }}</h6>
                     </div>
                 </div>
             </div>

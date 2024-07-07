@@ -100,13 +100,6 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
     ], default='Pending')
-    quantity = models.PositiveIntegerField(default=0)
-    
-    def save(self, *args, **kwargs):
-        quantity = 0
-        for item in self.items.all():
-            quantity += 1
-        self.quantity = quantity
         
         
     def __str__(self):
