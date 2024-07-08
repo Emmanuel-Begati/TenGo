@@ -131,25 +131,29 @@ def menu_grid(request):
 
 @login_required
 def menu_listing(request, restaurant_id):
-    category = Category.objects.all()
+    categories_with_items = Category.objects.filter(
+        menu_items__isnull=False, menu_items__menu__restaurant_id=restaurant_id
+    ).distinct()    
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     menu_items = MenuItem.objects.filter(menu__restaurant=restaurant)
     context = {
         'restaurant': restaurant,
         'menu_items': menu_items,
-        'category': category,
+        'category': categories_with_items,
         **cart_content(request),  # Merging cart context with the current context
     }
     return render(request, 'customer/menu-listing.html', context)
 
 @login_required
-def menu_listing1(request):
-    menu_items = MenuItem.objects.all()  # Assuming you're displaying multiple items
-    category =  Category.objects.all()
+def menu_listing1(request, restaurant_id):
+    restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
+    menu_items = MenuItem.objects.filter(menu__restaurant=restaurant)
+    categories_with_items = Category.objects.filter(menu_items__isnull=False).distinct()
     cart_context = cart_content(request)  # Get cart context
     context = {
+        restaurant: restaurant,
         'menu_items': menu_items,
-        'category': category,
+        'category': categories_with_items,
         **cart_context,  # Merge cart context with the current context
     }
     return render(request, 'customer/menu-listing1.html', context=context)
