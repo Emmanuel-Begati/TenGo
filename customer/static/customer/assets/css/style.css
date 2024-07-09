@@ -14856,3 +14856,35 @@ section {
   display: block;
   unicode-bidi: isolate;
 }
+
+/* toast */
+/* .toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 300px;
+  background-color: white;
+  color: black;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.toast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.toast-body {
+  padding-top: 10px;
+}
+
+.close {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+} */

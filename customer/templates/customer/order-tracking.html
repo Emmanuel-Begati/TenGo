@@ -81,6 +81,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {%for order in orders%}
                             <div class="tab-pane fade" id="details-pane" role="tabpanel" tabindex="0">
                                 <div class="order-details-content">
                                     <div class="layout-sec">
@@ -118,69 +119,50 @@
                                                     </div>
                                                 </div>
                                                 <ul>
+                                                    
+                                                    {%for item in order.items.all%}
                                                     <li>
                                                         <div class="horizontal-product-box">
                                                             <div class="product-content">
                                                                 <div
                                                                     class="d-flex align-items-center justify-content-between">
-                                                                    <h5>Ultimate Loaded Nacho Fiesta</h5>
-                                                                    <h6 class="product-price">$20</h6>
+                                                                    <h5>{{item.name}}</h5>
+                                                                    <h6 class="product-price">{{item.price}}</h6>
                                                                 </div>
+                                                                {%if item.extra%}
                                                                 <h6 class="ingredients-text">
                                                                     Hot Nacho Chips
                                                                 </h6>
+                                                                {%endif%}
                                                             </div>
                                                         </div>
                                                     </li>
-                                                    <li>
-                                                        <div class="horizontal-product-box">
-                                                            <div class="product-content">
-                                                                <div
-                                                                    class="d-flex align-items-center justify-content-between">
-                                                                    <h5>Smoked Salmon Bagel</h5>
-                                                                    <h6 class="product-price">$40</h6>
-                                                                </div>
-                                                                <h6 class="ingredients-text">
-                                                                    Smoked Biscuit
-                                                                </h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="horizontal-product-box">
-                                                            <div class="product-content">
-                                                                <div
-                                                                    class="d-flex align-items-center justify-content-between">
-                                                                    <h5>Cranberry Club Sandwich</h5>
-                                                                    <h6 class="product-price">$50</h6>
-                                                                </div>
-                                                                <h6 class="ingredients-text">Vegetables</h6>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                                    {%endfor%}
+                                                    </ul>
                                                 <h5 class="bill-details-title fw-semibold dark-text">
                                                     Bill Details
                                                 </h5>
                                                 <div class="sub-total">
                                                     <h6 class="content-color fw-normal">Sub Total</h6>
-                                                    <h6 class="fw-semibold">$110</h6>
+                                                    <h6 class="fw-semibold">{{order.total}}</h6>
                                                 </div>
                                                 <div class="sub-total">
                                                     <h6 class="content-color fw-normal">
-                                                        Delivery Charge (2 kms)
+                                                        Delivery Charge
                                                     </h6>
                                                     <h6 class="fw-semibold success-color">Free</h6>
                                                 </div>
+                                                {%if order.discount%}
                                                 <div class="sub-total">
                                                     <h6 class="content-color fw-normal">
-                                                        Discount (10%)
+                                                        Discount ({{order.discount.percentage}})
                                                     </h6>
-                                                    <h6 class="fw-semibold">$10</h6>
+                                                    <h6 class="fw-semibold">{{order.total}}</h6>
                                                 </div>
+                                                {%endif%}   
                                                 <div class="grand-total">
                                                     <h6 class="fw-semibold dark-text">Total</h6>
-                                                    <h6 class="fw-semibold amount">$100</h6>
+                                                    <h6 class="fw-semibold amount">{{order.total}}</h6>
                                                 </div>
                                                 <img class="dots-design" src="{% static 'customer/assets/images/svg/dots-design.svg' %}" alt="dots">
                                             </div>
@@ -189,6 +171,7 @@
                                 </div>
                             </div>
                         </div>
+                        {%endfor%}
                     </div>
                 </div>
             </div>

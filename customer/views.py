@@ -55,7 +55,11 @@ def address(request):
 
 @login_required
 def checkout(request):
-    return render(request, 'customer/checkout.html', context=cart_content(request))
+    cart_context = cart_content(request)  # Get cart context
+    context = {
+        **cart_context,  # Merge cart context with the current context
+    }
+    return render(request, 'customer/checkout.html', context=context)
 
 @login_required
 def coming_soon(request):
@@ -71,7 +75,7 @@ def faq(request):
 
 @login_required
 def my_order(request):
-    orders = Order.objects.all()
+    orders = Order.objects.filter(user=request.user)
     restaurant = Restaurant.objects.filter(orders__in=orders).distinct().first()
     cart_context = cart_content(request)  # Get cart context
     context = {
@@ -87,7 +91,15 @@ def offer(request):
 
 @login_required
 def order_tracking(request):
-    return render(request, 'customer/order-tracking.html', context=cart_content(request))
+    orders = Order.objects.all()
+    restaurant = Restaurant.objects.filter(orders__in=orders).distinct().first()
+    cart_context = cart_content(request)  # Get cart context
+    context = {
+        'orders': orders,
+        'restaurant': restaurant,
+        **cart_context,  # Merge cart context with the current context
+    }
+    return render(request, 'customer/order-tracking.html', context=context)
 
 @login_required
 def otp(request):
@@ -181,7 +193,7 @@ def add_to_cart(request):
             logger.warning(f"Invalid menu item ID: {menu_item_id}")
             return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
 
-        menu_item = get_object_or_404(MenuItem, pk=menu_item_id)  # Ensure correct lookup field is used (pk for primary key)
+        menu_item = get_object_or_404(MenuItem, pk=menu_item_id)
         
         if menu_item.price is None:
             logger.warning(f"Menu item price is None for item ID: {menu_item_id}")
@@ -190,10 +202,28 @@ def add_to_cart(request):
         cart, created = Cart.objects.get_or_create(user=request.user)
         cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
         cart_item.quantity += 1
-        cart_item.price = menu_item.price  # Assumes menu_item.price is not None
+        cart_item.price = menu_item.price
         cart_item.save()
+
+        # Calculate new cart count and total price
+        new_cart_count = cart.cart_items.count()
+        total_price = cart.total_price()
+
         logger.info(f"Item added to cart: {menu_item_id}")
-        return JsonResponse({'success': True, 'message': 'Item added to cart'})
+        return JsonResponse({
+            'success': True, 
+            'message': 'Item added to cart',
+            'new_cart_count': new_cart_count,
+            'total_price': str(total_price),  # Convert Decimal to string for JSON serialization
+            'menu_item': {
+                'image': menu_item.image.url if menu_item.image else '',  # Assuming MenuItem has an image field
+                'name': menu_item.name,
+            },
+            'quantity': cart_item.quantity,
+            'price': str(cart_item.price),  # Convert Decimal to string for JSON serialization
+            'cart_item_id': cart_item.id,
+            
+        })
     except Exception as e:
         logger.error(f"Error in add_to_cart: {str(e)}")
         return JsonResponse({'success': False, 'message': 'An error occurred'})

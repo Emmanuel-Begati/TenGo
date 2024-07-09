@@ -658,35 +658,6 @@
 <div class="bg-overlay" id="overlay"></div>
 <!-- Bg Overlay end -->
 
-<script>
-document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const menuItemId = this.getAttribute('data-menu-item-id');
-        fetch('/add_to_cart/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({ menu_item_id: menuItemId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                alert('Item added to cart');
-                // Update UI accordingly
-                // Example: Update cart count and total price
-                document.querySelector('#cart-count').textContent = data.new_cart_count;
-                document.querySelector('#total-price').textContent = `$${data.total_price}`;
-                $('.cart-button span').text(data.new_cart_count);
-                    // Update the total price
-                    $('.price-box h4').text(`$${data.total_price}`);
-            } else {
-                alert('Failed to add item to cart');
-            }
-        });
-    });
-});
-</script>
+
 
 {% endblock content%}

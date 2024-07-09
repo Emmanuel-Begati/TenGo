@@ -64,7 +64,7 @@
                 <div class="nav-option order-md-2">
                     <div class="dropdown-button">
                         <div class="cart-button">
-                            <span>5</span>
+                            <span>{{cart_items.count}}</span>
                             <i class="ri-shopping-cart-line text-white cart-bag"></i>
                         </div>
                         <div class="onhover-box">
@@ -74,7 +74,7 @@
                                         <li class="product-box-contain">
                                             <div class="drop-cart">
                                                 <a href="#!" class="drop-image">
-                                                    <img src="{{ cart_item.menu_item.image.url }}" class="blur-up lazyloaded" alt="{{ cart_item.product.name }}">
+                                                    <img src="{{ cart_item.menu_item.image.url }}" class="blur-up lazyloaded" alt="{{ cart_item.menu_item.name }}">
                                                 </a>
                                                 <div class="drop-contain">
                                                     <a href="#!">
@@ -396,6 +396,18 @@
     </div>
     <!-- mobile fix menu end -->
 
+     <!-- Toast Notification -->
+     <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="toast-notification" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex bg-theme text-white">
+                <div class="toast-body">Item added to cart!</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+<!-- Toast Notification -->
+
     <!-- location offcanvas start -->
     <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
         tabindex="-1">
@@ -486,28 +498,69 @@
 
 <script>
     $(document).ready(function() {
-        $('.close_button').on('click', function(e) {
-            e.preventDefault();
-            var cartItemId = $(this).data('cart-item-id');
-            $.ajax({
-                url: '{% url "remove_from_cart" %}',
-                method: 'POST',
-                data: {
-                    'cart_item_id': cartItemId,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    // Update the cart view or remove the item from the DOM
-                    location.reload(); // Example: Reload the page after successful removal
-                },
-                error: function(error) {
-                    console.error('Error removing item from cart:', error);
-                }
+        $('.add-to-cart-btn').each(function() {
+            $(this).on('click', function() {
+                const menuItemId = $(this).attr('data-menu-item-id');
+                $.ajax({
+                    url: '/add_to_cart/',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ menu_item_id: menuItemId }),
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                    success: function(data) {
+                        if(data.success) {
+                            showToast('Item added to cart');
+                            $('.cart-button span').text(data.new_cart_count);
+                            $('.price-box h4').text(`$${data.total_price}`);
+                            
+                            /* $('.cart-list').empty('li')
+
+                            $('.cart-list').append(`
+                                <li class="product-box-contain">
+                                    <div class="drop-cart">
+                                        <a href="#!" class="drop-image">
+                                            <img src="${data.menu_item.image}" class="blur-up lazyloaded" alt="${data.menu_item.name}">
+                                        </a>
+                                        <div class="drop-contain">
+                                            <a href="#!">
+                                                <h5>${data.menu_item.name}</h5>
+                                            </a>
+                                            <h6><span>${data.quantity} x </span> $${data.price}</h6>
+                                            <button class="close-button close_button" data-cart-item-id="${data.cart_item_id}">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                            `);*/ //will look at this later
+                            $('.drop-contain h5').text(data.menu_item.name);
+                            // Update another element if needed
+                            window.location.reload();
+                            
+                        } else {
+                            showToast('Failed to add item to cart', true);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        showToast('Failed to add item to cart', true);
+                    }
+                });
             });
         });
+
+        function showToast(message, isError) {
+            var toast = $("#toast-notification");
+            var toastBody = toast.find('.toast-body');
+            toastBody.text(message);
+            toast.show();
+            setTimeout(function(){ toast.hide(); }, 2000);
+        }
+
+        function closeToast() {
+            $("#toast-notification").hide();
+        }
     });
 </script>
-
 
 </body>
 </html>
