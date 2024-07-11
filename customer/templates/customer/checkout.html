@@ -68,9 +68,11 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="order-summery-section sticky-top">
+
                             <div class="checkout-detail">
-                                <ul>
+                                                <ul>
                                                     {%for item in cart_items%}
+                                                    <li>
                                                         <div class="horizontal-product-box">
                                                             <div class="product-content">
                                                                 <div
@@ -89,7 +91,7 @@
                                                     <button class="remove_button" data-cart-item-id="{{ item.id }}">Remove</button>
 
                                                     {%endfor%}
-                                                    </ul>
+                                                </ul>
                                                 <h5 class="bill-details-title fw-semibold dark-text">
                                                     Bill Details
                                                 </h5>

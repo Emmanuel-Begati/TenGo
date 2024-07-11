@@ -11,6 +11,7 @@ from django.views.decorators.http import require_POST
 import json
 from restaurant.models import Category, Order, Restaurant
 from django.contrib.auth import get_user_model
+from .models import Address
 
 
 
@@ -51,7 +52,12 @@ def base(request):
 
 @login_required
 def address(request):
-    return render(request, 'customer/address.html', context=cart_content(request))
+    addresses = Address.objects.filter(customer=request.user)
+    context = {
+        'addresses': addresses,
+        **cart_content(request),  # Merge cart context with the current context
+    }
+    return render(request, 'customer/address.html', context=context)
 
 @login_required
 def checkout(request):

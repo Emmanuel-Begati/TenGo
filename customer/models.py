@@ -5,15 +5,21 @@ from restaurant.models import MenuItem
 from user.models import User
 
 class Address(models.Model):
+    CHOICES = (
+        ('Home', 'Home'),
+        ('Work', 'Work'),
+        ('Other', 'Other'),
+    )
     customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer_addresses', null=True, blank=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
+    type = models.CharField(max_length=10, choices=CHOICES, default='Home')
 
     def __str__(self):
-        return f'{self.customer.email}\'s address'
+        return f'{self.customer.first_name}\'s address'
 
 
 class Cart(models.Model):

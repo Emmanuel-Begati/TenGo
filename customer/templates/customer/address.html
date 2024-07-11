@@ -52,82 +52,40 @@
                                 <div class="loader-line"></div>
                                 <h3>Select Saved Address</h3>
                                 <h6>
-                                    You’ve add some address before, You can select one of below.
+                                    You’ve added some address before, You can select one of below.
                                 </h6>
                             </div>
                             <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="address-box">
-                                        <div class="address-title">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="ri-home-4-fill icon"></i>
-                                                <h6>Home</h6>
+                                {%for address in addresses%}
+                                    <div class="col-md-6">
+                                        <div class="address-box">
+                                            <div class="address-title">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="ri-home-4-fill icon"></i>
+                                                    <h6>{{address.type}}</h6>
+                                                </div>
+                                                <a href="#edit-address" class="edit-btn" data-bs-toggle="modal">Edit</a>
                                             </div>
-                                            <a href="#edit-address" class="edit-btn" data-bs-toggle="modal">Edit</a>
-                                        </div>
-                                        <div class="address-details">
-                                            <h6>
-                                                93, Songbird Cir, Blackville, South Carolina,
-                                                USA-29817
-                                            </h6>
-                                            <h6 class="phone-number">+33 (907) 555-0101</h6>
-                                            <div class="option-section">
-                                                <a href="payment.html" class="btn gray-btn rounded-2 mt-0">Deliver
-                                                    Here</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="address-box">
-                                        <div class="address-title">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="ri-briefcase-4-fill icon"></i>
-                                                <h6>Office</h6>
-                                            </div>
-                                            <a href="#edit-address" class="edit-btn" data-bs-toggle="modal">Edit</a>
-                                        </div>
-                                        <div class="address-details">
-                                            <h6>
-                                                13th St, matrail Cir, Vitactall Beige, New York,
-                                                USA-10011
-                                            </h6>
-                                            <h6 class="phone-number">+33 (907) 555-1235</h6>
-                                            <div class="option-section">
-                                                <a href="payment.html" class="btn gray-btn rounded-2 mt-0">Deliver
-                                                    Here</a>
+                                            <div class="address-details">
+                                                <h6>
+                                                    {{address.street}}, {{address.city}}, {{address.state}}-{{address.zip_code}},
+                                                </h6>
+                                                <h6 class="phone-number">+33 (907) 555-0101</h6>
+                                                <div class="option-section">
+                                                    <a href="payment.html" class="btn gray-btn rounded-2 mt-0">Deliver
+                                                        Here</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="address-box">
-                                        <div class="address-title">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="ri-account-circle-fill icon"></i>
-                                                <h6>Smith Jones</h6>
-                                            </div>
-                                            <a href="#edit-address" class="edit-btn" data-bs-toggle="modal">Edit</a>
-                                        </div>
-                                        <div class="address-details">
-                                            <h6>
-                                                703, W 156th st, Cross Road, Elizabeth Barcus Way,
-                                                USA-95540
-                                            </h6>
-                                            <h6 class="phone-number">+33 (907) 555-3456</h6>
-                                            <div class="option-section">
-                                                <a href="payment.html" class="btn gray-btn rounded-2 mt-0">Deliver
-                                                    Here</a>
-                                            </div>
+                                {%endfor%}
+
+                                    <div class="col-md-6">
+                                        <div class="address-box new-address-box">
+                                            <a href="#address-details" class="btn theme-outline rounded-2"
+                                                data-bs-toggle="modal">Add New Address</a>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="address-box new-address-box">
-                                        <a href="#address-details" class="btn theme-outline rounded-2"
-                                            data-bs-toggle="modal">Add New Address</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
