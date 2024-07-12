@@ -276,22 +276,14 @@ def empty_cart(request):
 
 @login_required
 def use_address(request, address_id):
-    print(f"Session order_id: {request.session.get('order_id')}")
-    order_id = request.session.get('order_id')
-    if order_id:
-        try:
-            order = Order.objects.get(user=request.user, id=order_id)
-            address = get_object_or_404(Address, id=address_id)
-            order.delivery_address = address
-            print (f"Order delivery address: {order.delivery_address}")
-            order.save()
-            return redirect('payment')
-        except Order.DoesNotExist:
-            print(f"No Order found for user {request.user} with order_id {order_id}")
-            # Handle the case where no order is found
-    else:
-        print("No order_id in session")
-        return redirect('address')
+    order = Order.objects.get(user=request.user)
+    customer_address = Address.objects.get(pk=address_id)
+    order.delivery_address = customer_address.street + ', ' + customer_address.city
+    print (order.delivery_address)
+    order.save()
+    return redirect('payment')  
+    
+        
 @login_required
 def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)

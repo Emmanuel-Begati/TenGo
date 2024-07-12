@@ -93,7 +93,7 @@ class Order(models.Model):
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
-    delivery_address = models.ForeignKey('customer.Address', on_delete=models.SET_NULL, null=True, blank=True)
+    delivery_address = models.CharField(max_length=100, blank=True, null=True, default='')
     status = models.CharField(max_length=50, choices=[
         ('Pending', 'Pending'),
         ('Preparing', 'Preparing'),

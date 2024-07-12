@@ -115,7 +115,6 @@
             <div class="modal-body">
                 <div class="order-details-box">
                     <div class="order-icon">
-                        <img class="img-fluid icon" src="{{restaurant.image.url}}" alt="brand3">
                     </div>
                     <div class="order-content">
                         <h5 class="brand-name dark-text fw-medium">{{restaurant.name}}</h5>
@@ -133,8 +132,7 @@
                 <div class="delivery-address">
                     <div class="d-flex align-items-center gap-2 mt-2">
                         <i class="ri-map-pin-fill theme-color"></i>
-                        <p>{{order.delivery_address.street}}</p>
-                        <p>{{order.delivery_address.city}}</p>
+                        <p>{{order.delivery_address}}</p>
                     </div>
                 </div>
                 <div class="delivery-on-going">
@@ -151,16 +149,13 @@
                     <ul class="delivery-list">
                         <li>
                             <div class="order-address">
-                                <img class="img-fluid place-icon" src="assets/images/svg/placed.svg"
-                                    alt="restaurant">
-                                <h5>Restaurant Address</h5>
+                                 <h5>Restaurant Address</h5>
                             </div>
                             <h6 class="delivery-place">{{restaurant.name}}</h6>
                         </li>
                         <li>
                             <div class="order-address">
-                                <img class="img-fluid place-icon" src="assets/images/svg/user-map.svg"
-                                    alt="delivery">
+
                                 <h5>Delivery Address</h5>
                             </div>
                             <h6 class="delivery-place">{{order.delivery_address.city}}</h6>
