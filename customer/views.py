@@ -287,28 +287,24 @@ def use_address(request, address_id):
 @login_required
 def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)
-    # Assuming there's a function to get the current user's cart items
     cart_items = CartItem.objects.filter(cart=cart)
     
-    # Group cart items by restaurant
     items_by_restaurant = defaultdict(list)
     for item in cart_items:
         items_by_restaurant[item.menu_item.menu.restaurant].append(item)
     
     with transaction.atomic():
         for restaurant, items in items_by_restaurant.items():
-            # Create a new order for each restaurant
-            order = Order(user=request.user, restaurant=restaurant)
+            # Use get_or_create to avoid creating duplicate orders for the same restaurant and user
+            order, created = Order.objects.get_or_create(user=request.user, restaurant=restaurant, defaults={'total': 0})
             
-            # Calculate total before saving the order for the first time
-            total = 0
-            for cart_item in items:
-                total += cart_item.menu_item.price
-            order.total = total
+            if created:
+                # Calculate total only if the order is newly created
+                total = sum(cart_item.menu_item.price for cart_item in items)
+                order.total = total
+                order.save()
             
-            order.save()  # Now save the order with the total already set
-            
-            # Add items to the order
+            # Add items to the order, regardless of whether it was just created or already existed
             for cart_item in items:
                 order.items.add(cart_item.menu_item)
             

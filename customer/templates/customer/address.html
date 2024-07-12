@@ -92,6 +92,24 @@
                     <div class="col-lg-4">
                         <div class="order-summery-section sticky-top">
                             <div class="checkout-detail">
+                                {%if order.delivery_address%}
+                                    <div class="cart-address-box">
+                                        <div class="add-img">
+                                            <img class="img-fluid img" src="{% static 'customer/assets/images/home.png' %}" alt="rp1">
+                                        </div>
+                                        <div class="add-content">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h5 class="dark-text deliver-place">
+                                                    Deliver to : Home
+                                                </h5>
+                                                <a href="address.html" class="change-add">Change</a>
+                                            </div>
+                                            <h6 class="address mt-2 content-color">
+                                                932 Pittwater Rd, Sydney, New South Wales, 2099
+                                            </h6>
+                                        </div>
+                                    </div>
+                                {%endif%}
                                 <ul>
                                                     {%for item in cart_items%}
                                                         <div class="horizontal-product-box">
