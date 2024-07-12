@@ -17,9 +17,13 @@ class Address(models.Model):
     street = models.CharField(max_length=100)
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
     type = models.CharField(max_length=10, choices=CHOICES, default='Home')
+    phone_number = models.CharField(max_length=15, blank=True, null=True, default='')
 
     def __str__(self):
-        return f'{self.customer.first_name}\'s address'
+        if self.customer:
+            return f'{self.customer.email}\'s address'
+        else:
+            return 'Address without customer'
 
 
 class Cart(models.Model):

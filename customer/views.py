@@ -12,6 +12,9 @@ import json
 from restaurant.models import Category, Order, Restaurant
 from django.contrib.auth import get_user_model
 from .models import Address
+from .forms import AddressForm
+from django.db import transaction
+from collections import defaultdict
 
 
 
@@ -53,12 +56,34 @@ def base(request):
 @login_required
 def address(request):
     addresses = Address.objects.filter(customer=request.user)
-    context = {
-        'addresses': addresses,
-        **cart_content(request),  # Merge cart context with the current context
-    }
-    return render(request, 'customer/address.html', context=context)
-
+    form = AddressForm()  # Instantiate form here
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            # Manually create an Address instance and save form data
+            address_instance = Address(
+                customer=request.user,
+                country=form.cleaned_data['country'],
+                state=form.cleaned_data['state'],
+                city=form.cleaned_data['city'],
+                street=form.cleaned_data['street'],
+                zip_code=form.cleaned_data['zip_code'],
+                type=form.cleaned_data['type'],
+                phone_number=form.cleaned_data['phone_number']
+            )
+            address_instance.save()
+            # Redirect or return a response
+            return redirect('address')
+    else:
+        context = {
+            'form': form,
+            'addresses': addresses,
+            **cart_content(request),  # Merge cart context with the current context
+        }
+        return render(request, 'customer/address.html', context)
+    
+    
+    
 @login_required
 def checkout(request):
     cart_context = cart_content(request)  # Get cart context
@@ -248,3 +273,54 @@ def empty_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart.cart_items.all().delete()
     return render(request, 'customer/empty-cart.html')
+
+@login_required
+def use_address(request, address_id):
+    print(f"Session order_id: {request.session.get('order_id')}")
+    order_id = request.session.get('order_id')
+    if order_id:
+        try:
+            order = Order.objects.get(user=request.user, id=order_id)
+            address = get_object_or_404(Address, id=address_id)
+            order.delivery_address = address
+            print (f"Order delivery address: {order.delivery_address}")
+            order.save()
+            return redirect('payment')
+        except Order.DoesNotExist:
+            print(f"No Order found for user {request.user} with order_id {order_id}")
+            # Handle the case where no order is found
+    else:
+        print("No order_id in session")
+        return redirect('address')
+@login_required
+def create_order(request):
+    cart = get_object_or_404(Cart, user=request.user)
+    # Assuming there's a function to get the current user's cart items
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    # Group cart items by restaurant
+    items_by_restaurant = defaultdict(list)
+    for item in cart_items:
+        items_by_restaurant[item.menu_item.menu.restaurant].append(item)
+    
+    with transaction.atomic():
+        for restaurant, items in items_by_restaurant.items():
+            # Create a new order for each restaurant
+            order = Order(user=request.user, restaurant=restaurant)
+            
+            # Calculate total before saving the order for the first time
+            total = 0
+            for cart_item in items:
+                total += cart_item.menu_item.price
+            order.total = total
+            
+            order.save()  # Now save the order with the total already set
+            
+            # Add items to the order
+            for cart_item in items:
+                order.items.add(cart_item.menu_item)
+            
+            # Optionally, clear the cart items if needed
+            # cart_items.delete()
+
+    return redirect('address')  # Redirect to a confirmation page or similar
