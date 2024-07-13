@@ -88,6 +88,10 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
     ]
+    PAYMENT_CHOICES=[
+        ('Cash', 'Cash'),
+        ('Card', 'Card'),
+    ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders')
     items = models.ManyToManyField(MenuItem, related_name='orders')
@@ -100,8 +104,9 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
     ], default='Pending')
-        
-        
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default='Card')
+    payment_status = models.BooleanField(default=False)
+    
     def __str__(self):
         return f'Order {self.id} - {self.restaurant.name}'
     

@@ -12,7 +12,7 @@ import json
 from restaurant.models import Category, Order, Restaurant
 from django.contrib.auth import get_user_model
 from .models import Address
-from .forms import AddressForm
+from .forms import AddressForm, CardDetailsForm
 from django.db import transaction
 from collections import defaultdict
 
@@ -138,8 +138,17 @@ def otp(request):
 
 @login_required
 def payment(request):
-    return render(request, 'customer/payment.html', context=cart_content(request))
-
+    if request.method == 'POST':
+        form = CardDetailsForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            return redirect('confirm')  # Replace 'success_url' with the name of your success page's URL
+    else:
+        form = CardDetailsForm()
+    
+    context = cart_content(request)
+    context['form'] = form  # Add the form to your context
+    return render(request, 'customer/payment.html', context)
 @login_required
 def profile(request):
     return render(request, 'customer/profile.html', context=cart_content(request))
@@ -276,11 +285,12 @@ def empty_cart(request):
 
 @login_required
 def use_address(request, address_id):
-    order = Order.objects.get(user=request.user)
-    customer_address = Address.objects.get(pk=address_id)
-    order.delivery_address = customer_address.street + ', ' + customer_address.city
-    print (order.delivery_address)
-    order.save()
+    orders = Order.objects.filter(user=request.user)
+    customer_address = get_object_or_404(Address, id=address_id, customer=request.user)
+    for order in orders:
+        order.delivery_address = customer_address.street + ', ' + customer_address.city
+        order.save()
+        print (order.delivery_address)
     return redirect('payment')  
     
         
@@ -298,11 +308,12 @@ def create_order(request):
             # Use get_or_create to avoid creating duplicate orders for the same restaurant and user
             order, created = Order.objects.get_or_create(user=request.user, restaurant=restaurant, defaults={'total': 0})
             
+            
             if created:
                 # Calculate total only if the order is newly created
-                total = sum(cart_item.menu_item.price for cart_item in items)
-                order.total = total
-                order.save()
+                 total_price = sum(item.menu_item.price for item in items)
+                 order.total = total_price
+                 order.save()
             
             # Add items to the order, regardless of whether it was just created or already existed
             for cart_item in items:
@@ -312,3 +323,4 @@ def create_order(request):
             # cart_items.delete()
 
     return redirect('address')  # Redirect to a confirmation page or similar
+

@@ -54,3 +54,15 @@ class CartItem(models.Model):
 
     def total_price(self):
         return self.quantity * self.price  # Use the stored price instead of the menu item's current price
+    
+class CardDetails(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='customer_cards')
+    card_number = models.CharField(max_length=16)
+    expiry_month = models.CharField(max_length=2)
+    expiry_year = models.CharField(max_length=4)
+    cvv = models.CharField(max_length=3)
+    name_on_card = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.customer.first_name}'s card details"
