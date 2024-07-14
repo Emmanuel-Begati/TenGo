@@ -30,16 +30,17 @@ def cart_content(request):
     return context
 
 @login_required
-@login_required
 def home(request):
     if request.user.role == 'restaurant':
         return redirect('restaurant-dashboard')
     else:
         restaurants = Restaurant.objects.all()
+        categories = Category.objects.all()  # Fetch all categories
     context = {
         'restaurants': restaurants,
+        'categories': categories,  # Add categories to the context
     }
-    context.update(cart_content(request))  # Assuming cart_content is a context processor or a function returning a dictionary
+    context.update(cart_content(request))
     return render(request, 'customer/index.html', context=context)
 
 @login_required
@@ -185,8 +186,20 @@ def profile(request):
     return render(request, 'customer/profile.html', context=cart_content(request))
 
 @login_required
-def restaurant_listing(request):
-    return render(request, 'customer/restaurant-listing.html', context=cart_content(request))
+def restaurant_listing(request, category_id):
+    category =Category.objects.get(id=category_id)
+    menu_items = MenuItem.objects.filter(category=category)
+    restaurants = Restaurant.objects.filter(menus__menu_items__in=menu_items).distinct()
+    context = {
+        'restaurants': restaurants,
+        'category': category,
+        'menu_items': menu_items,
+        **cart_content(request),  # Merging cart context with the current context
+    }
+    print(category)
+    print(menu_items)
+    print (restaurants)
+    return render(request, 'customer/restaurant-listing.html', context=context)
 
 @login_required
 def saved_address(request):

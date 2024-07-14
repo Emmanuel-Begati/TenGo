@@ -154,120 +154,19 @@
             <div class="position-relative category-top">
                 <div class="swiper categories-no-arrow categories-style">
                     <div class="swiper-wrapper">
+                        {% for category in categories %}
                         <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-1.png' %}" alt="p-1">
-                                <h4 class="dark-text">Pizza</h4>
+                            <a href="{% url 'restaurant-listing' category.id %}" class="food-categories">
+                                {% if category.image %}
+                                    <img src="{{ category.image.url }}" class="img-fluid categories-img" alt="{{ category.name }}">
+                                {% else %}
+                                    <img src="{% static 'customer/assets/images/product/p-1.png' %}" class="img-fluid categories-img" alt="{{ category.name }}">
+                                {% endif %}
+                                <h4 class="dark-text">{{ category.name }}</h4>
+
                             </a>
                         </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-2.png' %}" alt="p-2">
-                                <h4 class="dark-text">Chicken</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-3.png' %}" alt="p-3">
-                                <h4 class="dark-text">Burger</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-5.png' %}" alt="p-5">
-                                <h4 class="dark-text">Fries</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-6.png' %}" alt="p-6">
-                                <h4 class="dark-text">Boritto</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-7.png' %}" alt="p-7">
-                                <h4 class="dark-text">Taco</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-8.png' %}" alt="p-8">
-                                <h4 class="dark-text">Muffin</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-9.png' %}" alt="p-9">
-                                <h4 class="dark-text">Meat</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-10.png' %}" alt="p-5">
-                                <h4 class="dark-text">Panner</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-11.png' %}" alt="p-11">
-                                <h4 class="dark-text">Hotdog</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-12.png' %}" alt="p-12">
-                                <h4 class="dark-text">Donuts</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-13.png' %}" alt="p-13">
-                                <h4 class="dark-text">Coffee</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-14.png' %}" alt="p-14">
-                                <h4 class="dark-text">Sandwich</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-15.png' %}" alt="p-15">
-                                <h4 class="dark-text">Noddle</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-16.png' %}" alt="p-16">
-                                <h4 class="dark-text">Pasta</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-17.png' %}" alt="p-17">
-                                <h4 class="dark-text">Meggi</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-18.png' %}" alt="p-18">
-                                <h4 class="dark-text">Momos</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-19.png' %}" alt="p-19">
-                                <h4 class="dark-text">Salad</h4>
-                            </a>
-                        </div>
-                        <div class="swiper-slide">
-                            <a href="{%url 'restaurant-listing'%}" class="food-categories">
-                                <img class="img-fluid categories-img" src="{% static 'customer/assets/images/product/p-20.png' %}" alt="p-20">
-                                <h4 class="dark-text">Biryani</h4>
-                            </a>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
