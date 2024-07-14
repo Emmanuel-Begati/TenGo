@@ -15,8 +15,8 @@
                     <div class="col-md-3 mb-3">
                         <div class="card bg-secondary text-center text-white h-100">
                             <div class="card-body">
-                                <h5 class="card-title">Total Menus</h5>
-                                <p class="card-text display-4">56</p>
+                                <h5 class="card-title">Total Menu items</h5>
+                                <p class="card-text display-4">{{restaurant_analysis.total_menu_items}}</p>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
                         <div class="card bg-secondary text-center text-white h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Total Revenue</h5>
-                                <p class="card-text display-4">12k</p>
+                                <p class="card-text display-4">{{restaurant_analysis.total_revenue  }}k</p>
                             </div>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <div class="card bg-secondary text-center text-white h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Total Orders</h5>
-                                <p class="card-text display-4">20</p>
+                                <p class="card-text display-4">{{restaurant_analysis.total_orders}}</p>
                                 <i class="fa-solid fa-receipt"></i>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                         <div class="card bg-secondary text-center text-white h-100">
                             <div class="card-body">
                                 <h5 class="card-title">Total Clients</h5>
-                                <p class="card-text display-4">65</p>
+                                <p class="card-text display-4">{{restaurant_analysis.total_customers}}</p>
                                 <i class="fa-regular fa-user"></i>
                             </div>
                         </div>
@@ -56,10 +56,10 @@
                             </div>
                             <div class="card-body">
                                 <div class="d-flex justify-content-around mb-3">
-                                    <p>New Orders: <span>25</span></p>
-                                    <p>On Delivery: <span>25</span></p>
-                                    <p>Delivered: <span>60</span></p>
-                                    <p>Canceled: <span>7</span></p>
+                                    <p>New Orders: <span>{{restaurant_analysis.new_orders}}</span></p>
+                                    <p>On Delivery: <span>{{restaurant_analysis.on_delivery}}</span></p>
+                                    <p>Delivered: <span>{{restaurant_analysis.delivered}}</span></p>
+                                    <p>Canceled: <span>{{restaurant_analysis.canceled}}</span></p>
                                 </div>
                                 </div>
                         </div>

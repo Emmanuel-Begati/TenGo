@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib import admin
-from .models import Restaurant, Menu, MenuItem, Category, Order, Review, DeliveryPerson, Delivery, Address
+from .models import Restaurant, Menu, MenuItem, Category, Order, Review, DeliveryPerson, Delivery, Address, RestaurantAnalysis
 
 admin.site.register(Restaurant)
 admin.site.register(Menu)
@@ -11,3 +11,4 @@ admin.site.register(Review)
 admin.site.register(DeliveryPerson)
 admin.site.register(Delivery)
 admin.site.register(Address)
+admin.site.register(RestaurantAnalysis)

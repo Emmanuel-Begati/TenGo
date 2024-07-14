@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order, Restaurant
+from .models import Order, Restaurant, RestaurantAnalysis
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_http_methods
@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 
 
 
+
 # Create your views here.
 def resturant_dashboard(request):
     if request.user.role != 'restaurant':
@@ -17,7 +18,9 @@ def resturant_dashboard(request):
     elif request.user.role == 'restaurant':
         recent_threshold = datetime.now() - timedelta(days=7)
         recent_orders = Order.objects.filter(order_time__gte=recent_threshold)
-        return render(request, 'restaurant/restaurant-dashboard.html', {'recent_orders': recent_orders})
+        restaurant = Restaurant.objects.get(owner=request.user)
+        restaurant_analysis, created = RestaurantAnalysis.objects.get_or_create(restaurant=restaurant)
+        return render(request, 'restaurant/restaurant-dashboard.html', {'recent_orders': recent_orders, 'restaurant_analysis': restaurant_analysis})
     else:
         return redirect('home')
     

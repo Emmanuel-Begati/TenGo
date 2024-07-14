@@ -2,6 +2,8 @@
 from django.db import models
 from django.conf import settings  # Updated to use settings.AUTH_USER_MODEL
 from user.models import User
+from django.db.models import Count, Sum
+
 # from customer.models import Cart
 
 class Restaurant(models.Model):
@@ -12,9 +14,49 @@ class Restaurant(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants')
     image = models.ImageField(upload_to='restaurants/', null=True, blank=True)
     
-
     def __str__(self):
         return self.name
+    
+
+class RestaurantAnalysis(models.Model):
+    restaurant = models.OneToOneField(Restaurant, on_delete=models.CASCADE, related_name='analysis')
+    def total_menu_items(self):
+        return MenuItem.objects.filter(restaurant=self.restaurant).count()
+    
+    def total_orders(self):
+        return Order.objects.filter(restaurant=self.restaurant).count()
+
+    def total_revenue(self):
+        total_sum = Order.objects.filter(restaurant=self.restaurant, payment_status=True).aggregate(Sum('total'))['total__sum']
+        return (total_sum or 0) / 1000
+
+    def total_customers(self):
+        return Order.objects.filter(restaurant=self.restaurant).values('user').distinct().count() or 0
+
+    def total_reviews(self):
+        return Review.objects.filter(restaurant=self.restaurant).count()
+
+    def total_ratings(self):
+        return Review.objects.filter(restaurant=self.restaurant).aggregate(Sum('rating'))['rating__sum'] or 0
+    
+    def new_orders(self):
+        return Order.objects.filter(restaurant=self.restaurant, status='Pending').count()
+
+    def on_delivery(self):
+        return Order.objects.filter(restaurant=self.restaurant, status='Preparing').count()
+
+    def delivered(self):
+        return Order.objects.filter(restaurant=self.restaurant, status='Delivered').count()
+
+    def canceled(self):
+        return Order.objects.filter(restaurant=self.restaurant, status='Cancelled').count()
+
+    def __str__(self):
+        return f'Analysis for {self.restaurant.name}'
+
+    def __str__(self):
+        return f'Analysis for {self.restaurant.name}'
+
 
 class Menu(models.Model):
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menus')
