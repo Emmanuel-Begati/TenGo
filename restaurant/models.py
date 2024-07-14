@@ -30,6 +30,7 @@ class Menu(models.Model):
         return f'{self.name} - {self.restaurant.name}'
 
 class MenuItem(models.Model):
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='menu_items', null=True, blank=True)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE, related_name='menu_items')
     name = models.CharField(max_length=100)
     description = models.TextField()

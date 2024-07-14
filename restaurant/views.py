@@ -25,7 +25,7 @@ def resturant_dashboard(request):
 @login_required
 def order_list(request):
     user = request.user
-    restaurants = Restaurant.objects.filter(owner=user)
+    restaurants = Restaurant.objects.filter(owner=user ).values_list('id', flat=True)
     orders = Order.objects.filter(restaurant__in=restaurants)
 
     # Calculate and save the total for each order

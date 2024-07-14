@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.contrib.auth.models import auth
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .models import MenuItem, Cart, CartItem
+from .models import MenuItem, Cart, CartItem, CardDetails
 from django.views.decorators.http import require_POST
 import json
 from restaurant.models import Category, Order, Restaurant
@@ -15,6 +15,7 @@ from .models import Address
 from .forms import AddressForm, CardDetailsForm
 from django.db import transaction
 from collections import defaultdict
+from itertools import groupby
 
 
 
@@ -139,12 +140,42 @@ def otp(request):
 @login_required
 def payment(request):
     if request.method == 'POST':
+        # Extract form data
+        card_number = request.POST.get('card_number')
+        name_on_card = request.POST.get('name_on_card')
+        expiry_month = request.POST.get('expiry_month')
+        expiry_year = request.POST.get('expiry_year')
+        cvv = request.POST.get('cvv')
+        zip_code = request.POST.get('zip_code')
+        
+        # Optionally, validate the form data
         form = CardDetailsForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
-            return redirect('confirm')  # Replace 'success_url' with the name of your success page's URL
+            # Assuming you have a model named CustomerCardDetail and a related customer instance
+            customer = request.user  # Example of getting customer instance, adjust based on your user model
+            
+            # Update or create card details
+            card_detail, created = CardDetails.objects.update_or_create(
+                customer=customer,
+                card_number=card_number,
+                expiry_month=expiry_month,
+                expiry_year=expiry_year,
+                cvv=cvv,
+                name_on_card=name_on_card,
+                zip_code=zip_code
+            )
+            cart_items = CartItem.objects.filter(cart__user=request.user)
+            cart_items.delete()  # Clear cart items after successful payment
+            order = Order.objects.filter(user=request.user).last()
+            order.payment_status = True  # Set payment status to success
+            # Redirect to a new URL:
+            return redirect ('confirm-order')  # Adjust 'success_page' to your actual success page name
+
+    # If this is a GET (or any other method) create the default form.
     else:
         form = CardDetailsForm()
+        print (form.errors)
+    return render(request, 'customer/payment.html', {'form': form})
     
     context = cart_content(request)
     context['form'] = form  # Add the form to your context
@@ -299,28 +330,30 @@ def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
     
-    items_by_restaurant = defaultdict(list)
-    for item in cart_items:
-        items_by_restaurant[item.menu_item.menu.restaurant].append(item)
+    if not cart_items:
+        messages.error(request, "Your cart is empty. Please add items before creating an order.")
+        return redirect('menu_listing')  # Redirect to menu or appropriate page
+    
+    orders_created = []
     
     with transaction.atomic():
-        for restaurant, items in items_by_restaurant.items():
-            # Use get_or_create to avoid creating duplicate orders for the same restaurant and user
-            order, created = Order.objects.get_or_create(user=request.user, restaurant=restaurant, defaults={'total': 0})
+        for restaurant, items in groupby(cart_items, key=lambda x: x.menu_item.menu.restaurant):
+            items = list(items)  # Convert to list as groupby returns an iterator
+            total_price = sum(item.total_price() for item in items)
             
+            order = Order.objects.create(
+                user=request.user,
+                restaurant=restaurant,
+                total=total_price,
+                status='Pending'
+            )
             
-            if created:
-                # Calculate total only if the order is newly created
-                 total_price = sum(item.menu_item.price for item in items)
-                 order.total = total_price
-                 order.save()
-            
-            # Add items to the order, regardless of whether it was just created or already existed
             for cart_item in items:
                 order.items.add(cart_item.menu_item)
             
-            # Optionally, clear the cart items if needed
-            # cart_items.delete()
-
-    return redirect('address')  # Redirect to a confirmation page or similar
+            orders_created.append(order)
+        
+   
+    messages.success(request, f"Successfully created {len(orders_created)} order(s).")
+    return redirect('address')  # Redirect to address selection page
 

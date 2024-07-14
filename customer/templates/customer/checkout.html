@@ -70,55 +70,36 @@
                         <div class="order-summery-section sticky-top">
 
                             <div class="checkout-detail">
-                                                <ul>
-                                                    {%for item in cart_items%}
-                                                    <li>
-                                                        <div class="horizontal-product-box">
-                                                            <div class="product-content">
-                                                                <div
-                                                                    class="d-flex align-items-center justify-content-between">
-                                                                    <h5>{{item.menu_item.name}}</h5>
-                                                                    <h6 class="product-price">{{item.price}} * {{item.quantity}}</h6>
-                                                                </div>
-                                                                {%if item.extra%}
-                                                                <h6 class="ingredients-text">
-                                                                    Hot Nacho Chips
-                                                                </h6>
-                                                                {%endif%}
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <button class="remove_button" data-cart-item-id="{{ item.id }}">Remove</button>
-
-                                                    {%endfor%}
-                                                </ul>
-                                                <h5 class="bill-details-title fw-semibold dark-text">
-                                                    Bill Details
-                                                </h5>
-                                                <div class="sub-total">
-                                                    <h6 class="content-color fw-normal">Sub Total</h6>
-                                                    <h6 class="fw-semibold">{{total_price}}</h6>
-                                                </div>
-                                                <div class="sub-total">
-                                                    <h6 class="content-color fw-normal">
-                                                        Delivery Charge
-                                                    </h6>
-                                                    <h6 class="fw-semibold success-color">Free</h6>
-                                                </div>
-                                                {%if item.discount%}
-                                                <div class="sub-total">
-                                                    <h6 class="content-color fw-normal">
-                                                        Discount ({{item.discount.percentage}})
-                                                    </h6>
-                                                    <h6 class="fw-semibold">{{total_price}}</h6>
-                                                </div>
-                                                {%endif%}   
-                                                <div class="grand-total">
-                                                    <h6 class="fw-semibold dark-text">Total</h6>
-                                                    <h6 class="fw-semibold amount">{{total_price}}</h6>
-                                                </div>
-                                <a href="{%url 'create_order'%}" class="btn theme-btn restaurant-btn w-100 rounded-2">NEXT</a>
-                                <img class="dots-design" src="{% static 'customer/assets/images/svg/dots-design.svg' %}" alt="dots">
+                                {% for item in cart_items %}
+                                <div class="horizontal-product-box">
+                                    <div class="product-content">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h5>{{item.menu_item.name}}</h5>
+                                            <h6 class="product-price">{{item.price}} * {{item.quantity}}</h6>
+                                        </div>
+                                        {% if item.menu_item.description %}
+                                        <h6 class="ingredients-text">{{item.menu_item.description}}</h6>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            
+                                <h5 class="bill-details-title fw-semibold dark-text">Bill Details</h5>
+                                <div class="sub-total">
+                                    <h6 class="content-color fw-normal">Sub Total</h6>
+                                    <h6 class="fw-semibold">{{total_price}}</h6>
+                                </div>
+                                <div class="sub-total">
+                                    <h6 class="content-color fw-normal">Delivery Charge</h6>
+                                    <h6 class="fw-semibold success-color">{% if delivery_fee %}{{delivery_fee}}{% else %}Free{% endif %}</h6>
+                                </div>
+                                <div class="grand-total">
+                                    <h6 class="fw-semibold dark-text">Total</h6>
+                                    <h6 class="fw-semibold amount">{{total_with_delivery}}</h6>
+                                </div>
+                            
+                                <a href="{% url 'create_order' %}" class="btn theme-btn restaurant-btn w-100 rounded-2">NEXT</a>
+                            </div>
                             </div>
                         </div>
                     </div>
