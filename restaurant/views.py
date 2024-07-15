@@ -90,7 +90,7 @@ def update_order_status(request, order_id):
     return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})
 
 def delete_menu_item(request, menu_item_id):
-    item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
-    print (item)
-    item.delete()
+    menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
+    print (menu_item)
+    menu_item.delete()
     return redirect('menu-item-list')  # Adjust the redirect as needed
