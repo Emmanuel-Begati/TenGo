@@ -52,6 +52,18 @@ def add_menu_item(request):
 
     return render(request, 'restaurant/add-menu-item.html', {'form': form})
 
+@login_required
+def edit_menu_item(request, menu_item_id):
+    menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
+    if request.method == 'POST':
+        form = MenuItemForm(request.POST, request.FILES, instance=menu_item)
+        if form.is_valid():
+            form.save()
+            return redirect('menu-item-list')  # Redirect to the menu item list page or wherever appropriate
+    else:
+        form = MenuItemForm(instance=menu_item)
+    return render(request, 'restaurant/edit-menu-item.html', {'form': form})
+
 
 def menu_item_list(request):
     user = request.user
@@ -62,6 +74,7 @@ def menu_item_list(request):
         menus = Menu.objects.filter(restaurant=restaurant)
         menu_items = MenuItem.objects.filter(menu__in=menus)
         return render(request, 'restaurant/menu-item-list.html', {'menu_items': menu_items})
+
     else:
         return redirect('home')
     
@@ -76,19 +89,8 @@ def update_order_status(request, order_id):
         form = OrderStatusUpdateForm(instance=order)
     return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})
 
-
-def edit_menu_item(request, item_id):
-    item = get_object_or_404(MenuItem, pk=item_id)
-    if request.method == 'POST':
-        form = MenuItemForm(request.POST, request.FILES, instance=item)
-        if form.is_valid():
-            form.save()
-            return redirect('menu-item-list')  # Adjust the redirect as needed
-    else:
-        form = MenuItemForm(instance=item)
-    return render(request, 'add-menu-item.html', {'form': form})
-
-def delete_menu_item(request, item_id):
-    item = get_object_or_404(MenuItem, pk=item_id)
+def delete_menu_item(request, menu_item_id):
+    item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
+    print (item)
     item.delete()
     return redirect('menu-item-list')  # Adjust the redirect as needed
