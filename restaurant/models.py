@@ -9,13 +9,21 @@ from django.db.models import Count, Sum
 class Restaurant(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    address = models.ForeignKey('Address', on_delete=models.SET_NULL, null=True, related_name='restaurants', blank=True)  # Added line
+    address = models.ForeignKey('RestaurantAddress', on_delete=models.SET_NULL, null=True, related_name='restaurants', blank=True)
     phone = models.CharField(max_length=20)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants', null=True, blank=True)
     image = models.ImageField(upload_to='restaurants/', null=True, blank=True)
-    
+
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.address:
+            # If the address field is not set, try to find a related RestaurantAddress
+            related_address = RestaurantAddress.objects.filter(restaurant_related=self).first()
+            if related_address:
+                self.address = related_address
+        super(Restaurant, self).save(*args, **kwargs)
     
 
 class RestaurantAnalysis(models.Model):
@@ -162,7 +170,7 @@ class Order(models.Model):
             total += item.price
         return total
 
-class Address(models.Model):
+class RestaurantAddress(models.Model):
     restaurant_related = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)
     country = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
@@ -171,4 +179,4 @@ class Address(models.Model):
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
 
     def __str__(self):
-        return f'{self.restaurant_related.name}\'s address'
+        return f"{self.restaurant_related.name}'s address"

@@ -209,47 +209,47 @@
                 <div class="tab-pane fade show active" id="delivery-tab">
                     <div class="row g-lg-4 g-3">
                         {% for restaurant in restaurants %}
-                    <div class="col-xl-3 col-lg-4 col-sm-6">
-                        <div class="vertical-product-box">
-                            <div class="vertical-product-box-img">
-                                <a href="{% url 'menu-listing' restaurant.id %}">
-                                    <!-- Assuming you have a way to get the restaurant's image, adjust accordingly -->
-                                    {% if restaurant.image %}
-                                    <img class="product-img-top w-100 bg-img" src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
-                                    {%else%}
-                                    <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}" alt="vp1">
-                                    {%endif%}
-                                </a>
-                                <!-- Include any offers or promotions here -->
-                            </div>
-                            <div class="vertical-product-body">
-                                <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                    <a href="{% url 'menu-listing' restaurant.id %}">
-                                        <h4 class="vertical-product-title">{{ restaurant.name }}</h4>
-                                    </a>
-                                    <!-- Assuming you have a way to calculate the rating, adjust accordingly -->
-                                    {% if restaurant.rating %}
-                                    <h6 class="rating-star">
-                                        <span class="star"><i class="ri-star-s-fill"></i></span>{{ restaurant.rating }}
-                                    </h6>
-                                    {%else%}
-                                    <h6 class="rating-star">
-                                        <span class="star"><i class="ri-star-s-fill"></i></span>0
-                                    </h6>
-                                    {%endif%}
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <div class="vertical-product-box">
+                                    <div class="vertical-product-box-img">
+                                        <a href="{% url 'menu-listing' restaurant.id %}">
+                                            {% if restaurant.image %}
+                                                <img class="product-img-top w-100 bg-img" src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
+                                            {% else %}
+                                                <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}" alt="vp1">
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="vertical-product-body">
+                                        <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                                            <a href="{% url 'menu-listing' restaurant.id %}">
+                                                <h4 class="vertical-product-title">{{ restaurant.name }}</h4>
+                                            </a>
+                                            {% if restaurant.rating %}
+                                                <h6 class="rating-star">
+                                                    <span class="star"><i class="ri-star-s-fill"></i></span>{{ restaurant.rating }}
+                                                </h6>
+                                            {% else %}
+                                                <h6 class="rating-star">
+                                                    <span class="star"><i class="ri-star-s-fill"></i></span>0
+                                                </h6>
+                                            {% endif %}
+                                        </div>
+                                        <h5 class="product-items">
+                                            {{ restaurant.description }}
+                                        </h5>
+                                        <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                                            {% if restaurant.address %}
+                                                <h5 class="place">{{ restaurant.address.street}}, {{restaurant.address.city }}, {{restaurant.address.country}}</h5>
+                                            {% else %}
+                                                <h5 class="place">No address available</h5>
+                                            {% endif %}
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- Include any additional information like items or location here -->
-                                <h5 class="product-items">
-                                    {{ restaurant.description }}
-                                </h5>
-                                <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                    <h5 class="place">{{ restaurant.address.street }}</h5>
-                                    <!-- Include distance if applicable -->
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                {% endfor %}
+                        {% endfor %}
+
                         
                         </div>
                 </div>
@@ -295,49 +295,7 @@
                         
                     </div>
                 </div>
-                <div class="tab-pane fade" id="veg-tab">
-                    <div class="row g-lg-4 g-3">
-                        <div class="col-xl-3 col-lg-4 col-sm-6">
-                            <div class="vertical-product-box">
-                                <div class="vertical-product-box-img">
-                                    <a href="{%url 'menu-listing'%}">
-                                        <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}" alt="vp1">
-                                    </a>
-                                    <div class="offers">
-                                        <h6>upto $2</h6>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <h4>50% OFF</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="vertical-product-body">
-                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                        <a href="{%url 'menu-listing'%}">
-                                            <h4 class="vertical-product-title">Poultry Palace</h4>
-                                        </a>
-                                        <h6 class="rating-star">
-                                            <span class="star"><i class="ri-star-s-fill"></i></span>3.9
-                                        </h6>
-                                    </div>
-                                    <h5 class="product-items">
-                                        Chicken quesadilla, avocado....
-                                    </h5>
-                                    <div
-                                        class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                        <h5 class="place">New Jsercy</h5>
-                                        <ul class="distance">
-                                            <li><i class="ri-map-pin-fill icon"></i> 3.2 km</li>
-                                            <li><i class="ri-time-fill icon"></i> 25 min</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="cost-tab">
+                    <div class="tab-pane fade" id="cost-tab">
                     <div class="row g-lg-4 g-3">
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="vertical-product-box">
