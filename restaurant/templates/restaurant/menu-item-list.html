@@ -105,7 +105,7 @@
                                                                     <div class="form-group">
                                                                         <div class="col-sm-offset-2 col-sm-10 omo">
                                                                             <button type="button" class="btn edit-btn" onclick="location.href='{% url 'edit-menu-item' menu_item.menu_item_id %}'">Edit</button>
-                                                                            <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">Delete</button>
+                                                                            <button type="button" class="btn delete-btn" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal{{ menu_item.menu_item_id }}">Delete</button>
                                                                         </div>    
                                                                         </div>
                                                                 </div>
@@ -113,7 +113,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- logout modal starts -->
-                                                    <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="deleteConfirmationModal{{ menu_item.menu_item_id }}" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -125,7 +125,7 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <a href="#" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
-                                                                    <a href="#"  class="btn theme-btn mt-0" onclick="location.href='{% url 'delete-menu-item' menu_item.menu_item_id %}'">Delete</a>
+                                                                    <a href="{% url 'delete-menu-item' menu_item.menu_item_id %}"  class="btn theme-btn mt-0" >Delete</a>
                                                                 </div>
                                                             </div>
                                                         </div>

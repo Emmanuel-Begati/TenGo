@@ -27,7 +27,7 @@ class Address(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)  # Automatically updates to current time when object is saved
     STATUS_CHOICES = (
@@ -44,8 +44,8 @@ class Cart(models.Model):
         return sum(item.total_price() for item in self.cart_items.all())
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE)
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE, null=True, blank=True)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField(default=0)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # Assuming price is a decimal
 

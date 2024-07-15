@@ -42,7 +42,7 @@ def order_list(request):
 @login_required
 def add_menu_item(request):
     if request.method == 'POST':
-        form = MenuItemForm(request.POST, request.FILES)
+        form = MenuItemForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('menu-item-list')  # Redirect to a new URL
@@ -56,12 +56,12 @@ def add_menu_item(request):
 def edit_menu_item(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
     if request.method == 'POST':
-        form = MenuItemForm(request.POST, request.FILES, instance=menu_item)
+        form = MenuItemForm(request.POST, request.FILES, instance=menu_item, user=request.user)
         if form.is_valid():
             form.save()
             return redirect('menu-item-list')  # Redirect to the menu item list page or wherever appropriate
     else:
-        form = MenuItemForm(instance=menu_item)
+        form = MenuItemForm(instance=menu_item, user=request.user)
     return render(request, 'restaurant/edit-menu-item.html', {'form': form})
 
 
@@ -88,6 +88,7 @@ def update_order_status(request, order_id):
     else:
         form = OrderStatusUpdateForm(instance=order)
     return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})
+
 
 def delete_menu_item(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
