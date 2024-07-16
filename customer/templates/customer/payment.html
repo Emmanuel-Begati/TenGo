@@ -1,6 +1,7 @@
 {%extends "customer/base.html"%}
 {%load static%}
 {%block content%}
+{% load custom_filters %}
     <!--  account section starts -->
     <br>
     <br>
@@ -98,83 +99,23 @@
                                                 </div>
                                             </form>
                                             <ul class="card-list">
+                                                {% for card in card_details %}
                                                 <li>
                                                     <div class="form-check form-check-reverse">
-                                                        <label class="form-check-label" for="flexRadioDefault01">
-                                                            <img class="img-fluid img"
-                                                                src="{% static 'customer/assets/images/icons/svg/mastercard.svg' %}"
-                                                                alt="mastercard">
+                                                        <label class="form-check-label" for="flexRadioDefault{{ forloop.counter }}">
+                                                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/mastercard.svg' %}" alt="mastercard">
                                                             <span class="card-name dark-text">
-                                                                Mastercard <span>**** **** 4586 </span> |
-                                                                Expires on <span> 12/24</span>
+                                                                {{ card.name_on_card }} <span>{{ card.card_number|mask_card_number }}</span> | Expires on <span>{{ card.expiry_month }}/{{ card.expiry_year }}</span>
                                                             </span>
                                                         </label>
-                                                        <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault01" checked>
+                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault{{ forloop.counter }}" {% if forloop.first %}checked{% endif %}>
                                                     </div>
                                                 </li>
-                                                <li>
-                                                    <div class="form-check form-check-reverse">
-                                                        <label class="form-check-label" for="flexRadioDefault02">
-                                                            <img class="img-fluid img"
-                                                                src="{% static 'customer/assets/images/icons/svg/mastercard.svg' %}"
-                                                                alt="mastercard">
-                                                            <span class="card-name dark-text">
-                                                                Mastercard <span>**** **** 4586 </span> |
-                                                                Expires on <span> 12/24</span>
-                                                            </span>
-                                                        </label>
-                                                        <input class="form-check-input" type="radio"
-                                                            name="flexRadioDefault" id="flexRadioDefault02" checked>
-                                                    </div>
-                                                </li>
+                                                {% endfor %}
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                {% comment %} <div class="accordion-item">
-                                    <h2 class="accordion-header">
-                                        <button class="accordion-button collapsed" type="button"
-                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                            aria-expanded="false" aria-controls="collapseTwo">
-                                            My Wallet
-                                        </button>
-                                    </h2>
-                                    <div id="collapseTwo" class="accordion-collapse collapse"
-                                        data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <ul class="card-list">
-                                                <li>
-                                                    <div class="form-check form-check-reverse">
-                                                        <label class="form-check-label" for="flexRadioDefault1">
-                                                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/paypal.svg' %}" alt="mastercard">
-                                                            <span class="card-name dark-text">Pay Pal</span>
-                                                        </label>
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="form-check form-check-reverse">
-                                                        <label class="form-check-label" for="flexRadioDefault2">
-                                                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/apple-pay.svg' %}" alt="mastercard">
-                                                            <span class="card-name dark-text">Apple Pay</span>
-                                                        </label>
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="form-check form-check-reverse">
-                                                        <label class="form-check-label" for="flexRadioDefault3">
-                                                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/google-pay.svg' %}" alt="mastercard">
-                                                            <span class="card-name dark-text">Google Pay</span>
-                                                        </label>
-                                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div> {% endcomment %}
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button"

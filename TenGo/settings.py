@@ -137,3 +137,6 @@ LOGIN_URL = '/user/login'
 LOGOUT_REDIRECT_URL = '/customer/login'  
 
 AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
+
+FLUTTERWAVE_PUBLIC_KEY = '#'
+FLUTTERWAVE_SECRET_KEY = '#'

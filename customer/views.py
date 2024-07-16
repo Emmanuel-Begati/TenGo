@@ -16,6 +16,8 @@ from .forms import AddressForm, CardDetailsForm
 from django.db import transaction
 from collections import defaultdict
 from itertools import groupby
+from .flutterwave_utils import initialize_payment, verify_payment
+
 
 
 
@@ -36,7 +38,7 @@ def home(request):
     else:
         restaurants = Restaurant.objects.all()
         restaurants_by_rating = sorted(restaurants, key=lambda x: x.rating, reverse=True)
-        restaurants_by_delivery_time = sorted(restaurants, key=lambda x: x.average_delivery_time)
+        restaurants_by_delivery_time = sorted(restaurants, key=lambda x: x.delivery_time)
         restaurants_by_cost = sorted(restaurants, key=lambda x: x.average_cost)
         categories = Category.objects.all()  # Fetch all categories
     context = {
@@ -147,46 +149,63 @@ def otp(request):
 @login_required
 def payment(request):
     if request.method == 'POST':
-        # Extract form data
-        card_number = request.POST.get('card_number')
-        name_on_card = request.POST.get('name_on_card')
-        expiry_month = request.POST.get('expiry_month')
-        expiry_year = request.POST.get('expiry_year')
-        cvv = request.POST.get('cvv')
-        zip_code = request.POST.get('zip_code')
-        
-        # Optionally, validate the form data
-        form = CardDetailsForm(request.POST)
-        if form.is_valid():
-            # Assuming you have a model named CustomerCardDetail and a related customer instance
-            customer = request.user  # Example of getting customer instance, adjust based on your user model
+        selected_card_id = request.POST.get('selected_card')
+        if selected_card_id:
+            # Process payment with selected saved card
+            card_detail = CardDetails.objects.get(id=selected_card_id, customer=request.user)
+        else:
+            # Process payment with new card details
+            card_number = request.POST.get('card_number')
+            name_on_card = request.POST.get('name_on_card')
+            expiry_month = request.POST.get('expiry_month')
+            expiry_year = request.POST.get('expiry_year')
+            cvv = request.POST.get('cvv')
+            zip_code = request.POST.get('zip_code')
             
-            # Update or create card details
-            card_detail, created = CardDetails.objects.update_or_create(
-                customer=customer,
-                card_number=card_number,
-                expiry_month=expiry_month,
-                expiry_year=expiry_year,
-                cvv=cvv,
-                name_on_card=name_on_card,
-                zip_code=zip_code
-            )
-            cart_items = CartItem.objects.filter(cart__user=request.user)
-            cart_items.delete()  # Clear cart items after successful payment
+            form = CardDetailsForm(request.POST)
+            if form.is_valid():
+                customer = request.user
+                card_detail, created = CardDetails.objects.update_or_create(
+                    customer=customer,
+                    card_number=card_number,
+                    expiry_month=expiry_month,
+                    expiry_year=expiry_year,
+                    cvv=cvv,
+                    defaults={
+                        'name_on_card': name_on_card,
+                        'zip_code': zip_code
+                    }
+                )
+            else:
+                card_detail = None
+        
+        if card_detail:
             order = Order.objects.filter(user=request.user).last()
-            order.payment_status = True  # Set payment status to success
-            # Redirect to a new URL:
-            return redirect ('confirm-order')  # Adjust 'success_page' to your actual success page name
+            if order:
+                order.payment_status = True
+                order.is_visible_to_restaurant = True
+                order.save()
 
-    # If this is a GET (or any other method) create the default form.
+            cart_items = CartItem.objects.filter(cart__user=request.user)
+            cart_items.delete()
+
+            return redirect('confirm-order')
+    
     else:
         form = CardDetailsForm()
-        print (form.errors)
-    return render(request, 'customer/payment.html', {'form': form})
+
+    # Fetch the card details for the logged-in user
+    card_details = CardDetails.objects.filter(customer=request.user)
     
     context = cart_content(request)
-    context['form'] = form  # Add the form to your context
+    context.update({
+        'form': form,
+        'card_details': card_details
+    })
+    
     return render(request, 'customer/payment.html', context)
+
+
 @login_required
 def profile(request):
     return render(request, 'customer/profile.html', context=cart_content(request))
@@ -364,7 +383,8 @@ def create_order(request):
                 user=request.user,
                 restaurant=restaurant,
                 total=total_price,
-                status='Pending'
+                status='Pending',
+                is_visible_to_restaurant=False  # Set visibility to False
             )
             
             for cart_item in items:
@@ -372,7 +392,36 @@ def create_order(request):
             
             orders_created.append(order)
         
-   
     messages.success(request, f"Successfully created {len(orders_created)} order(s).")
     return redirect('address')  # Redirect to address selection page
+
+
+
+def restaurant_search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Restaurant.objects.filter(name__icontains=query)
+        results_for_food_items = MenuItem.objects.filter(name__icontains=query)
+        
+        # Create a list of dictionaries containing restaurant and corresponding menu item details
+        results_for_food = []
+        for item in results_for_food_items:
+            results_for_food.append({
+                'restaurant': item.menu.restaurant,
+                'menu_item': item
+            })
+        
+        restaurants = results.order_by('delivery_time')
+    else:
+        restaurants = Restaurant.objects.none()
+        results_for_food = []
+
+    context = {
+        'restaurants': restaurants,
+        'query': query,
+        **cart_content(request),  # Merging cart context with the current context
+        'results_for_food': results_for_food,
+    }
+    
+    return render(request, 'customer/restaurant_search_results.html', context)
 

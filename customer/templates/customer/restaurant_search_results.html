@@ -1,0 +1,116 @@
+{% extends "customer/base.html" %}
+{%load static%}
+{% block content %}
+<section class="restaurant-list section-b-space banner-section ratio3_2">
+    <div class="container">
+        <div class="title restaurant-title w-border pb-0">
+            <h2>Search Results for "{{ query }}"</h2>
+            <div class="loader-line"></div>
+            <ul class="nav nav-pills restaurant-tab tab-style2 w-100 border-0 m-0" id="Tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pill-restaurants-tab" data-bs-toggle="pill" data-bs-target="#restaurants-tab">
+                        Restaurants
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pill-food-tab" data-bs-toggle="pill" data-bs-target="#food-tab">
+                        Food Items
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content restaurant-content" id="TabContent">
+            <!-- Restaurants Tab -->
+            <div class="tab-pane fade show active" id="restaurants-tab">
+                <div class="row g-lg-4 g-3">
+                    {% for restaurant in restaurants %}
+                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                            <!-- Restaurant Card -->
+                            <div class="vertical-product-box">
+                                <div class="vertical-product-box-img">
+                                    <a href="{% url 'menu-listing' restaurant.id %}">
+                                        {% if restaurant.image %}
+                                            <img class="product-img-top w-100 bg-img" src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
+                                        {% else %}
+                                            <img class="product-img-top w-100 bg-img" src="{% static 'customer/assets/images/product/vp-1.png' %}" alt="vp1">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                                <div class="vertical-product-body">
+                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                                        <a href="{% url 'menu-listing' restaurant.id %}">
+                                            <h4 class="vertical-product-title">{{ restaurant.name }}</h4>
+                                        </a>
+                                        <h6 class="rating-star">
+                                            <span class="star"><i class="ri-star-s-fill"></i></span>{{ restaurant.rating|default:0 }}
+                                        </h6>
+                                    </div>
+                                    <h5 class="product-items">
+                                        {{ restaurant.description }}
+                                    </h5>
+                                    <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                                        {% if restaurant.address %}
+                                            <h5 class="place">{{ restaurant.address.street }}, {{ restaurant.address.city }}, {{ restaurant.address.country }}</h5>
+                                        {% else %}
+                                            <h5 class="place">No address available</h5>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Food Items Tab -->
+            <div class="tab-pane fade" id="food-tab">
+                <div class="row g-lg-4 g-3">
+                    {% for result in results_for_food %}
+                        <div class="col-xl-3 col-lg-4 col-sm-6">
+                            <div class="vertical-product-box">
+                                <div class="vertical-product-box-img">
+                                    <a href="{% url 'menu-listing' result.restaurant.id %}#item-{{ result.menu_item.category.id }}">
+                                        <img class="vertical-product-img-top w-100 bg-img" src="{{ result.menu_item.image.url }}" alt="vp-8">
+                                    </a>
+                                    {% if result.restaurant.offer %}
+                                        <div class="offers">
+                                            <h6>upto $2</h6>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <h4>50% OFF</h4>
+                                                <div class="seller-badge">
+                                                    <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
+                                                    <h6>Best Seller</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="vertical-product-body">
+                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                                        <a href="{% url 'menu-listing' result.restaurant.id %}#item-{{ result.menu_item.category.id }}">
+                                            <h4 class="vertical-product-title">{{ result.menu_item.name }}</h4>
+                                            <h3 class="vertical-product-title" style='color:grey;'>{{ result.restaurant }}</h3>
+                                        </a>
+                                        <h6 class="rating-star">
+                                            <span class="star"><i class="ri-star-s-fill"></i></span>{{ result.menu_item.rating|default:"3.2" }}
+                                        </h6>
+                                    </div>
+                                    <h5 class="product-items">
+                                        {{ result.menu_item.description|default:"Chicken quesadilla, avocado..." }}
+                                    </h5>
+                                    <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                                        <h5 class="place">{{ result.restaurant.address|default:"Kigali" }}</h5>
+                                        <ul class="distance">
+                                            <li><i class="ri-map-pin-fill icon"></i> {{ result.restaurant.distance|default:"1.8 km" }}</li>
+                                            <li><i class="ri-time-fill icon"></i> {{ result.restaurant.delivery_time|default:"12 min" }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

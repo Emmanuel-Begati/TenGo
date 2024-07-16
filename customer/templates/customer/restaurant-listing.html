@@ -39,7 +39,7 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6">
                                 <div class="vertical-product-box">
                                     <div class="vertical-product-box-img">
-                                        <a href="{% url 'menu-listing' %}">
+                                        <a href="{% url 'menu-listing' menu_item.restaurant.id %}#item-{{ menu_item.category.id }}">
                                             <img class="vertical-product-img-top w-100 bg-img" src="{{menu_item.image.url}}" alt="vp-8">
                                         </a>
                                         {% if menu_item.restaurant.offer %}
@@ -57,8 +57,9 @@
                                     </div>
                                     <div class="vertical-product-body">
                                         <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
-                                            <a href="{% url 'menu-listing' %}">
+                                            <a href="{% url 'menu-listing' menu_item.restaurant.id %}#item-{{ menu_item.category.id }}">
                                                 <h4 class="vertical-product-title">{{ menu_item.name }}</h4>
+                                                <h3 class="vertical-product-title" style='color:grey;' >{{ menu_item.restaurant }}</h3>
                                             </a>
                                             <h6 class="rating-star">
                                                 <span class="star"><i class="ri-star-s-fill"></i></span>{{ menu_item.rating|default:"3.2" }}

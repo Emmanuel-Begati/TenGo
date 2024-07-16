@@ -17,6 +17,7 @@ urlpatterns = [
     path('order-tracking/', views.order_tracking, name='order-tracking'),
     path('otp/', views.otp, name='otp'),
     path('payment/', views.payment, name='payment'),
+    # path('payment/callback/', views.payment_callback, name='payment_callback'),
     path('profile/', views.profile, name='profile'),
     path('restaurant-listing/<int:category_id>/', views.restaurant_listing, name='restaurant-listing'),
     path('saved-address/', views.saved_address, name='saved-address'),
@@ -35,4 +36,6 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('use_address/<int:address_id>/', views.use_address, name='use_address'),
     path('create_order/', views.create_order, name='create_order'),
+    path('search/', views.restaurant_search, name='restaurant_search'),
+
 ]

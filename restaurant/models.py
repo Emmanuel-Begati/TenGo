@@ -21,6 +21,9 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
     
+    def total_menu_items(self):
+        return self.menu_items.count()
+    
     def save(self, *args, **kwargs):
         if not self.address:
             # If the address field is not set, try to find a related RestaurantAddress
@@ -30,6 +33,10 @@ class Restaurant(models.Model):
                 
         if not self.average_cost:
             self.average_cost = self.calculate_average_cost()
+        
+        if not self.delivery_time:
+            self.delivery_time = self.calculate_average_delivery_time()
+            
         super(Restaurant, self).save(*args, **kwargs)
         
     def calculate_average_cost(self):
@@ -38,7 +45,8 @@ class Restaurant(models.Model):
             for item in menu.menu_items.all():
                 total += item.price
         return total / self.total_menu_items()
-    
+           
+        
 
 class RestaurantAnalysis(models.Model):
     restaurant = models.OneToOneField(Restaurant, on_delete=models.CASCADE, related_name='analysis')
@@ -47,14 +55,14 @@ class RestaurantAnalysis(models.Model):
         return MenuItem.objects.filter(menu__in=menus).count()
     
     def total_orders(self):
-        return Order.objects.filter(restaurant=self.restaurant).count()
+        return Order.objects.filter(restaurant=self.restaurant, is_visible_to_restaurant=True).count()
 
     def total_revenue(self):
-        total_sum = Order.objects.filter(restaurant=self.restaurant, payment_status=True).aggregate(Sum('total'))['total__sum']
+        total_sum = Order.objects.filter(restaurant=self.restaurant, payment_status=True, is_visible_to_restaurant=True).aggregate(Sum('total'))['total__sum']
         return (total_sum or 0) / 1000
 
     def total_customers(self):
-        return Order.objects.filter(restaurant=self.restaurant).values('user').distinct().count() or 0
+        return Order.objects.filter(restaurant=self.restaurant, is_visible_to_restaurant=True).values('user').distinct().count() or 0
 
     def total_reviews(self):
         return Review.objects.filter(restaurant=self.restaurant).count()
@@ -63,16 +71,16 @@ class RestaurantAnalysis(models.Model):
         return Review.objects.filter(restaurant=self.restaurant).aggregate(Sum('rating'))['rating__sum'] or 0
     
     def new_orders(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Pending').count()
+        return Order.objects.filter(restaurant=self.restaurant, status='Pending', is_visible_to_restaurant=True).count()
 
     def on_delivery(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Preparing').count()
+        return Order.objects.filter(restaurant=self.restaurant, status='Preparing', is_visible_to_restaurant=True).count()
 
     def delivered(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Delivered').count()
+        return Order.objects.filter(restaurant=self.restaurant, status='Delivered', is_visible_to_restaurant=True).count()
 
     def canceled(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Cancelled').count()
+        return Order.objects.filter(restaurant=self.restaurant, status='Cancelled', is_visible_to_restaurant=True).count()
 
     def __str__(self):
         return f'Analysis for {self.restaurant.name}'
@@ -104,6 +112,7 @@ class MenuItem(models.Model):
     is_available = models.BooleanField(default=True)
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
     menu_item_id = models.AutoField(primary_key=True)
+    preparation_time = models.IntegerField(default=30)
 
     def __str__(self):
             menu_name = self.menu.name if self.menu else 'No Menu'
@@ -161,11 +170,15 @@ class Order(models.Model):
         ('Card', 'Card'),
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
+    reference = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    payment_status = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True, default='')
+    is_visible_to_restaurant = models.BooleanField(default=False)  # New field
+
     status = models.CharField(max_length=50, choices=[
         ('Pending', 'Pending'),
         ('Preparing', 'Preparing'),
