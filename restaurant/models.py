@@ -13,6 +13,10 @@ class Restaurant(models.Model):
     phone = models.CharField(max_length=20)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='restaurants', null=True, blank=True)
     image = models.ImageField(upload_to='restaurants/', null=True, blank=True)
+    rating = models.DecimalField(max_digits=3, decimal_places=2, default=0)
+    delivery_time = models.IntegerField(default=30)
+    is_open = models.BooleanField(default=True)
+    average_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
     def __str__(self):
         return self.name
@@ -23,7 +27,17 @@ class Restaurant(models.Model):
             related_address = RestaurantAddress.objects.filter(restaurant_related=self).first()
             if related_address:
                 self.address = related_address
+                
+        if not self.average_cost:
+            self.average_cost = self.calculate_average_cost()
         super(Restaurant, self).save(*args, **kwargs)
+        
+    def calculate_average_cost(self):
+        total = 0
+        for menu in self.menus.all():
+            for item in menu.menu_items.all():
+                total += item.price
+        return total / self.total_menu_items()
     
 
 class RestaurantAnalysis(models.Model):

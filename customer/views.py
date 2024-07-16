@@ -35,9 +35,15 @@ def home(request):
         return redirect('restaurant-dashboard')
     else:
         restaurants = Restaurant.objects.all()
+        restaurants_by_rating = sorted(restaurants, key=lambda x: x.rating, reverse=True)
+        restaurants_by_delivery_time = sorted(restaurants, key=lambda x: x.average_delivery_time)
+        restaurants_by_cost = sorted(restaurants, key=lambda x: x.average_cost)
         categories = Category.objects.all()  # Fetch all categories
     context = {
         'restaurants': restaurants,
+        'restaurants_by_rating': restaurants_by_rating,
+        'restaurants_by_delivery_time': restaurants_by_delivery_time,
+        'restaurants_by_cost': restaurants_by_cost,
         'categories': categories,  # Add categories to the context
     }
     context.update(cart_content(request))
