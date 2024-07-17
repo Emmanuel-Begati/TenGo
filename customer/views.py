@@ -193,14 +193,15 @@ def payment(request):
     
     else:
         form = CardDetailsForm()
-
+        order = Order.objects.filter(user=request.user).last()
     # Fetch the card details for the logged-in user
     card_details = CardDetails.objects.filter(customer=request.user)
     
     context = cart_content(request)
     context.update({
         'form': form,
-        'card_details': card_details
+        'card_details': card_details,
+        'order' : order
     })
     
     return render(request, 'customer/payment.html', context)
@@ -407,7 +408,7 @@ def use_address(request, address_id):
     orders = Order.objects.filter(user=request.user)
     customer_address = get_object_or_404(Address, id=address_id, customer=request.user)
     for order in orders:
-        order.delivery_address = customer_address.street + ', ' + customer_address.city
+        order.delivery_address = customer_address.street + ', ' + customer_address.city + ', ' + customer_address.state + ', ' + customer_address.country
         order.save()
         print (order.delivery_address)
     return redirect('payment')  
