@@ -17,7 +17,7 @@ from django.db import transaction
 from collections import defaultdict
 from itertools import groupby
 from .flutterwave_utils import initialize_payment, verify_payment
-
+from user.forms import UpdateForm
 
 
 
@@ -208,7 +208,32 @@ def payment(request):
 
 @login_required
 def profile(request):
-    return render(request, 'customer/profile.html', context=cart_content(request))
+    user = request.user
+    form = UpdateForm(instance=user)  # Pass the user instance to pre-populate the form
+    if request.method == 'POST':
+        form = UpdateForm(request.POST, instance=user)
+        if form.is_valid():
+            # Check if data was changed before updating
+            for field, value in form.cleaned_data.items():
+                if getattr(user, field, None) != value:
+                    setattr(user, field, value)
+            user.save()
+        else:
+            print(form.errors)
+        return redirect('profile')
+    else:
+        user_details = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+            'phone_number': user.phone_number,
+        }
+        
+        context = {
+            'user': user_details,
+            **cart_content(request),  # Merging cart context with the current context
+        }
+        return render(request, 'customer/profile.html', context=context)
 
 @login_required
 def restaurant_listing(request, category_id):
@@ -228,7 +253,32 @@ def restaurant_listing(request, category_id):
 
 @login_required
 def saved_address(request):
-    return render(request, 'customer/saved-address.html', context=cart_content(request))
+    addresses = Address.objects.filter(customer=request.user)
+    form = AddressForm()  # Instantiate form here
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            # Manually create an Address instance and save form data
+            address_instance = Address(
+                customer=request.user,
+                country=form.cleaned_data['country'],
+                state=form.cleaned_data['state'],
+                city=form.cleaned_data['city'],
+                street=form.cleaned_data['street'],
+                zip_code=form.cleaned_data['zip_code'],
+                type=form.cleaned_data['type'],
+                phone_number=form.cleaned_data['phone_number']
+            )
+            address_instance.save()
+            # Redirect or return a response
+            return redirect('saved-address')
+    else:
+        customer_addresses = Address.objects.filter(customer=request.user)
+        context = {
+            'customer_addresses': customer_addresses,
+            **cart_content(request),  # Merging cart context with the current context
+        }
+        return render(request, 'customer/saved-address.html', context=context)
 
 @login_required
 def saved_card(request):

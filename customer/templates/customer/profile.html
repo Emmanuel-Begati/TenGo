@@ -11,7 +11,7 @@
                             <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
                         </div>
                         <div class="profile-name">
-                            <h5 class="user-name">Mark Jecno</h5>
+                            <h5 class="user-name">{{request.user.first_name}}</h5>
                             <h6>mark-jecno@gmail.com</h6>
                         </div>
                         <ul class="profile-list">
@@ -35,10 +35,6 @@
                                 <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
                             </li>
                             <li>
-                                <i class="ri-settings-3-line"></i>
-                                <a href="{% url 'settings' %}">Setting</a>
-                            </li>
-                            <li>
                                 <i class="ri-logout-box-r-line"></i>
                                 <a href="#log-out" data-bs-toggle="modal">Log Out</a>
                             </li>
@@ -58,9 +54,8 @@
                                         <i class="ri-user-3-fill"></i>
                                         <span>Name :</span>
                                     </div>
-                                    <h6>Mark Jecno</h6>
+                                    <h6> {{request.user.first_name}} {{request.user.last_name}}</h6>
                                 </div>
-                                <a href="#name" class="btn theme-outline" data-bs-toggle="modal">Edit</a>
                             </li>
                             <li>
                                 <div class="profile-content">
@@ -68,9 +63,8 @@
                                         <i class="ri-mail-fill"></i>
                                         <span>Email :</span>
                                     </div>
-                                    <h6>mark-jecno@gmail.com</h6>
+                                    <h6>{{request.user.email}}</h6>
                                 </div>
-                                <a href="#email" class="btn theme-outline" data-bs-toggle="modal">Change</a>
                             </li>
                             <li>
                                 <div class="profile-content">
@@ -80,8 +74,9 @@
                                     </div>
                                     <h6>+1 (692)52 - 95555</h6>
                                 </div>
-                                <a href="#number" class="btn theme-outline mt-0" data-bs-toggle="modal">Change</a>
                             </li>
+                            <a href="#edit-details" class="btn change-details theme-outline mt-0" data-bs-toggle="modal">Update Details</a>
+
                             <li>
                                 <div class="profile-content">
                                     <div class="d-flex align-items-center gap-sm-2 gap-1">
@@ -151,76 +146,47 @@
     </div>
     <!-- location offcanvas end -->
 
-    <!-- edit name modal starts -->
-    <div class="modal profile-modal fade" id="name" aria-hidden="true" aria-labelledby="exampleModalToggleName"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalToggleName">Name</h1>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="inputName" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="inputName" value="Mark Jecno"
-                            placeholder="Enter your name">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="profile.html" class="btn theme-btn" data-bs-dismiss="modal">Save</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- edit name modal end -->
 
-    <!-- edit email modal starts -->
-    <div class="modal profile-modal fade" id="email" aria-hidden="true" aria-labelledby="exampleModalToggleEmail"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalToggleEmail">Email</h1>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="inputEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputEmail" value="mark-jecno@gmail.com"
-                            placeholder="Enter your email">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="profile.html" class="btn theme-btn" data-bs-dismiss="modal">Save</a>
-                </div>
+    <!-- profile details modal starts -->
+    <div class="modal address-details-modal fade" id="edit-details" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Profile Details
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form class="row g-3" id='updateForm' method='post'>
+                    {% csrf_token %}
+                    <div class="col-8">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="last_name" class="form-label">Second Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your second name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="col-8">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{ user.email }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone_number" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your phone number" value="{{ user.phone_number }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <a href="address.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+              <button type="submit" form="updateForm" class="btn theme-btn mt-0">SUBMIT</button>
+          </div>
         </div>
     </div>
-    <!-- edit email modal end -->
-
-    <!-- edit phone number modal starts -->
-    <div class="modal profile-modal fade" id="number" aria-hidden="true" aria-labelledby="exampleModalToggleCall"
-        tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title" id="exampleModalToggleCall">
-                        Phone Number
-                    </h1>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="inputNumber" class="form-label">Phone Number</label>
-                        <input type="email" class="form-control" id="inputNumber" value="+1 (692)52 - 95555"
-                            placeholder="Enter your number">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="profile.html" class="btn theme-btn" data-bs-dismiss="modal">Save</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- edit phone number modal end -->
+</div>
+<!-- profile details modal end -->
 
     <!-- edit password number modal starts -->
     <div class="modal profile-modal fade" id="password" aria-hidden="true" aria-labelledby="exampleModalTogglePass"

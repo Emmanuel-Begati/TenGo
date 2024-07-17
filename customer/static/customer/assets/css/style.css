@@ -13185,8 +13185,13 @@ header.header2 .navbar .nav-option .profile-part h6 {
           justify-content: space-between;
   gap: 5px;
   background-color: rgba(var(--white), 1);
-  border-radius: 6px;
-  margin-bottom: calc(10px + 10 * (100vw - 320px) / 1600);
+  /* border-radius: 6px;
+  margin-bottom: calc(10px + 10 * (100vw - 320px) / 1600); */
+}
+.change-details {
+  margin: 20px 0 !important;
+  display: flex;
+  justify-content: space-around;
 }
 .profile-section .change-profile-content .profile-details-list li:last-child {
   margin-bottom: 0;
