@@ -37,7 +37,7 @@ class Restaurant(models.Model):
         if not self.delivery_time:
             self.delivery_time = self.calculate_average_delivery_time()
             
-        super(Restaurant, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         
     def calculate_average_cost(self):
         total = 0

@@ -68,4 +68,4 @@ def contact_form(request):
             print(form.errors)
     else:
         form = ContactForm()
-    return render(request, 'customer/contact.html', {'form': form})
+    return render(request, 'user/contact.html', {'form': form})
