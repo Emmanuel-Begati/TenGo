@@ -25,6 +25,8 @@ class Restaurant(models.Model):
         return self.menu_items.count()
     
     def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
         if not self.address:
             # If the address field is not set, try to find a related RestaurantAddress
             related_address = RestaurantAddress.objects.filter(restaurant_related=self).first()
@@ -36,15 +38,16 @@ class Restaurant(models.Model):
         
         if not self.delivery_time:
             self.delivery_time = self.calculate_average_delivery_time()
-            
-        super().save(*args, **kwargs)
-        
+                    
     def calculate_average_cost(self):
+        total_menu_items = self.total_menu_items()
+        if total_menu_items == 0:
+            return 0  # Return 0 or any default value you see fit when there are no menu items
         total = 0
         for menu in self.menus.all():
             for item in menu.menu_items.all():
                 total += item.price
-        return total / self.total_menu_items()
+        return total / total_menu_items
            
         
 

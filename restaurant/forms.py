@@ -22,3 +22,15 @@ class OrderStatusUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['status']
+        
+
+class RestaurantForm(forms.ModelForm):
+    class Meta:
+        model = Restaurant
+        fields = ['name', 'description', 'phone', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Restaurant Name'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Brief Description'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Contact Phone'}),
+            'image': forms.FileInput(attrs={'class': 'form-control'}),
+        }

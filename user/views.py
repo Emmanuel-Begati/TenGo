@@ -4,6 +4,7 @@ from .forms import UserRegistrationForm, UserLoginForm, ContactForm
 from restaurant.models import Restaurant, Menu
 from .models import Contact
 from django.contrib import messages
+from restaurant.forms import RestaurantForm
 
 
 
@@ -14,17 +15,10 @@ def signup(request):
             user = form.save()
             if user.role == 'restaurant':
                 user.save()
-                restaurant = Restaurant.objects.create(owner=user)
-                restaurant.name = user.first_name
-                restaurant.description = 'This is a restaurant'
-                restaurant.save()
                 
-                # Create a Menu for the restaurant with the restaurant's name
-                menu = Menu.objects.create(name=(f'{restaurant.name} Menu'), 
-                                           restaurant=restaurant)
                 
                 login(request, user)
-                return redirect('home')
+                return redirect('restaurant-form')
     else:
         form = UserRegistrationForm()
     return render(request, 'user/signup.html', {'form': form})
@@ -69,3 +63,24 @@ def contact_form(request):
     else:
         form = ContactForm()
     return render(request, 'user/contact.html', {'form': form})
+
+
+def restaurant_form(request):
+    if request.user.role == 'restaurant':
+        if request.method == 'POST':
+            form = RestaurantForm(request.POST, request.FILES)
+            if form.is_valid():
+                restaurant = form.save(commit=False)
+                restaurant.owner = request.user
+                restaurant.save()
+                                # Create a Menu for the restaurant with the restaurant's name
+                menu = Menu.objects.create(name=(f'{restaurant.name} Menu'), 
+                                           restaurant=restaurant)
+                return redirect('restaurant-dashboard')
+            else:
+                print(form.errors)
+        else:
+            form = RestaurantForm()
+    else:
+        return redirect('home')
+    return render(request, 'restaurant/restaurant-form.html', {'form': form})

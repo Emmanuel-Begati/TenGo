@@ -1,0 +1,45 @@
+<!-- templates/user/register.html -->
+{% extends "customer/base.html" %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<section class="login-hero-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6 col-md-10 m-auto">
+                <div class="login-data">
+                    <form method="post" class="auth-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h2>Give us more details about your restaurant....</h2> <br>
+                        <!-- Display form fields with proper classes -->
+                        <div class="form-input">
+                            {{ form.name }}
+                            <i class="ri-building-2-line"></i>
+                        </div>
+                        <div class="form-input">
+                            {{form.description}}
+                            <i class="ri-information-line"></i>
+                        </div>
+                        <div class="form-input">
+                            {{form.phone}}
+                            <i class="ri-phone-line"></i>
+                        </div>
+                        <div class="form-input">
+                            {{form.image}}
+                            <i class="ri-image-line"></i>
+                        </div>
+
+                        <button type="submit" class="btn theme-btn submit-btn w-100 rounded-2">CONTINUE ------></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- signup page end -->
+
+{% endblock content %}
