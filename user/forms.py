@@ -1,7 +1,7 @@
 # user/forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import User
+from .models import User, Contact
 from django.utils.translation import gettext, gettext_lazy as _
 
 
@@ -45,4 +45,14 @@ class UpdateForm(forms.ModelForm):
         self.fields['last_name'].widget.attrs['style'] = 'background-color: #e9ecef;'
 
             
-           
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'phone_number', 'message']
+        
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['placeholder'] = 'Enter your name'
+        self.fields['email'].widget.attrs['placeholder'] = 'Enter your email'
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'Enter your phone number'
+        self.fields['message'].widget.attrs['placeholder'] = 'Enter your message'

@@ -44,7 +44,10 @@ def add_menu_item(request):
     if request.method == 'POST':
         form = MenuItemForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
-            form.save()
+            menu_item = form.save(commit=False)
+            # Assuming you have a way to determine the menu to assign
+            menu_item.menu = Menu.objects.get(restaurant__owner=request.user)
+            menu_item.save()
             return redirect('menu-item-list')  # Redirect to a new URL
     else:
         form = MenuItemForm()

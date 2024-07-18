@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, ContactForm
 from restaurant.models import Restaurant, Menu
+from .models import Contact
+from django.contrib import messages
 
 
 
@@ -46,3 +48,24 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = ContactForm(data=request.POST)
+        if form.is_valid():
+            contact_instance = Contact(
+                name=form.cleaned_data['name'],
+                email=form.cleaned_data['email'],
+                phone_number=form.cleaned_data['phone_number'],
+                message=form.cleaned_data['message']
+            )
+            contact_instance.save()
+            # Add a success message
+            messages.success(request, 'Your message has been sent successfully')
+            return redirect('home')
+        else:
+            print(form.errors)
+    else:
+        form = ContactForm()
+    return render(request, 'customer/contact.html', {'form': form})

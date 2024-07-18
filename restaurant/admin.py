@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.contrib import admin
-from .models import Restaurant, Menu, MenuItem, Category, Order, Review, DeliveryPerson, Delivery, RestaurantAddress, RestaurantAnalysis
+from .models import Restaurant, MenuItem, Category, Order, Review, DeliveryPerson, Delivery, RestaurantAddress, RestaurantAnalysis
 
 admin.site.register(Restaurant)
-admin.site.register(Menu)
 admin.site.register(MenuItem)
 admin.site.register(Category)
 admin.site.register(Order)

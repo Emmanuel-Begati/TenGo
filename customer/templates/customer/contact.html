@@ -81,36 +81,42 @@
             </div>
             <div class="row g-4">
                 <div class="col-xl-8">
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>There were some problems with your input:</strong>
+                        <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                            <li><strong>{{ field|capfirst }}:</strong> {{ error|escape }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
                     <div class="contact-form">
-                        <form class="row g-3">
-                            <div class="col-md-6">
-                                <label for="inputFirstname" class="form-label mt-0">First Name</label>
-                                <input type="text" class="form-control" id="inputFirstname"
-                                    placeholder="Enter your fist name">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="inputLastname" class="form-label mt-0">Last Name</label>
-                                <input type="text" class="form-control" id="inputLastname"
-                                    placeholder="Enter your last name">
+                        <form class="row g-3" method='POST' id='contactForm'>
+                            {%csrf_token%}
+                            <div class="col-md-12">
+                                <label for="inputFirstname" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
                             </div>
                             <div class="col-md-6">
                                 <label for="inputEmail" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="inputEmail" placeholder="Enter your email">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
                             </div>
                             <div class="col-md-6">
                                 <label for="inputPhone" class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" id="inputPhone" placeholder="Enter your number">
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your number">
                             </div>
                             <div class="col-md-12">
                                 <label for="inputtext" class="form-label">How Can We Help You?</label>
-                                <textarea class="form-control" id="inputtext" rows="3"
-                                    placeholder="Hi there, I would like to...."></textarea>
+                                <textarea class="form-control" id="message" name="message" rows="3" placeholder="Hi there, I would like to...."></textarea>
+                            </div>
+                            <div class="buttons d-flex align-items-center justify-content-end gap-3">
+                                <a href="{%url 'contact'%}" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                                <button type="submit" form="contactForm" class="btn theme-btn mt-0">SUBMIT</button>
                             </div>
                         </form>
-                        <div class="buttons d-flex align-items-center justify-content-end gap-3">
-                            <a href="contact.html.html" class="btn gray-btn mt-0">CANCEL</a>
-                            <a href="index-2.html" class="btn theme-btn mt-0">SUBMIT</a>
-                        </div>
                     </div>
                 </div>
                 <div class="col-xl-4">
