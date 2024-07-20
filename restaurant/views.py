@@ -20,7 +20,8 @@ def resturant_dashboard(request):
         recent_orders = Order.objects.filter(order_time__gte=recent_threshold)
         restaurant = Restaurant.objects.get(owner=request.user)
         restaurant_analysis, created = RestaurantAnalysis.objects.get_or_create(restaurant=restaurant)
-        return render(request, 'restaurant/restaurant-dashboard.html', {'recent_orders': recent_orders, 'restaurant_analysis': restaurant_analysis})
+        return render(request, 'restaurant/restaurant-dashboard.html', {'recent_orders': recent_orders, 'restaurant_analysis': restaurant_analysis,
+                                                                        'restaurant': restaurant})
     else:
         return redirect('home')
     
