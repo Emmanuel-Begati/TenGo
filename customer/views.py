@@ -354,7 +354,7 @@ def use_address(request, address_id):
         print (order.delivery_address)
     return redirect('make_payment')  
     
-        
+#-------------------------------------------------------------ORDER SECTION--------------------------------------------------------------     
 @login_required
 def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)
@@ -388,7 +388,7 @@ def create_order(request):
     return redirect('address')  # Redirect to address selection page
 
 
-
+#-------------------------------------------------------------SEARCH SECTION--------------------------------------------------------------
 def restaurant_search(request):
     query = request.GET.get('q')
     if query:
@@ -420,6 +420,7 @@ def restaurant_search(request):
 
 #---------------------------------------------------------------------------pAYMENT SECTION--------------------------------------------------------------
 
+# Initialize environment variables
 env = environ.Env()
 environ.Env.read_env()
 
@@ -427,99 +428,102 @@ environ.Env.read_env()
 rave = Rave(env('PUBLIC_KEY'), env('SECRET_KEY'), usingEnv=False)
 
 def make_payment(request):
-    card_detail = None 
-    order= Order.objects.filter(user=request.user).last()
+    card_detail = None
+    order = Order.objects.filter(user=request.user).last()
     card_details = CardDetails.objects.filter(customer=request.user)
 
     if request.method == 'POST':
         selected_card_id = request.POST.get('selected_card')
         if selected_card_id:
-            # Process payment with selected saved card
             card_detail = CardDetails.objects.get(id=selected_card_id, customer=request.user)
+            return process_payment_with_saved_card(request, card_detail, order)
         else:
             form = CardDetailsForm(request.POST)
             if form.is_valid():
-                # Extract card details from form
-                name_on_card = form.cleaned_data['name_on_card']
-                cardno = form.cleaned_data['card_number']
-                cvv = form.cleaned_data['cvv']
-                expirymonth = form.cleaned_data['expiry_month']
-                expiryyear = form.cleaned_data['expiry_year']
-                email = request.user.email
-                amount = '100'  # Amount in Naira
-                zip_code = form.cleaned_data['zip_code']
-                # pin = form.cleaned_data['pin']  # Assume this is securely collected
-                # otp = form.cleaned_data['otp']  # Assume this is securely collected
-
-                customer = request.user
-                card_detail, created = CardDetails.objects.update_or_create(
-                    customer=customer,
-                    card_number=cardno,
-                    expiry_month=expirymonth,
-                    expiry_year=expiryyear,
-                    cvv=cvv,
-                    name_on_card=name_on_card,
-                    zip_code=zip_code,
-                    defaults={
-                        'name_on_card': request.user.first_name + ' ' + request.user.last_name,
-                        'zip_code': '110001'
-                    }
-                )
-                    
-                payload = {
-                    "cardno": cardno,
-                    "cvv": cvv,
-                    "expirymonth": expirymonth,
-                    "expiryyear": expiryyear,
-                    "email": email,
-                    "amount": amount,
-                    # "pin": pin,
-                    'currency': 'USD',
-                    'suggested_auth': 'PIN',
-                }
-
-                try:
-                    res = rave.Card.charge(payload)
-
-                    if res["suggestedAuth"]:
-                        arg = Misc.getTypeOfArgsRequired(res["suggestedAuth"])
-                        Misc.updatePayload(res["suggestedAuth"], payload, pin='3310', otp='12345')
-                        res = rave.Card.charge(payload)
-
-                    if res["validationRequired"]:
-                        rave.Card.validate(res["flwRef"], '12345')
-
-                    verification = rave.Card.verify(res["txRef"])
-                    if verification["transactionComplete"]:
-                        # Handle successful payment
-                        handle_successful_payment(request)
-                        return redirect('confirm-order')
-                    else:
-                        # Payment failed
-                        return JsonResponse({"status": "failed", "details": verification})
-
-                except RaveExceptions.CardChargeError as e:
-                    return JsonResponse({"status": "error", "message": str(e)})
-                except RaveExceptions.TransactionValidationError as e:
-                    return JsonResponse({"status": "error", "message": str(e)})
-                except RaveExceptions.TransactionVerificationError as e:
-                    return JsonResponse({"status": "error", "message": str(e)})
-
+                return process_payment_with_new_card(request, form, order)
     else:
         form = CardDetailsForm()
-        order = Order.objects.filter(user=request.user).last()
-        card_details = CardDetails.objects.filter(customer=request.user)
 
     context = {
         'form': form,
         'card_details': card_details,
         'order': order
     }
-    
+    context.update(cart_content(request))
     return render(request, 'customer/payment.html', context)
 
+def process_payment_with_saved_card(request, card_detail, order):
+    payload = {
+        "cardno": card_detail.card_number,
+        "cvv": card_detail.cvv,
+        "expirymonth": card_detail.expiry_month,
+        "expiryyear": card_detail.expiry_year,
+        "email": request.user.email,
+        "amount": str(order.total),  # Assuming 'total_price' is the field in Order model
+        "currency": 'USD',
+        "suggested_auth": 'PIN',
+    }
+
+    return charge_card(request, payload)
+
+def process_payment_with_new_card(request, form, order):
+    cardno = form.cleaned_data['card_number']
+    cvv = form.cleaned_data['cvv']
+    expirymonth = form.cleaned_data['expiry_month']
+    expiryyear = form.cleaned_data['expiry_year']
+    zip_code = form.cleaned_data['zip_code']
+
+    card_detail, created = CardDetails.objects.update_or_create(
+        customer=request.user,
+        card_number=cardno,
+        expiry_month=expirymonth,
+        expiry_year=expiryyear,
+        cvv=cvv,
+        defaults={
+            'name_on_card': request.user.first_name + ' ' + request.user.last_name,
+            'zip_code': zip_code,
+        }
+    )
+
+    payload = {
+        "cardno": cardno,
+        "cvv": cvv,
+        "expirymonth": expirymonth,
+        "expiryyear": expiryyear,
+        "email": request.user.email,
+        "amount": str(order.total),  # Convert Decimal to string
+        "currency": 'USD',
+        "suggested_auth": 'PIN',
+    }
+
+    return charge_card(request, payload)
+
+def charge_card(request, payload):
+    try:
+        res = rave.Card.charge(payload)
+
+        if res["suggestedAuth"]:
+            arg = Misc.getTypeOfArgsRequired(res["suggestedAuth"])
+            Misc.updatePayload(res["suggestedAuth"], payload, pin='3310', otp='12345')  # Securely collect these details
+            res = rave.Card.charge(payload)
+
+        if res["validationRequired"]:
+            rave.Card.validate(res["flwRef"], '12345')  # Securely collect OTP
+
+        verification = rave.Card.verify(res["txRef"])
+        if verification["transactionComplete"]:
+            handle_successful_payment(request)
+            return redirect('confirm-order')
+        else:
+            return JsonResponse({"status": "failed", "details": verification})
+
+    except RaveExceptions.CardChargeError as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+    except RaveExceptions.TransactionValidationError as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+    except RaveExceptions.TransactionVerificationError as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+
 def handle_successful_payment(request):
-    # Update order and clear cart items
     Order.objects.filter(user=request.user).update(payment_status=True, is_visible_to_restaurant=True)
     CartItem.objects.filter(cart__user=request.user).delete()
-

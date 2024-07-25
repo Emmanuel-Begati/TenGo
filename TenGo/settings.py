@@ -140,3 +140,18 @@ AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
 
 FLUTTERWAVE_PUBLIC_KEY = 'FLWPUBK_TEST-d4be5c3db5841a342a54464fee0b1b13-X'
 FLUTTERWAVE_SECRET_KEY = 'FLWSECK_TESTbd2f68794fab'
+
+
+# -----------------------------------------------------------Using environment variables-----------------------------------------------------------
+import environ
+
+env = environ.Env(DEBUG=(bool, True))
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(env_file=BASE_DIR / '.env')
+
+DEBUG = env('DEBUG')
+SECRET_KEY = env('SECRET_KEY')
+PUBLIC_KEY = env('PUBLIC_KEY')
+
