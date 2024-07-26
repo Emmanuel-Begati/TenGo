@@ -12,7 +12,7 @@ class DeliveryPerson(models.Model):
         return f'{self.user.email} (Delivery Person)'
 
 class Delivery(models.Model):
-    order = models.OneToOneField('Order', on_delete=models.CASCADE, related_name='delivery', null=True, blank=True)
+    order = models.OneToOneField('restaurant.Order', on_delete=models.CASCADE, related_name='delivery', null=True, blank=True)
     delivery_person = models.ForeignKey(DeliveryPerson, on_delete=models.SET_NULL, null=True, related_name='deliveries')
     delivery_time = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=50, choices=[
