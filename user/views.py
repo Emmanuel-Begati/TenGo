@@ -19,6 +19,9 @@ def signup(request):
                 
                 login(request, user)
                 return redirect('restaurant-form')
+        else:
+            print(form.errors)
+            form = UserRegistrationForm()
     else:
         form = UserRegistrationForm()
     return render(request, 'user/signup.html', {'form': form})
