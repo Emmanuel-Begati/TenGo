@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+        'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,17 @@ INSTALLED_APPS = [
     'restaurant',
     'user',
     'delivery',
+    'channels', 
+
 ]
+
+ASGI_APPLICATION = 'TenGo.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -155,4 +166,5 @@ environ.Env.read_env(env_file=BASE_DIR / '.env')
 DEBUG = env('DEBUG')
 FLUTTERWAVE_SECRET_KEY = env('SECRET_KEY')
 FLUTTERWAVE_PUBLIC_KEY = env('PUBLIC_KEY')
+
 

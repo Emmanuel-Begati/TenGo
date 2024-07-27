@@ -3,7 +3,7 @@ from django.conf import settings
 from restaurant.models import Order
 
 class DeliveryPerson(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE )
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     vehicle_number = models.CharField(max_length=20, blank=True, null=True)
     is_available = models.BooleanField(default=True)

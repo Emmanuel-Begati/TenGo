@@ -142,8 +142,10 @@ class Order(models.Model):
     STATUS_CHOICES=[
         ('Pending', 'Pending'),
         ('Preparing', 'Preparing'),
+        ('Out for delivery', 'Out for delivery'),
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
+        ('Ready for Delivery', 'Ready for Delivery'),
     ]
     PAYMENT_CHOICES=[
         ('Cash', 'Cash'),
@@ -156,15 +158,11 @@ class Order(models.Model):
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
+    delivery_person = models.ForeignKey('delivery.DeliveryPerson', on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True, default='')
     is_visible_to_restaurant = models.BooleanField(default=False)  # New field
 
-    status = models.CharField(max_length=50, choices=[
-        ('Pending', 'Pending'),
-        ('Preparing', 'Preparing'),
-        ('Delivered', 'Delivered'),
-        ('Cancelled', 'Cancelled'),
-    ], default='Pending')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default='Card')
     payment_status = models.BooleanField(default=False)
     

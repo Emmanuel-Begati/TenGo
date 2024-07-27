@@ -81,17 +81,6 @@ def menu_item_list(request):
 
     else:
         return redirect('home')
-    
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    if request.method == 'POST':
-        form = OrderStatusUpdateForm(request.POST, instance=order)
-        if form.is_valid():
-            form.save()
-            return redirect('order-list')  # Adjust the redirect to your order list page's name
-    else:
-        form = OrderStatusUpdateForm(instance=order)
-    return render(request, 'restaurant/update_order_status.html', {'form': form, 'order': order})
 
 
 def delete_menu_item(request, menu_item_id):
@@ -99,3 +88,28 @@ def delete_menu_item(request, menu_item_id):
     print (menu_item)
     menu_item.delete()
     return redirect('menu-item-list')  # Adjust the redirect as needed
+
+
+# restaurant/views.py
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+
+def update_order_status(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    if request.method == 'POST':
+        form = OrderStatusUpdateForm(request.POST, instance=order)
+        if form.is_valid():
+            order = form.save()
+            if order.status == 'Ready for Delivery':
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    'delivery_notifications',
+                    {
+                        'type': 'send_notification',
+                        'message': f'Order {order.id} is ready for delivery.'
+                    }
+                )
+            return redirect('order-list')
+    else:
+        form = OrderStatusUpdateForm(instance=order)
+    return render(request, 'restaurant/update_order_status.html', {'form': form})
