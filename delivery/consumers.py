@@ -5,14 +5,18 @@ from asgiref.sync import async_to_sync
 
 class DeliveryConsumer(WebsocketConsumer):
     def connect(self):
+        self.group_name = 'delivery_notifications'
+        async_to_sync(self.channel_layer.group_add)(
+            self.group_name,
+            self.channel_name
+        )
         self.accept()
-        self.send(text_data=json.dumps({
-            'type': 'connection_established',
-            'message': 'Connected to the server.'
-        }))
 
     def disconnect(self, close_code):
-        pass
+        async_to_sync(self.channel_layer.group_discard)(
+            self.group_name,
+            self.channel_name
+        )
 
     def receive(self, text_data):
         data = json.loads(text_data)

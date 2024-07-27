@@ -37,6 +37,8 @@ def cart_content(request):
 def home(request):
     if request.user.role == 'restaurant':
         return redirect('restaurant-dashboard')
+    elif request.user.role == 'delivery_person':
+        return redirect('delivery_dashboard')
     else:
         restaurants = Restaurant.objects.all()
         restaurants_by_rating = sorted(restaurants, key=lambda x: x.rating, reverse=True)
