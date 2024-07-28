@@ -54,7 +54,7 @@
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
-                    <tr>
+                    <tr id="order-{{ order.id }}">
                         <th>Order ID</th>
                         <th>Restaurant</th>
                         <th>Customer</th>
@@ -148,4 +148,5 @@
         console.error('Delivery socket closed unexpectedly');
     };
 </script>
+
 {% endblock %}
