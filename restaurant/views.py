@@ -94,6 +94,7 @@ def delete_menu_item(request, menu_item_id):
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+@login_required
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     if request.method == 'POST':
@@ -106,7 +107,20 @@ def update_order_status(request, order_id):
                     'delivery_notifications',
                     {
                         'type': 'send_notification',
-                        'message': f'Order {order.id} is ready for delivery.'
+                        'message': f'Order {order.id} is ready for delivery.',
+                    },
+                )
+                async_to_sync(channel_layer.group_send)(
+                    'order_updates',
+                    {
+                        'type': 'send_order_data',
+                        'order': {
+                            'id': order.id,
+                            'restaurant_name': order.restaurant.name,
+                            'customer_name': order.user.first_name,
+                            'customer_address': order.delivery_address,
+                            'status': order.status
+                        }
                     }
                 )
             return redirect('order-list')

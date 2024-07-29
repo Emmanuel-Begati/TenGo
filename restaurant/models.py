@@ -161,10 +161,11 @@ class Order(models.Model):
     delivery_person = models.ForeignKey('delivery.DeliveryPerson', on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True, default='')
     is_visible_to_restaurant = models.BooleanField(default=False)  # New field
-
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default='Card')
     payment_status = models.BooleanField(default=False)
+    restaurant_otp_code = models.CharField(max_length=6, blank=True, null=True)
+    customer_otp_code = models.CharField(max_length=6, blank=True, null=True)
     
     def __str__(self):
         return f'Order {self.id} - {self.restaurant.name}'
@@ -174,6 +175,21 @@ class Order(models.Model):
         for item in self.items.all():
             total += item.price
         return total
+    
+    def create_restaurant_otp(self):
+        import random
+        self.restaurant_otp_code = ''.join(random.choices('0123456789', k=6))
+    
+    def create_customer_otp(self):
+        import random
+        self.customer_otp_code = ''.join(random.choices('0123456789', k=6))
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:  # Check if the order is being created for the first time
+            self.create_restaurant_otp()
+            self.create_customer_otp()
+        super().save(*args, **kwargs)
+        
 
 class RestaurantAddress(models.Model):
     restaurant_related = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='restaurant_addresses', null=True, blank=True)

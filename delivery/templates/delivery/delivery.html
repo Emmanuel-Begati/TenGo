@@ -31,8 +31,8 @@
                     <tr id="order-{{ order.id }}">
                         <td>{{ order.id }}</td>
                         <td>{{ order.restaurant.name }}</td>
-                        <td>{{ order.customer.name }}</td>
-                        <td>{{ order.customer.address }}</td>
+                        <td>{{ order.user.first_name }} {{order.user.last_name}}</td>
+                        <td>{{ order.delivery_address }}</td>
                         <td>
                             <form method="POST" action="{% url 'accept_delivery' order.id %}">
                                 {% csrf_token %}
@@ -90,37 +90,24 @@
 </div>
 
 <script>
-    const notificationsDiv = document.getElementById('notifications');
-    const pendingDeliveriesTable = document.getElementById('pending-deliveries-table').getElementsByTagName('tbody')[0];
-    const deliverySocket = new WebSocket('ws://' + window.location.host + '/ws/delivery/');
+    document.addEventListener('DOMContentLoaded', function() {
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/delivery/');
+        const pendingDeliveriesTableBody = document.querySelector('#pending-deliveries-table tbody');
 
-    deliverySocket.onopen = function(e) {
-        console.log('WebSocket connection established');
-    };
-
-    deliverySocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-        console.log('Message received:', data.message);
-
-        // Update the UI with the notification
-        const notification = document.createElement('div');
-        notification.className = 'alert alert-info';
-        notification.textContent = data.message;
-        notificationsDiv.appendChild(notification);
-
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-
-        // Update the UI with new order status
-        if (data.order) {
-            const order = data.order;
-            const orderRow = document.getElementById(`order-${order.id}`);
-
-            if (order.status === 'Ready for Delivery' && !orderRow) {
-                // Add new order to the pending deliveries table
-                const newRow = pendingDeliveriesTable.insertRow();
-                newRow.id = `order-${order.id}`;
+        function updatePendingDeliveriesTable(order) {
+            // Find the existing row for the order, if it exists
+            let existingRow = document.querySelector(`#pending-deliveries-table tbody tr#order-${order.id}`);
+            if (existingRow) {
+                console.log('Updating row for order ID:', order.id);
+                // Update the existing row
+                existingRow.querySelector('td:nth-child(2)').innerText = order.restaurant_name;
+                existingRow.querySelector('td:nth-child(3)').innerText = order.customer_name;
+                existingRow.querySelector('td:nth-child(4)').innerText = order.customer_address;
+            } else {
+                console.warn('Order row not found for order ID:', order.id);
+                // Optionally, add a new row if the order does not exist
+                const newRow = document.createElement('tr');
+                newRow.setAttribute('id', `order-${order.id}`);
                 newRow.innerHTML = `
                     <td>${order.id}</td>
                     <td>${order.restaurant_name}</td>
@@ -128,25 +115,38 @@
                     <td>${order.customer_address}</td>
                     <td>
                         <form method="POST" action="/accept_delivery/${order.id}/">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="${data.csrf_token}">
+                            <input type="hidden" name="csrfmiddlewaretoken" value="${document.querySelector('[name=csrfmiddlewaretoken]').value}">
                             <button type="submit" class="btn btn-success">Accept</button>
                         </form>
                     </td>
                 `;
-            } else if (order.status !== 'Ready for Delivery' && orderRow) {
-                // Remove the order from the pending deliveries table
-                orderRow.remove();
+                pendingDeliveriesTableBody.appendChild(newRow);
             }
         }
-    };
 
-    deliverySocket.onerror = function(e) {
-        console.error('WebSocket error:', e);
-    };
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            console.log('Received data:', data); // Log the received data
+            if (data.message) {
+                // Display notification
+                const notificationsDiv = document.getElementById('notifications');
+                const notification = document.createElement('div');
+                notification.className = 'alert alert-info';
+                notification.innerText = data.message;
+                notificationsDiv.appendChild(notification);
+            }
+            if (data.order) {
+                // Update order status in the UI
+                const order = data.order;
+                console.log('Order data:', order); // Log the order data
+                updatePendingDeliveriesTable(order);
+            }
+        };
 
-    deliverySocket.onclose = function(e) {
-        console.error('Delivery socket closed unexpectedly');
-    };
+        socket.onclose = function(e) {
+            console.error('WebSocket closed unexpectedly');
+        };
+    });
 </script>
 
 {% endblock %}

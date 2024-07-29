@@ -13,7 +13,7 @@ def delivery_dashboard(request):
         delivery_person = None
 
     pending_deliveries = Order.objects.filter(status='Ready for Delivery')
-    accepted_deliveries = Order.objects.filter(status__in=['Out for delivery', 'Delivered'], delivery_person=delivery_person)
+    accepted_deliveries = Order.objects.filter(status__in=['Out for delivery'], delivery_person=delivery_person)
     
     context = {
         'pending_deliveries': pending_deliveries,
