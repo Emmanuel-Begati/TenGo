@@ -4,6 +4,8 @@ from .models import Order, DeliveryPerson
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib import messages
+from django.http import JsonResponse
+from django.template.loader import render_to_string
 
 @login_required
 def delivery_dashboard(request):
@@ -65,7 +67,7 @@ def update_delivery_status(request, order_id):
             if otp_code == order.restaurant_otp_code:
                 order.status = 'Out for delivery'
                 order.save()
-                
+                messages.success(request, 'Your order is now out for delivery!')
                 # Notify customer that their order is out for delivery
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
@@ -79,14 +81,15 @@ def update_delivery_status(request, order_id):
                         },
                     }
                 )
-                messages.success(request, 'Order status updated successfully.')
+                return JsonResponse({'success': True})
             else:
                 messages.error(request, 'Invalid restaurant OTP code.')
+                return JsonResponse({'success': False})
         elif status == 'Delivered':
             if otp_code == order.customer_otp_code:
                 order.status = 'Delivered'
                 order.save()
-                
+                messages.success(request, 'Your order has been delivered!')
                 # Notify customer that their order has been delivered
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
@@ -100,10 +103,18 @@ def update_delivery_status(request, order_id):
                         },
                     }
                 )
-                messages.success(request, 'Order status updated successfully.')
+                return JsonResponse({'success': True})
             else:
                 messages.error(request, 'Invalid customer OTP code.')
+                return JsonResponse({'success': False})
         else:
             messages.error(request, 'Invalid status update.')
+            return JsonResponse({'success': False})
 
     return redirect('delivery_dashboard')
+
+
+def get_messages(request):
+    return JsonResponse({
+        'html': render_to_string('delivery/delivery.html', {'messages': messages.get_messages(request)})
+    })
