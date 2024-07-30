@@ -23,6 +23,9 @@ class DeliveryConsumer(WebsocketConsumer):
             self.channel_name,
         )
         
+        # Define group_name for disconnect method
+        self.group_name = self.delivery_group_name
+        
         self.accept()
 
     def disconnect(self, close_code):

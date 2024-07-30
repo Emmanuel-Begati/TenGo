@@ -13,7 +13,7 @@ def delivery_dashboard(request):
         delivery_person = None
 
     pending_deliveries = Order.objects.filter(status='Ready for Delivery')
-    accepted_deliveries = Order.objects.filter(status__in=['Out for delivery'], delivery_person=delivery_person)
+    accepted_deliveries = Order.objects.filter(status__in=['Out for delivery', 'Accepted', 'Delivered'], delivery_person=delivery_person)
     
     context = {
         'pending_deliveries': pending_deliveries,
@@ -29,29 +29,25 @@ def accept_delivery(request, order_id):
     try:
         delivery_person = DeliveryPerson.objects.get(user=request.user)
     except DeliveryPerson.DoesNotExist:
-        messages.error(request, "You are not authorized to accept deliveries.")
-        return redirect('delivery_dashboard')
+        delivery_person = None
 
-    order.status = 'Out for delivery'
-    order.delivery_person = delivery_person
-    order.save()
+    if order.status == 'Ready for Delivery' and delivery_person:
+        order.status = 'Accepted'
+        order.delivery_person = delivery_person
+        order.save()
 
-    # Send notification to WebSocket group
-    channel_layer = get_channel_layer()
-    if channel_layer:
+        # Notify customer that their order is out for delivery
+        channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
-            'delivery_notifications', 
+            f'user_{order.user.id}', 
             {
-                'type': 'send_notification', 
-                'message': f'Order {order.id} has been accepted by {delivery_person.user.first_name}.',
+                'type': 'order_update',
+                'message': 'Your order is now out for delivery!',
                 'order': {
                     'id': order.id,
-                    'restaurant_name': order.restaurant.name,
-                    'customer_name': order.user.first_name,
-                    'customer_address': order.delivery_address,
-                    'status': order.status
+                    'status': order.status,
+                    'delivery_person': delivery_person.user.first_name,
                 },
-                'csrf_token': request.META.get("CSRF_COOKIE")
             }
         )
 
@@ -60,32 +56,54 @@ def accept_delivery(request, order_id):
 @login_required
 def update_delivery_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    
-    new_status = request.POST.get('status')
-    if new_status not in ['Out for delivery', 'Delivered']:
-        messages.error(request, "Invalid status update.")
-        return redirect('delivery_dashboard')
 
-    order.status = new_status
-    order.save()
+    if request.method == 'POST':
+        otp_code = request.POST.get('otp_code')
+        status = request.POST.get('status')
 
-    # Send notification to WebSocket group
-    channel_layer = get_channel_layer()
-    if channel_layer:
-        async_to_sync(channel_layer.group_send)(
-            'delivery_notifications', 
-            {
-                'type': 'send_notification', 
-                'message': f'Order {order.id} status updated to {new_status}.',
-                'order': {
-                    'id': order.id,
-                    'restaurant_name': order.restaurant.name,
-                    'customer_name': order.user.first_name,
-                    'customer_address': order.delivery_address,
-                    'status': order.status
-                },
-                'csrf_token': request.META.get("CSRF_COOKIE")
-            }
-        )
+        if status == 'Out for delivery':
+            if otp_code == order.restaurant_otp_code:
+                order.status = 'Out for delivery'
+                order.save()
+                
+                # Notify customer that their order is out for delivery
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'user_{order.user.id}', 
+                    {
+                        'type': 'order_update',
+                        'message': 'Your order is now out for delivery!',
+                        'order': {
+                            'id': order.id,
+                            'status': order.status,
+                        },
+                    }
+                )
+                messages.success(request, 'Order status updated successfully.')
+            else:
+                messages.error(request, 'Invalid restaurant OTP code.')
+        elif status == 'Delivered':
+            if otp_code == order.customer_otp_code:
+                order.status = 'Delivered'
+                order.save()
+                
+                # Notify customer that their order has been delivered
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    f'user_{order.user.id}', 
+                    {
+                        'type': 'order_update',
+                        'message': 'Your order has been delivered!',
+                        'order': {
+                            'id': order.id,
+                            'status': order.status,
+                        },
+                    }
+                )
+                messages.success(request, 'Order status updated successfully.')
+            else:
+                messages.error(request, 'Invalid customer OTP code.')
+        else:
+            messages.error(request, 'Invalid status update.')
 
     return redirect('delivery_dashboard')
