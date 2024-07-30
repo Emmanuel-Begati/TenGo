@@ -129,6 +129,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const socket = new WebSocket('ws://' + window.location.host + '/ws/delivery/');
         const pendingDeliveriesTableBody = document.querySelector('#pending-deliveries-table tbody');
+        let currentForm = null;
 
         function updatePendingDeliveriesTable(order) {
             let existingRow = document.querySelector(`#pending-deliveries-table tbody tr#order-${order.id}`);
@@ -149,6 +150,7 @@
                         <form method="POST" class="status-form" data-order-id="${order.id}">
                             <input type="hidden" name="csrfmiddlewaretoken" value="${document.querySelector('[name=csrfmiddlewaretoken]').value}">
                             <select name="status" class="form-select">
+                                <option value="" disabled selected>Select status</option>
                                 <option value="Out for delivery">Out for delivery</option>
                                 <option value="Delivered">Delivered</option>
                             </select>
@@ -186,6 +188,7 @@
                 const orderId = form.getAttribute('data-order-id');
                 const status = event.target.value;
                 if (status === "Out for delivery" || status === "Delivered") {
+                    currentForm = form;
                     showOtpModal(orderId, status);
                 }
             }
@@ -197,7 +200,34 @@
             document.getElementById('otpForm').action = `/delivery/update/${orderId}/`;
             var modal = new bootstrap.Modal(document.getElementById('myModal'));
             modal.show();
+
+            // Add event listener for modal close
+            document.getElementById('myModal').addEventListener('hidden.bs.modal', function () {
+                if (!document.getElementById('otpForm').dataset.otpValid) {
+                    currentForm.querySelector('select[name="status"]').value = "";
+                }
+            });
         }
+
+        // Handle OTP form submission
+        document.getElementById('otpForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const otpCode = document.getElementById('otp_code').value;
+            const orderId = document.getElementById('order_id').value;
+            const status = document.getElementById('status').value;
+
+            // Simulate OTP validation (replace with actual validation logic)
+            const isValidOtp = otpCode === "1234"; // Example OTP validation
+
+            if (isValidOtp) {
+                document.getElementById('otpForm').dataset.otpValid = true;
+                // Submit the form or perform the status update
+                currentForm.submit();
+            } else {
+                document.getElementById('otpForm').dataset.otpValid = false;
+                alert('Invalid OTP code');
+            }
+        });
     });
 </script>
 
