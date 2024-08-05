@@ -38,8 +38,19 @@ def accept_delivery(request, order_id):
         order.delivery_person = delivery_person
         order.save()
 
-        # Notify customer that their order is out for delivery
+        # Notify restaurant and customer that their order is out for delivery
         channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f'restaurant_{order.restaurant.id}', 
+            {
+                'type': 'order_update',
+                'message': 'Order accepted by delivery person.',
+                'order': {
+                    'id': order.id,
+                    'status': order.status,
+                },
+            }
+        )
         async_to_sync(channel_layer.group_send)(
             f'user_{order.user.id}', 
             {
@@ -71,10 +82,10 @@ def update_delivery_status(request, order_id):
                 # Notify customer that their order is out for delivery
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
-                    f'user_{order.user.id}', 
+                    f'restaurant_{order.restaurant.id}', 
                     {
                         'type': 'order_update',
-                        'message': 'Your order is now out for delivery!',
+                        'message': 'Order is out for delivery.',
                         'order': {
                             'id': order.id,
                             'status': order.status,
@@ -93,16 +104,16 @@ def update_delivery_status(request, order_id):
                 # Notify customer that their order has been delivered
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
-                    f'user_{order.user.id}', 
-                    {
-                        'type': 'order_update',
-                        'message': 'Your order has been delivered!',
-                        'order': {
-                            'id': order.id,
-                            'status': order.status,
-                        },
-                    }
-                )
+                f'restaurant_{order.restaurant.id}', 
+                {
+                    'type': 'order_update',
+                    'message': 'Order has been delivered.',
+                    'order': {
+                        'id': order.id,
+                        'status': order.status,
+                    },
+                }
+            )
                 return JsonResponse({'success': True})
             else:
                 messages.error(request, 'Invalid customer OTP code.')

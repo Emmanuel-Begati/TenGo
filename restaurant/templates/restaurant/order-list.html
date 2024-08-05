@@ -51,6 +51,7 @@
                     <div class="title">
                         <div class="loader-line"></div>
                         <h3>Customer Orders</h3>
+                        <div id="notification-box"></div>
                     </div>
                     <ul class="order-box-list">
                         {% for order in orders %}
@@ -88,6 +89,7 @@
                     </ul>
                 </div>
                 <!-- Ensure the modal ID matches the dynamic link -->
+
                 {% for order in orders %}
                 <div class="modal order-details-modal fade" id="order-{{ order.id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered">
@@ -194,5 +196,63 @@
             }
         }
     });
+</script>
+<script>
+    const restaurantSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/restaurant/{{ user.id }}/'
+    );
+
+    restaurantSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        if (data.type === 'order_update' || data.type === 'new_order') {
+            updateOrderUI(data.order);
+            showNotification(`Order #${data.order.id} status: ${data.order.status}`);
+        }
+    };
+
+    function updateOrderUI(order) {
+        const orderElement = document.getElementById(`order-${order.id}`);
+        if (orderElement) {
+            // Update existing order
+            orderElement.querySelector('.order-details .fw-medium.content-color.text-end').innerText = order.status;
+        } else {
+            // Add new order
+            const orderBoxList = document.getElementById('order-box-list');
+            const newOrderHTML = `
+                <li id="order-${order.id}">
+                    <div class="order-box">
+                        <div class="order-box-content">
+                            <div class="brand-icon">
+                                <!-- Add restaurant logo if available -->
+                            </div>
+                            <div class="order-details">
+                                <h5 class="fw-medium content-color">Order #${order.id}</h5>
+                                <p class="fw-medium content-color text-end">${order.status}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            `;
+            orderBoxList.insertAdjacentHTML('beforeend', newOrderHTML);
+        }
+    }
+
+    function showNotification(message) {
+        const notificationBox = document.getElementById('notification-box');
+        const notificationHTML = `
+            <div class="notification">
+                <p>${message}</p>
+            </div>
+        `;
+        notificationBox.insertAdjacentHTML('beforeend', notificationHTML);
+
+        // Remove the notification after a few seconds
+        setTimeout(() => {
+            const notification = notificationBox.querySelector('.notification');
+            if (notification) {
+                notification.remove();
+            }
+        }, 5000); // Adjust the timeout duration as needed
+    }
 </script>
 {% endblock content %}

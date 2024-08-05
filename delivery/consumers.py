@@ -50,3 +50,9 @@ class DeliveryConsumer(WebsocketConsumer):
             self.send(text_data=json.dumps({
                 'order': data
             }))
+    
+    def order_update(self, event):
+        async_to_sync(self.send)(text_data=json.dumps(event))
+
+    def new_order(self, event):
+        async_to_sync(self.send)(text_data=json.dumps(event))

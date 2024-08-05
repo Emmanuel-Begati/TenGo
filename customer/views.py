@@ -20,6 +20,8 @@ from .flutterwave_utils import initialize_payment, verify_payment
 from user.forms import UpdateForm
 import environ
 from rave_python import Rave, RaveExceptions, Misc
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 
 
@@ -358,6 +360,7 @@ def use_address(request, address_id):
     
 #-------------------------------------------------------------ORDER SECTION--------------------------------------------------------------     
 @login_required
+@login_required
 def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
@@ -368,27 +371,45 @@ def create_order(request):
     
     orders_created = []
     
-    with transaction.atomic():
-        for restaurant, items in groupby(cart_items, key=lambda x: x.menu_item.menu.restaurant):
-            items = list(items)  # Convert to list as groupby returns an iterator
-            total_price = sum(item.total_price() for item in items)
-            
-            order = Order.objects.create(
-                user=request.user,
-                restaurant=restaurant,
-                total=total_price,
-                status='Pending',
-                is_visible_to_restaurant=False  # Set visibility to False
-            )
-            
-            for cart_item in items:
-                order.items.add(cart_item.menu_item)
-            
-            orders_created.append(order)
+    try:
+        with transaction.atomic():
+            for restaurant, items in groupby(cart_items, key=lambda x: x.menu_item.menu.restaurant):
+                items = list(items)  # Convert to list as groupby returns an iterator
+                total_price = sum(item.total_price() for item in items)
+                
+                order = Order.objects.create(
+                    user=request.user,
+                    restaurant=restaurant,
+                    total=total_price,
+                    status='Pending',
+                    is_visible_to_restaurant=False  # Set visibility to False
+                )
+                
+                for cart_item in items:
+                    order.items.add(cart_item.menu_item)
+                
+                orders_created.append(order)
         
-    messages.success(request, f"Successfully created {len(orders_created)} order(s).")
+        channel_layer = get_channel_layer()
+        for order in orders_created:
+            async_to_sync(channel_layer.group_send)(
+                f'restaurant_{order.restaurant.id}', 
+                {
+                    'type': 'new_order',
+                    'message': 'A new order has been placed.',
+                    'order': {
+                        'id': order.id,
+                        'status': order.status,
+                    },
+                }
+            )
+        
+        messages.success(request, f"Successfully created {len(orders_created)} order(s).")
+    except Exception as e:
+        messages.error(request, f"An error occurred while creating the order: {e}")
+        return redirect('menu_listing')
+    
     return redirect('address')  # Redirect to address selection page
-
 
 #-------------------------------------------------------------SEARCH SECTION--------------------------------------------------------------
 def restaurant_search(request):
