@@ -85,30 +85,63 @@
                                             <div class="col-12">
                                                 <label for="id_card_number" class="form-label">Card Number</label>
                                                 <input type="number" class="form-control" id="id_card_number" name="card_number" placeholder="Enter your card number">
+                                                <!-- Display errors for card_number field -->
+                                                {% for error in form.card_number.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-12">
                                                 <label for="id_name_on_card" class="form-label">Card Holder Name</label>
                                                 <input type="text" class="form-control" id="id_name_on_card" name="name_on_card" placeholder="Enter Holder name">
+                                                <!-- Display errors for name_on_card field -->
+                                                {% for error in form.name_on_card.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="id_expiry_month" class="form-label">Exp. Month</label>
                                                 <input type="text" class="form-control" id="id_expiry_month" name="expiry_month" placeholder="MM">
+                                                <!-- Display errors for expiry_month field -->
+                                                {% for error in form.expiry_month.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="id_expiry_year" class="form-label">Exp. Year</label>
                                                 <input type="text" class="form-control" id="id_expiry_year" name="expiry_year" placeholder="YYYY">
+                                                <!-- Display errors for expiry_year field -->
+                                                {% for error in form.expiry_year.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-sm-6">
                                                 <label for="id_cvv" class="form-label">CVV</label>
                                                 <input type="number" class="form-control" id="id_cvv" name="cvv" placeholder="Enter your CVV">
+                                                <!-- Display errors for cvv field -->
+                                                {% for error in form.cvv.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-sm-12">
                                                 <label for="id_zip_code" class="form-label">Zip Code</label>
                                                 <input type="text" class="form-control" id="id_zip_code" name="zip_code" placeholder="Enter Zip Code">
+                                                <!-- Display errors for zip_code field -->
+                                                {% for error in form.zip_code.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
                                             </div>
                                             <div class="col-12">
                                                 <button type="submit" class="btn theme-btn">Make Payment</button>
                                             </div>
+                                        
+                                            <!-- Display non-field errors -->
+                                            {% if form.non_field_errors %}
+                                                <ul class="errorlist" id="error-messages">
+                                                    {% for error in form.non_field_errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
                                         </form>
                                     </div>
                                 </div>
@@ -205,7 +238,7 @@
                                 <h6 class="content-color fw-normal">Total (Incl. VAT)</h6>
                                 <h5 class="theme-color fw-semibold">{{ final_total }}</h5>
                             </div>
-                            <a href="confirm-order.html" class="btn theme-btn confirm-order w-100 mt-3">Confirm Order</a>
+                            
                         </div>
                     </div>
                 </div>

@@ -15,13 +15,14 @@ def signup(request):
             user = form.save()
             if user.role == 'restaurant':
                 user.save()
-                
-                
                 login(request, user)
                 return redirect('restaurant-form')
+            else:
+                login(request, user)
+                messages.success(request, 'Signup successful! Welcome to the platform.')
+                return redirect('home')  # Redirect to home if the user role is not 'restaurant'
         else:
             print(form.errors)
-            form = UserRegistrationForm()
     else:
         form = UserRegistrationForm()
     return render(request, 'user/signup.html', {'form': form})

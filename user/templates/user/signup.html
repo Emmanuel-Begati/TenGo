@@ -20,31 +20,64 @@
                             <a href="{% url 'login' %}"><span class="theme-color">login to your account</span></a>
                         </h5>
 
-                        <!-- Display form fields with proper classes -->
+                        <!-- Display form fields with proper classes and error messages -->
                         <div class="form-input">
                             {{ form.first_name }}
                             <i class="ri-user-3-line"></i>
+                            <!-- Display errors for first_name field -->
+                            {% for error in form.first_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.last_name }}
                             <i class="ri-user-3-line"></i>
+                            <!-- Display errors for last_name field -->
+                            {% for error in form.last_name.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.email }}
                             <i class="ri-mail-line"></i>
+                            <!-- Display errors for email field -->
+                            {% for error in form.email.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.role }}
                             <i class="ri-user-settings-line"></i>
+                            <!-- Display errors for role field -->
+                            {% for error in form.role.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.password1 }}
                             <i class="ri-lock-password-line"></i>
+                            <!-- Display errors for password1 field -->
+                            {% for error in form.password1.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-input">
                             {{ form.password2 }}
                             <i class="ri-lock-password-line"></i>
+                            <!-- Display errors for password2 field -->
+                            {% for error in form.password2.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
                         </div>
+
+                        <!-- Display non-field errors -->
+                        {% if form.non_field_errors %}
+                            <ul class="errorlist" id="error-messages">
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
                         <button type="submit" class="btn theme-btn submit-btn w-100 rounded-2">CONTINUE</button>
                         <p class="fw-normal content-color">
                             By creating an account, I accept the
