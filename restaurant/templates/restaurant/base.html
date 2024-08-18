@@ -280,5 +280,32 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
+<!-- <script>
+    const restaurantId = "{{restaurant.id}}";
+const socket = new WebSocket(`ws://${window.location.host}/ws/restaurant/${restaurantId}/`);
+
+socket.onmessage = function(event) {
+const data = JSON.parse(event.data);
+if (data.message) {
+    const notificationsDiv = document.getElementById('notifications');
+    const notification = document.createElement('div');
+    notification.className = 'alert alert-info';
+    notification.innerText = data.message;
+    notificationsDiv.appendChild(notification);
+    // Set timeout for the notification to disappear after 5 seconds
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+if (data.order) {
+    const order = data.order;
+    updatePendingDeliveriesTable(order);
+}
+};
+
+socket.onclose = function(e) {
+console.error('WebSocket closed unexpectedly');
+};
+</script> -->
 </body>
 </html>

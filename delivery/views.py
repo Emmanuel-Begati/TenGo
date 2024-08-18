@@ -85,7 +85,18 @@ def update_delivery_status(request, order_id):
                     f'restaurant_{order.restaurant.id}', 
                     {
                         'type': 'order_update',
-                        'message': 'Order is out for delivery.',
+                        'message': f'Order {order.id} is out for delivery.',
+                        'order': {
+                            'id': order.id,
+                            'status': order.status,
+                        },
+                    }
+                )
+                async_to_sync(channel_layer.group_send)(
+                    f'user_{order.user.id}', 
+                    {
+                        'type': 'order_update',
+                        'message': 'Your order is now out for delivery!',
                         'order': {
                             'id': order.id,
                             'status': order.status,
@@ -96,24 +107,37 @@ def update_delivery_status(request, order_id):
             else:
                 messages.error(request, 'Invalid restaurant OTP code.')
                 return JsonResponse({'success': False})
+            
         elif status == 'Delivered':
             if otp_code == order.customer_otp_code:
                 order.status = 'Delivered'
                 order.save()
-                messages.success(request, 'Your order has been delivered!')
-                # Notify customer that their order has been delivered
+
+                # Notify restaurant and customer that the order has been delivered
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
-                f'restaurant_{order.restaurant.id}', 
-                {
-                    'type': 'order_update',
-                    'message': 'Order has been delivered.',
-                    'order': {
-                        'id': order.id,
-                        'status': order.status,
-                    },
-                }
-            )
+                    f'restaurant_{order.restaurant.id}', 
+                    {
+                        'type': 'order_update',
+                        'message': f'Order {order.id} has been delivered.',
+                        'order': {
+                            'id': order.id,
+                            'status': order.status,
+                        },
+                    }
+                )
+
+                async_to_sync(channel_layer.group_send)(
+                    f'user_{order.user.id}', 
+                    {
+                        'type': 'order_update',
+                        'message': 'Your order has been delivered!',
+                        'order': {
+                            'id': order.id,
+                            'status': order.status,
+                        },
+                    }
+                )
                 return JsonResponse({'success': True})
             else:
                 messages.error(request, 'Invalid customer OTP code.')
