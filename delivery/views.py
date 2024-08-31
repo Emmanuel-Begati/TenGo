@@ -116,7 +116,7 @@ def update_delivery_status(request, order_id):
                 # Notify restaurant and customer that the order has been delivered
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
-                    f'restaurant_{order.restaurant.id}', 
+                    f'restaurant_{order.restaurant.owner.id}', 
                     {
                         'type': 'order_update',
                         'message': f'Order {order.id} has been delivered.',
