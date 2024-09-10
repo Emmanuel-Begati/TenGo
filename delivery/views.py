@@ -114,18 +114,19 @@ def update_delivery_status(request, order_id):
                 order.save()
 
                 # Notify restaurant and customer that the order has been delivered
-                channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
-                    f'restaurant_{order.restaurant.owner.id}', 
-                    {
-                        'type': 'order_update',
-                        'message': f'Order {order.id} has been delivered.',
-                        'order': {
-                            'id': order.id,
-                            'status': order.status,
-                        },
-                    }
-                )
+                        f'restaurant_{order.restaurant.id}', 
+                        {
+                            'type': 'order_update',
+                            'message': f'Order {order.id} is out for delivery.',
+                            'order': {
+                                'id': order.id,
+                                'status': order.status,
+                            },
+                        }
+                    )
+                print(f"Sent order update to restaurant_{order.restaurant.id}")  # Add this line for logging
+
 
                 async_to_sync(channel_layer.group_send)(
                     f'user_{order.user.id}', 

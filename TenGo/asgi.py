@@ -7,15 +7,16 @@ from channels.security.websocket import AllowedHostsOriginValidator
 import delivery.routing
 import restaurant.routing
 
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TenGo.settings')
 
 application = ProtocolTypeRouter({
     'http': get_asgi_application(),
-    'websocket': AllowedHostsOriginValidator(AuthMiddlewareStack(
-        URLRouter(
-            delivery.routing.websocket_urlpatterns + 
-            restaurant.routing.websocket_urlpatterns
+    'websocket': AllowedHostsOriginValidator(
+        AuthMiddlewareStack(
+            URLRouter(
+                delivery.routing.websocket_urlpatterns + 
+                restaurant.routing.websocket_urlpatterns
+            )
         )
-    )),
+    ),
 })

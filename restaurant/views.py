@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 
 # Create your views here.
-def resturant_dashboard(request):
+def restaurant_dashboard(request):
     if request.user.role != 'restaurant':
         return redirect('home')
     elif request.user.role == 'restaurant':

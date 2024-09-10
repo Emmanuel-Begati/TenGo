@@ -284,10 +284,12 @@
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
 <!-- restaurant/templates/restaurant/base.html -->
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
+<!-- restaurant/templates/restaurant/base.html -->
+<script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const socket = new WebSocket((window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/restaurant/{{ user.id }}/');
-    
+     document.addEventListener('DOMContentLoaded', function() {
+        const socket = new WebSocket((window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/restaurant/{{ restaurant.id }}/');
+        
         socket.onopen = function() {
             console.log('WebSocket connection opened.');
         };
@@ -298,59 +300,37 @@
             console.log('Parsed WebSocket message:', data); // Log the parsed data
             
             if (data.message) {
-                const notificationsDiv = document.getElementById('notifications');
-                const notification = document.createElement('div');
-                notification.className = 'alert alert-info';
-                notification.innerText = data.message;
-                notificationsDiv.appendChild(notification);
-    
-                // Set timeout for the notification to disappear after 5 seconds
-                setTimeout(() => {
-                    notification.remove();
-                }, 5000);
-            }
-    
-            if (data.order) {
-                console.log('Order data:', data.order); // Log the order data
-                updateOrderUI(data.order);
-                showNotification(`Order #${data.order.id} status: ${data.order.status}`);
+                showNotification(data.message);
             }
         };
     
         socket.onerror = function(error) {
             console.error('WebSocket error:', error);
+            showErrorNotification('WebSocket error occurred. Please try again later.');
         };
     
         socket.onclose = function(e) {
             console.log('WebSocket connection closed.');
+            showErrorNotification('WebSocket connection closed. Please refresh the page.');
         };
     
-        function updateOrderUI(order) {
-            const orderElement = document.getElementById(`order-${order.id}`);
-            if (orderElement) {
-                // Update existing order
-                orderElement.querySelector('.order-details .fw-medium.content-color.text-end').innerText = order.status;
-            } else {
-                // Add new order
-                const orderBoxList = document.getElementById('order-box-list');
-                const newOrderHTML = `
-                    <li id="order-${order.id}">
-                        <div class="order-box">
-                            <div class="order-box-content">
-                                <h5 class="fw-medium content-color">Order #${order.id}</h5>
-                                <p class="fw-medium content-color text-end">${order.status}</p>
-                            </div>
-                        </div>
-                    </li>
-                `;
-                orderBoxList.insertAdjacentHTML('beforeend', newOrderHTML);
-            }
-        }
-    
         function showNotification(message) {
+            const notificationsDiv = document.getElementById('notifications');
+            const notification = document.createElement('div');
+            notification.className = 'alert alert-info';
+            notification.innerText = message;
+            notificationsDiv.appendChild(notification);
+    
+            // Set timeout for the notification to disappear after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        function showErrorNotification(message) {
             const notificationBox = document.getElementById('notification-box');
             const notificationHTML = `
-                <div class="notification alert alert-info">
+                <div class="notification alert alert-danger">
                     <p>${message}</p>
                 </div>
             `;
@@ -360,7 +340,7 @@
             setTimeout(() => {
                 const notification = notificationBox.querySelector('.notification');
                 if (notification) {
-                    notification.remove();
+                    notification.remove();                                                                                             
                 }
             }, 5000); // Adjust the timeout duration as needed
         }
