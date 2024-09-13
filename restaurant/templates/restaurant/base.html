@@ -123,7 +123,7 @@
         </div>
     </header>
     <div id="notification-box" class="notification-box"></div>
-
+    
     <!-- Header Section end -->
     <br>
     <br>
@@ -253,30 +253,6 @@
 <script src="{% static 'customer/assets/js/script.js' %}"></script> 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('.close_button').on('click', function(e) {
-            e.preventDefault();
-            var cartItemId = $(this).data('cart-item-id');
-            $.ajax({
-                url: '{% url "remove_from_cart" %}',
-                method: 'POST',
-                data: {
-                    'cart_item_id': cartItemId,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    // Update the cart view or remove the item from the DOM
-                    location.reload(); // Example: Reload the page after successful removal
-                },
-                error: function(error) {
-                    console.error('Error removing item from cart:', error);
-                }
-            });
-        });
-    });
-</script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -286,66 +262,7 @@
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
 <!-- restaurant/templates/restaurant/base.html -->
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
-<script>
-     document.addEventListener('DOMContentLoaded', function() {
-        const socket = new WebSocket((window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/ws/restaurant/{{ restaurant.id }}/');
-        
-        socket.onopen = function() {
-            console.log('WebSocket connection opened.');
-        };
-    
-        socket.onmessage = function(event) {
-            console.log('WebSocket message received:', event.data); // Log the raw data
-            const data = JSON.parse(event.data);
-            console.log('Parsed WebSocket message:', data); // Log the parsed data
-            
-            if (data.message) {
-                showNotification(data.message);
-            }
-        };
-    
-        socket.onerror = function(error) {
-            console.error('WebSocket error:', error);
-            showErrorNotification('WebSocket error occurred. Please try again later.');
-        };
-    
-        socket.onclose = function(e) {
-            console.log('WebSocket connection closed.');
-            showErrorNotification('WebSocket connection closed. Please refresh the page.');
-        };
-    
-        function showNotification(message) {
-            const notificationsDiv = document.getElementById('notifications');
-            const notification = document.createElement('div');
-            notification.className = 'alert alert-info';
-            notification.innerText = message;
-            notificationsDiv.appendChild(notification);
-    
-            // Set timeout for the notification to disappear after 5 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
+<script src="{% static 'restaurant/scripts/restaurant.js' %}"></script>
 
-        function showErrorNotification(message) {
-            const notificationBox = document.getElementById('notification-box');
-            const notificationHTML = `
-                <div class="notification alert alert-danger">
-                    <p>${message}</p>
-                </div>
-            `;
-            notificationBox.insertAdjacentHTML('beforeend', notificationHTML);
-    
-            // Remove the notification after a few seconds
-            setTimeout(() => {
-                const notification = notificationBox.querySelector('.notification');
-                if (notification) {
-                    notification.remove();                                                                                             
-                }
-            }, 5000); // Adjust the timeout duration as needed
-        }
-    });
-    
-</script>
 </body>
 </html>

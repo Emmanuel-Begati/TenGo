@@ -5,6 +5,8 @@
 <section class="tab-details-section section-b-space">
     <div class="container">
         <div class="category-detail-tab">
+            <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
+
             <div class="row g-4">
                 <a href="{% url 'add-menu-item' %}" class="btn btn-primary">Add Menu Item</a>
                                 <div class="col-lg-8">
@@ -58,6 +60,7 @@
                                                                         {{menu_item.description}}, {{menu_item.menu_item_id}}
                                                                     </p>
                                                                 </div>
+                                                                <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
                                                                 <div class="product-box-price">
                                                                     <h2 class="theme-color fw-semibold">
                                                                          ${{menu_item.price}} {% comment %}<span>/ <del>$60</del></span> {% endcomment %}

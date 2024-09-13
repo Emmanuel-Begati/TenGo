@@ -53,6 +53,8 @@
                         <h3>Customer Orders</h3>
                         <div id="notification-box"></div>
                     </div>
+                    <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
+                <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
                     <ul class="order-box-list">
                         {% for order in orders %}
                         <li>

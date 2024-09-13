@@ -30,6 +30,7 @@ def restaurant_dashboard(request):
 def order_list(request):
     user = request.user
     restaurants = Restaurant.objects.filter(owner=user ).values_list('id', flat=True)
+    restaurant = Restaurant.objects.get(owner=request.user)
     orders = Order.objects.filter(restaurant__in=restaurants, is_visible_to_restaurant=True)
 
     # Calculate and save the total for each order
@@ -38,7 +39,7 @@ def order_list(request):
         order.total = order_total  
         order.save()
 
-    return render(request, 'restaurant/order-list.html', {'orders': orders})
+    return render(request, 'restaurant/order-list.html', {'orders': orders, 'restaurant': restaurant})
 
 @login_required
 def add_menu_item(request):
@@ -77,7 +78,7 @@ def menu_item_list(request):
         # Assuming a Restaurant has a direct relation to Menu(s)
         menus = Menu.objects.filter(restaurant=restaurant)
         menu_items = MenuItem.objects.filter(menu__in=menus)
-        return render(request, 'restaurant/menu-item-list.html', {'menu_items': menu_items})
+        return render(request, 'restaurant/menu-item-list.html', {'menu_items': menu_items, 'restaurant': restaurant})
 
     else:
         return redirect('home')
@@ -87,7 +88,7 @@ def delete_menu_item(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
     print (menu_item)
     menu_item.delete()
-    return redirect('menu-item-list')  # Adjust the redirect as needed
+    return redirect('menu-item-list',)  # Adjust the redirect as needed
 
 
 # restaurant/views.py
