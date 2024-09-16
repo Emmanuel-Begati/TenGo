@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------
 
-    Template Name:zomo - Online Food Delivery
-    Template URI: https://themes.pixelstrap.net/zomo
+    Template Name:TenGo - Online Food Delivery
+    Template URI: https://themes.pixelstrap.net/TenGo
     Description: This is Food Ordering Html Template
     Author: Pixelstrap
     Author URL: https://themeforest.net/user/pixelstrap
@@ -4634,7 +4634,7 @@ li {
 }
 .page-head-section::before {
   content: "";
-  background-image: url(../../../../themes.pixelstrap.com/zomo-app-landing/assets/images/background/home-bg.jpg);
+  background-image: url(../../../../themes.pixelstrap.com/TenGo-app-landing/assets/images/background/home-bg.jpg);
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
