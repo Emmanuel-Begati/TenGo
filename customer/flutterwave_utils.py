@@ -24,7 +24,7 @@ def initialize_payment(amount, email, reference):
         "customizations": {
             "title": "Your Food Order",
             "description": "Payment for items in cart",
-            "logo": "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.png"  # Update with your logo URL
+            "logo": "http://www.piedpiper.com/app/themes/joystick-v27/images/logo.svg"  # Update with your logo URL
         }
     }
     

@@ -482,7 +482,7 @@
 /* font family */
 /* color variables */
 :root {
-  --theme-color: 56, 106, 2233;
+  --theme-color: 56, 106, 223;
   --theme-color2: 149, 159, 215;
   --light-theme-color: 255, 240, 227;
   --white: 255, 255, 255;
@@ -4929,7 +4929,7 @@ li {
 ==========================*/
 .footer-section {
   position: relative;
-  background-color: rgb(43, 43, 43);
+  background-color: rgb(32,42,68);
   overflow: hidden;
 }
 .footer-section .item-3 {
