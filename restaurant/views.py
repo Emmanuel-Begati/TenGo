@@ -33,11 +33,11 @@ def order_list(request):
     restaurant = Restaurant.objects.get(owner=request.user)
     orders = Order.objects.filter(restaurant__in=restaurants, is_visible_to_restaurant=True)
 
-    # Calculate and save the total for each order
-    for order in orders:
-        order_total = order.calculate_total()
-        order.total = order_total  
-        order.save()
+    # # Calculate and save the total for each order
+    # for order in orders:
+    #     order_total = order.total()
+    #     order.total = order_total  
+    #     order.save()
 
     return render(request, 'restaurant/order-list.html', {'orders': orders, 'restaurant': restaurant})
 

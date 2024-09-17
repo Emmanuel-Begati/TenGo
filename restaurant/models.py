@@ -169,13 +169,7 @@ class Order(models.Model):
     
     def __str__(self):
         return f'Order {self.id} - {self.restaurant.name}'
-    
-    def calculate_total(self):
-        total = 0
-        for item in self.items.all():
-            total += item.price
-        return total
-    
+
     def create_restaurant_otp(self):
         import random
         self.restaurant_otp_code = ''.join(random.choices('0123456789', k=6))
