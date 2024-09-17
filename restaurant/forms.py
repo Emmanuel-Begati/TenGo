@@ -7,8 +7,8 @@ class MenuItemForm(forms.ModelForm):
         fields = ['restaurant','name', 'description', 'price', 'image', 'is_available', 'category']
         widgets = {
             'is_available': forms.CheckboxInput(),
-            'category': forms.Select(choices=[(category.id, category.name) for category in Category.objects.all()]),
-            'restaurant': forms.Select(),
+            # 'category': forms.Select(choices=[(category.id, category.name) for category in Category.objects.all()]),
+            # 'restaurant': forms.Select(),
         }
 
     def __init__(self, *args, **kwargs):

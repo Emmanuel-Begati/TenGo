@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'customer',
     'restaurant',
     'user',
@@ -93,10 +94,15 @@ WSGI_APPLICATION = 'TenGo.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'tengo_db',
+        'USER': 'begati',
+        'PASSWORD': 'Begati_16',
+        'HOST': 'localhost',
+        'PORT': '5432',  # default PostgreSQL port
     }
 }
+
 
 
 # Password validation
