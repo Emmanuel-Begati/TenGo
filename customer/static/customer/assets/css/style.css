@@ -1302,7 +1302,8 @@ li {
   width: 100%;
   -o-object-fit: contain;
      object-fit: contain;
-  height: 55px;
+  height: 66px;
+  border-radius: 50%;
 }
 .categories-section .categories-style .food-categories h4 {
   display: block;
