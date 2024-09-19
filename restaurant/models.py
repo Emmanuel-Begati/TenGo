@@ -113,7 +113,7 @@ class MenuItem(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, related_name='menu_items')
+    category = models.ManyToManyField('Category', related_name='menu_items')
     menu_item_id = models.AutoField(primary_key=True)
     preparation_time = models.IntegerField(default=30)
 

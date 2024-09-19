@@ -2,14 +2,15 @@ from django import forms
 from .models import MenuItem, Category, Order, Restaurant, Menu
 
 class MenuItemForm(forms.ModelForm):
+    category = forms.ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
+    )
+
     class Meta:
         model = MenuItem
-        fields = ['restaurant','name', 'description', 'price', 'image', 'is_available', 'category']
-        widgets = {
-            'is_available': forms.CheckboxInput(),
-            # 'category': forms.Select(choices=[(category.id, category.name) for category in Category.objects.all()]),
-            # 'restaurant': forms.Select(),
-        }
+        fields = ['name', 'description', 'price', 'is_available', 'category', 'preparation_time', 'image']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)  # Extract user from kwargs

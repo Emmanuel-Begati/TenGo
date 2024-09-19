@@ -44,31 +44,30 @@ def order_list(request):
 @login_required
 def add_menu_item(request):
     if request.method == 'POST':
-        form = MenuItemForm(request.POST, request.FILES, user=request.user)
+        form = MenuItemForm(request.POST, request.FILES)
         if form.is_valid():
             menu_item = form.save(commit=False)
-            # Assuming you have a way to determine the menu to assign
             menu_item.menu = Menu.objects.get(restaurant__owner=request.user)
             menu_item.save()
-            return redirect('menu-item-list')  # Redirect to a new URL
+            form.save_m2m()  # Save the many-to-many data for the form
+            return redirect('menu-item-list')
     else:
         form = MenuItemForm()
-        print (form.errors)
-
     return render(request, 'restaurant/add-menu-item.html', {'form': form})
 
 @login_required
 def edit_menu_item(request, menu_item_id):
     menu_item = get_object_or_404(MenuItem, menu_item_id=menu_item_id)
     if request.method == 'POST':
-        form = MenuItemForm(request.POST, request.FILES, instance=menu_item, user=request.user)
+        form = MenuItemForm(request.POST, request.FILES, instance=menu_item)
         if form.is_valid():
-            form.save()
-            return redirect('menu-item-list')  # Redirect to the menu item list page or wherever appropriate
+            menu_item = form.save(commit=False)
+            menu_item.save()
+            form.save_m2m()  # Save the many-to-many data for the form
+            return redirect('menu-item-list')
     else:
-        form = MenuItemForm(instance=menu_item, user=request.user)
+        form = MenuItemForm(instance=menu_item)
     return render(request, 'restaurant/edit-menu-item.html', {'form': form})
-
 
 def menu_item_list(request):
     user = request.user

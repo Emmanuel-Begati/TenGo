@@ -111,7 +111,7 @@
                                                 </div>
                                                 <div id="item-{{category.id}}">
                                                     {% for menu_item in menu_items %}
-                                                    {% if menu_item.category == category %}
+                                                    {% if menu_item.category.first == category %}
                                                     <div class="product-details-box">
                                                         <div class="product-img">
                                                             <img class="img-fluid img" src="{{menu_item.image.url}}" alt="rp1">
