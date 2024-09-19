@@ -6,31 +6,7 @@
         <div class="container">
             <div class="title restaurant-title pb-0 w-border">
                 <h2>{{category}}</h2>
-                <ul class="nav nav-pills restaurant-tab tab-style2 border-0 w-100 m-0" id="Tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-delivery-tab" data-bs-toggle="pill"
-                            data-bs-target="#delivery-tab">
-                            Fast Delivery
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="pill-rating-tab" data-bs-toggle="pill"
-                            data-bs-target="#rating-tab">
-                            Rating
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-veg-tab" data-bs-toggle="pill" data-bs-target="#veg-tab">
-                            Pure Veg
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pill-cost-tab" data-bs-toggle="pill" data-bs-target="#cost-tab">
-                            Cost
-                        </button>
-                    </li>
-                </ul>
-            </div>
+               </div>
             <div class="tab-content restaurant-content" id="TabContent">
                 <div class="tab-pane fade show active" id="delivery-tab">
                     <div class="row g-lg-4 g-3">
@@ -62,14 +38,14 @@
                                                 <h3 class="vertical-product-title" style='color:grey;' >{{ menu_item.restaurant }}</h3>
                                             </a>
                                             <h6 class="rating-star">
-                                                <span class="star"><i class="ri-star-s-fill"></i></span>{{ menu_item.rating|default:"3.2" }}
+                                                <span class="star"><i class="ri-star-s-fill"></i></span>{{ menu_item.rating|default:"N/A" }}
                                             </h6>
                                         </div>
                                         <h5 class="product-items">
                                             {{ menu_item.description|default:"Chicken quesadilla, avocado...." }}
                                         </h5>
                                         <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                                            <h5 class="place">{{ menu_item.restaurant.address|default:"Kigali" }}</h5>
+                                            <h5 class="place">{{ menu_item.restaurant.address.city|default:"Kigali" }}  </h5>
                                             <ul class="distance">
                                                 <li><i class="ri-map-pin-fill icon"></i> {{ menu_item.restaurant.distance|default:"1.8 km" }}</li>
                                                 <li><i class="ri-time-fill icon"></i> {{ menu_item.restaurant.delivery_time|default:"12 min" }}</li>

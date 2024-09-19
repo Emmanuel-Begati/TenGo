@@ -192,9 +192,6 @@ def restaurant_listing(request, category_id):
         'menu_items': menu_items,
         **cart_content(request),  # Merging cart context with the current context
     }
-    print(category)
-    print(menu_items)
-    print (restaurants)
     return render(request, 'customer/restaurant-listing.html', context=context)
 
 @login_required
@@ -380,7 +377,6 @@ def use_address(request, address_id):
     for order in orders:
         order.delivery_address = customer_address.street + ', ' + customer_address.city + ', ' + customer_address.state + ', ' + customer_address.country
         order.save()
-        print (order.delivery_address)
     return redirect('make_payment')  
     
 #-------------------------------------------------------------ORDER SECTION--------------------------------------------------------------     
