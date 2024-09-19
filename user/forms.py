@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Contact
 from django.utils.translation import gettext, gettext_lazy as _
-
+from restaurant.models import RestaurantAddress
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -56,3 +56,16 @@ class ContactForm(forms.ModelForm):
         self.fields['email'].widget.attrs['placeholder'] = 'Enter your email'
         self.fields['phone_number'].widget.attrs['placeholder'] = 'Enter your phone number'
         self.fields['message'].widget.attrs['placeholder'] = 'Enter your message'
+        
+        
+class RestaurantAddressForm(forms.ModelForm):
+    class Meta:
+        model = RestaurantAddress
+        fields = ['country', 'state', 'city', 'street', 'zip_code']
+        from django import template
+
+        register = template.Library()
+
+        @register.filter(name='add_class')
+        def add_class(field, css_class):
+            return field.as_widget(attrs={"class": css_class})

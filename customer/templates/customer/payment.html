@@ -186,9 +186,9 @@
                                 <div class="add-content">
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="dark-text deliver-place">
-                                            Deliver to : {{ order.delivery_address.home }}
+                                            Deliver to : {{ order.delivery_address.home}}
                                         </h5>
-                                        <a href="address.html" class="change-add">Change</a>
+                                        <a href="{% url 'address'%}" class="change-add">Change</a>
                                     </div>
                                     <h6 class="address mt-2 content-color">
                                         {{ order.delivery_address }}

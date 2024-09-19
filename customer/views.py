@@ -285,36 +285,56 @@ def cart_detail(request):
 import logging
 logger = logging.getLogger(__name__)
 
+import logging
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from .models import MenuItem, Cart, CartItem
+
+logger = logging.getLogger(__name__)
+
 @login_required
 @require_POST
 def add_to_cart(request):
     logger.info("Starting add_to_cart view")
     try:
+        # Parse the incoming request data
         data = json.loads(request.body)
         menu_item_id = data.get('menu_item_id')
         logger.debug(f"Received menu_item_id: {menu_item_id}")
 
+        # Validate menu_item_id
         if not menu_item_id or not menu_item_id.isdigit():
             logger.warning(f"Invalid menu item ID: {menu_item_id}")
             return JsonResponse({'success': False, 'message': 'Invalid menu item ID'})
 
+        # Fetch the menu item from the database
         menu_item = get_object_or_404(MenuItem, pk=menu_item_id)
-        
+
+        # Check if the menu item has a price set
         if menu_item.price is None:
             logger.warning(f"Menu item price is None for item ID: {menu_item_id}")
             return JsonResponse({'success': False, 'message': 'Menu item price not set'})
 
+        # Get or create the cart for the user
         cart, created = Cart.objects.get_or_create(user=request.user)
+
+        # Get or create the cart item
         cart_item, created = CartItem.objects.get_or_create(cart=cart, menu_item=menu_item)
-        cart_item.quantity += 1
-        cart_item.price = menu_item.price
+        cart_item.quantity += 1  # Increment quantity
+        cart_item.price = menu_item.price  # Set the item price
         cart_item.save()
 
         # Calculate new cart count and total price
         new_cart_count = cart.cart_items.count()
-        total_price = cart.total_price()
+        total_price = sum(item.menu_item.price * item.quantity for item in CartItem.objects.filter(cart=cart))
 
+        # Log the successful addition to cart
         logger.info(f"Item added to cart: {menu_item_id}")
+
+        # Return the updated cart details as JSON response
         return JsonResponse({
             'success': True, 
             'message': 'Item added to cart',
@@ -327,11 +347,13 @@ def add_to_cart(request):
             'quantity': cart_item.quantity,
             'price': str(cart_item.price),  # Convert Decimal to string for JSON serialization
             'cart_item_id': cart_item.id,
-            
         })
+    
     except Exception as e:
+        # Log any error that occurred
         logger.error(f"Error in add_to_cart: {str(e)}")
         return JsonResponse({'success': False, 'message': 'An error occurred'})
+
 
 @login_required
 @require_POST
@@ -452,44 +474,58 @@ rave = Rave(env('PUBLIC_KEY'), env('SECRET_KEY'), usingEnv=False)
 
 def make_payment(request):
     card_detail = None
-    order = Order.objects.filter(user=request.user).last()
+    # Get all orders for the user that have not been paid for yet
+    orders = Order.objects.filter(user=request.user, payment_status=False)
+    
+    if not orders.exists():
+        messages.error(request, "No unpaid orders found.")
+        return redirect('cart')  # Redirect to cart or appropriate page
+
     card_details = CardDetails.objects.filter(customer=request.user)
 
     if request.method == 'POST':
         selected_card_id = request.POST.get('selected_card')
         if selected_card_id:
             card_detail = CardDetails.objects.get(id=selected_card_id, customer=request.user)
-            return process_payment_with_saved_card(request, card_detail, order)
+            return process_payment_with_saved_card(request, card_detail, orders)
         else:
             form = CardDetailsForm(request.POST)
             if form.is_valid():
-                return process_payment_with_new_card(request, form, order)
+                return process_payment_with_new_card(request, form, orders)
     else:
         form = CardDetailsForm()
 
     context = {
         'form': form,
         'card_details': card_details,
-        'order': order
+        'orders': orders  # Passing all unpaid orders to the template
     }
-    context.update(cart_content(request))
+    context.update(cart_content(request))  # Assuming you need cart context too
     return render(request, 'customer/payment.html', context)
 
-def process_payment_with_saved_card(request, card_detail, order):
-    payload = {
-        "cardno": card_detail.card_number,
-        "cvv": card_detail.cvv,
-        "expirymonth": card_detail.expiry_month,
-        "expiryyear": card_detail.expiry_year,
-        "email": request.user.email,
-        "amount": str(order.total),  # Assuming 'total_price' is the field in Order model
-        "currency": 'USD',
-        "suggested_auth": 'PIN',
-    }
 
-    return charge_card(request, payload)
+def process_payment_with_saved_card(request, card_detail, orders):
+    for order in orders:
+        payload = {
+            "cardno": card_detail.card_number,
+            "cvv": card_detail.cvv,
+            "expirymonth": card_detail.expiry_month,
+            "expiryyear": card_detail.expiry_year,
+            "email": request.user.email,
+            "amount": str(order.total),  # Process each order separately
+            "currency": 'USD',
+            "suggested_auth": 'PIN',
+        }
 
-def process_payment_with_new_card(request, form, order):
+        # Charge the card for each order
+        response = charge_card(request, payload)
+        if response.status_code != 200:  # Handle errors
+            return response  # If one payment fails, stop and return the error
+
+    return redirect('confirm-order')  # Redirect when all orders are processed
+
+
+def process_payment_with_new_card(request, form, orders):
     cardno = form.cleaned_data['card_number']
     cvv = form.cleaned_data['cvv']
     expirymonth = form.cleaned_data['expiry_month']
@@ -508,18 +544,25 @@ def process_payment_with_new_card(request, form, order):
         }
     )
 
-    payload = {
-        "cardno": cardno,
-        "cvv": cvv,
-        "expirymonth": expirymonth,
-        "expiryyear": expiryyear,
-        "email": request.user.email,
-        "amount": str(order.total),  # Convert Decimal to string
-        "currency": 'USD',
-        "suggested_auth": 'PIN',
-    }
+    for order in orders:
+        payload = {
+            "cardno": cardno,
+            "cvv": cvv,
+            "expirymonth": expirymonth,
+            "expiryyear": expiryyear,
+            "email": request.user.email,
+            "amount": str(order.total),  # Process each order separately
+            "currency": 'USD',
+            "suggested_auth": 'PIN',
+        }
 
-    return charge_card(request, payload)
+        # Charge the card for each order
+        response = charge_card(request, payload)
+        if response.status_code != 200:  # Handle errors
+            return response  # If one payment fails, stop and return the error
+
+    return redirect('confirm-order')  # Redirect when all orders are processed
+
 
 def charge_card(request, payload):
     try:
@@ -536,7 +579,7 @@ def charge_card(request, payload):
         verification = rave.Card.verify(res["txRef"])
         if verification["transactionComplete"]:
             handle_successful_payment(request)
-            return redirect('confirm-order')
+            return JsonResponse({"status": "success"})
         else:
             return JsonResponse({"status": "failed", "details": verification})
 
@@ -547,6 +590,8 @@ def charge_card(request, payload):
     except RaveExceptions.TransactionVerificationError as e:
         return JsonResponse({"status": "error", "message": str(e)})
 
+
 def handle_successful_payment(request):
-    Order.objects.filter(user=request.user).update(payment_status=True, is_visible_to_restaurant=True)
-    CartItem.objects.filter(cart__user=request.user).delete()
+    # Mark all unpaid orders as paid for this user
+    Order.objects.filter(user=request.user, payment_status=False).update(payment_status=True, is_visible_to_restaurant=True)
+    CartItem.objects.filter(cart__user=request.user).delete()  # Clear the cart after payment

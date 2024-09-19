@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from .forms import UserRegistrationForm, UserLoginForm, ContactForm
-from restaurant.models import Restaurant, Menu
+from .forms import UserRegistrationForm, UserLoginForm, ContactForm ,RestaurantAddressForm
+from restaurant.models import Restaurant, Menu, RestaurantAddress
 from .models import Contact
 from django.contrib import messages
 from restaurant.forms import RestaurantForm
-
+from django.contrib.auth.decorators import login_required
 
 
 def signup(request):
@@ -77,10 +77,9 @@ def restaurant_form(request):
                 restaurant = form.save(commit=False)
                 restaurant.owner = request.user
                 restaurant.save()
-                                # Create a Menu for the restaurant with the restaurant's name
-                menu = Menu.objects.create(name=(f'{restaurant.name} Menu'), 
-                                           restaurant=restaurant)
-                return redirect('restaurant-dashboard')
+                # Create a Menu for the restaurant with the restaurant's name
+                menu = Menu.objects.create(name=f'{restaurant.name} Menu', restaurant=restaurant)
+                return redirect('restaurant_add_address', restaurant_id=restaurant.id)  # Redirect to the new address form
             else:
                 print(form.errors)
         else:
@@ -88,3 +87,19 @@ def restaurant_form(request):
     else:
         return redirect('home')
     return render(request, 'restaurant/restaurant-form.html', {'form': form})
+
+@login_required
+def restaurant_add_address(request, restaurant_id):
+    restaurant = get_object_or_404(Restaurant, id=restaurant_id)
+    if request.method == 'POST':
+        form = RestaurantAddressForm(request.POST)
+        if form.is_valid():
+            address = form.save(commit=False)
+            address.restaurant_related = restaurant  # Set the restaurant_related field
+            address.save()
+            restaurant.address = address  # Set the address field in the Restaurant model
+            restaurant.save()
+            return redirect('restaurant-dashboard')  # Redirect to the restaurant dashboard after saving the address
+    else:
+        form = RestaurantAddressForm()
+    return render(request, 'restaurant/restaurant_add_address.html', {'form': form, 'restaurant': restaurant})

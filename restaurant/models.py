@@ -194,4 +194,6 @@ class RestaurantAddress(models.Model):
     zip_code = models.CharField(max_length=10, blank=True, null=True, default='')
 
     def __str__(self):
-        return f"{self.restaurant_related.name}'s address"
+        if self.restaurant_related:
+            return f"{self.restaurant_related.name}'s address"
+        return "Unrelated address"
