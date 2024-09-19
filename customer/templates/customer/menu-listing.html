@@ -126,26 +126,22 @@
                                                                         </h6>
                                                                     </div>
                                                                     <div class="rating-section">
-                                                                        <ul class="rating-star">
-                                                                            <li>
-                                                                                <i class="ri-star-fill star"></i>
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="ri-star-fill star"></i>
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="ri-star-fill star"></i>
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="ri-star-fill star"></i>
-                                                                            </li>
-                                                                            <li>
-                                                                                <i class="ri-star-fill star"></i>
-                                                                            </li>
-                                                                        </ul>
-                                                                        <h6 class="rating-amount">
-                                                                            1k+ Ratings
-                                                                        </h6>
+                                                                        {% if menu_item.ratings_count > 0 %}
+                                                                            <ul class="rating-star">
+                                                                                {% for i in "12345" %}
+                                                                                    <li>
+                                                                                        <i class="ri-star-fill star"></i>
+                                                                                    </li>
+                                                                                {% endfor %}
+                                                                            </ul>
+                                                                            <h6 class="rating-amount">
+                                                                                {{ menu_item.ratings_count }} Ratings
+                                                                            </h6>
+                                                                        {% else %}
+                                                                            <h6 class="rating-amount">
+                                                                                No Ratings Yet
+                                                                            </h6>
+                                                                        {% endif %}
                                                                     </div>
                                                                     <p>
                                                                         {{menu_item.description}}   
