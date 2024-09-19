@@ -253,10 +253,13 @@ def menu_listing(request, restaurant_id):
     ).distinct()    
     restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
     menu_items = MenuItem.objects.filter(menu__restaurant=restaurant)
+    primary_categories = Category.objects.filter(primary_menu_items__menu__restaurant=restaurant).distinct()
+
     context = {
         'restaurant': restaurant,
         'menu_items': menu_items,
         'category': categories_with_items,
+        'primary_categories':primary_categories,
         **cart_content(request),  # Merging cart context with the current context
     }
     return render(request, 'customer/menu-listing.html', context)

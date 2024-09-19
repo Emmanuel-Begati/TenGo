@@ -105,13 +105,13 @@
                                     <div class="product-box-section section-b-space">
                                         <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-smooth-scroll="true" class="scrollspy-example-2" tabindex="0">
                                             <div class="product-details-box-list">
-                                                {% for category in category %}
+                                                {% for category in primary_categories %}
                                                 <div class="product-details-box-title">
                                                     {{category.name}}
                                                 </div>
                                                 <div id="item-{{category.id}}">
                                                     {% for menu_item in menu_items %}
-                                                    {% if menu_item.category.first == category %}
+                                                    {% if menu_item.primary_category == category %}
                                                     <div class="product-details-box">
                                                         <div class="product-img">
                                                             <img class="img-fluid img" src="{{menu_item.image.url}}" alt="rp1">
@@ -148,7 +148,7 @@
                                                                         </h6>
                                                                     </div>
                                                                     <p>
-                                                                        {{menu_item.description}}, {{menu_item.menu_item_id}}
+                                                                        {{menu_item.description}}   
                                                                     </p>
                                                                 </div>
                                                                 <div class="product-box-price">

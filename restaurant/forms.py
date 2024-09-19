@@ -7,10 +7,14 @@ class MenuItemForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
+    primary_category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        required=True
+    )
 
     class Meta:
         model = MenuItem
-        fields = ['name', 'description', 'price', 'is_available', 'category', 'preparation_time', 'image']
+        fields = ['name', 'description', 'price', 'is_available', 'primary_category', 'category', 'preparation_time', 'image']
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)  # Extract user from kwargs

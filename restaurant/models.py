@@ -114,6 +114,7 @@ class MenuItem(models.Model):
     image = models.ImageField(upload_to='menu_items/')
     is_available = models.BooleanField(default=True)
     category = models.ManyToManyField('Category', related_name='menu_items')
+    primary_category = models.ForeignKey('Category', on_delete=models.SET_NULL, null=True, blank=True, related_name='primary_menu_items')
     menu_item_id = models.AutoField(primary_key=True)
     preparation_time = models.IntegerField(default=30)
 
