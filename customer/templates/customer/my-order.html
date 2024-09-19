@@ -12,8 +12,8 @@
                             <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
                         </div>
                         <div class="profile-name">
-                            <h5 class="user-name">Mark Jecno</h5>
-                            <h6>mark-jecno@gmail.com</h6>
+                            <h5 class="user-name">{{request.user.first_name}}</h5>
+                            <h6>{{request.user.email}}</h6>
                         </div>
                         <ul class="profile-list">
                             <li>
@@ -34,10 +34,6 @@
                             </li>
                             <li>
                                 <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
-                            </li>
-                            <li class="active">
-                                <i class="ri-settings-3-line"></i>
-                                <a href="{% url 'settings' %}">Setting</a>
                             </li>
                             <li>
                                 <i class="ri-logout-box-r-line"></i>

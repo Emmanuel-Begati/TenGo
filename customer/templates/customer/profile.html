@@ -12,7 +12,7 @@
                         </div>
                         <div class="profile-name">
                             <h5 class="user-name">{{request.user.first_name}}</h5>
-                            <h6>mark-jecno@gmail.com</h6>
+                            <h6>{{request.user.email}}</h6>
                         </div>
                         <ul class="profile-list">
                             <li class="active">
@@ -72,7 +72,7 @@
                                         <i class="ri-phone-fill"></i>
                                         <span>Phone Number :</span>
                                     </div>
-                                    <h6>+1 (692)52 - 95555</h6>
+                                    <h6>{{request.user.phone_number}}</h6>
                                 </div>
                             </li>
                             <a href="#edit-details" class="btn change-details theme-outline mt-0" data-bs-toggle="modal">Update Details</a>

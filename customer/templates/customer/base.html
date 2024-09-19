@@ -105,14 +105,12 @@
                     <div class="profile-part dropdown-button order-md-2">
                         <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
                         <div>
-                            {% if user.is_authenticated %}
-                                <h6 class="fw-normal">Hi, {{ user.first_name }}</h6>
-                                <h5 class="fw-medium">My Account</h5>
+                            {% if request.user.is_authenticated %}
+                                    <h6 class="fw-normal">Hi, {{ user.first_name }}</h6>
                             {% else %}
-                                <h6 class="fw-normal">Hi, Visitor</h6>
-                                <!-- Optionally, provide a link to login or register -->
-                                <h5 class="fw-medium">My Account</h5>
-                                {% endif %}
+                                     <h6 class="fw-normal">Hi, Visitor</h6>
+                            {% endif %}
+                                    <h5 class="fw-medium">My Account</h5>
                         </div>
                         <div class="onhover-box onhover-sm">
                             <ul class="menu-list">
