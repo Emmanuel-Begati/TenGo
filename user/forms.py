@@ -1,6 +1,6 @@
 # user/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from .models import User, Contact
 from django.utils.translation import gettext, gettext_lazy as _
 from restaurant.models import RestaurantAddress
@@ -69,3 +69,9 @@ class RestaurantAddressForm(forms.ModelForm):
         @register.filter(name='add_class')
         def add_class(field, css_class):
             return field.as_widget(attrs={"class": css_class})
+        
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your current password'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your new password'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your confirm password'}))

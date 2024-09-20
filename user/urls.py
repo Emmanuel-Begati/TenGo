@@ -1,6 +1,6 @@
 # user/urls.py
 from django.urls import path
-from .views import login_view, signup, logout_view, contact_form, restaurant_form, restaurant_add_address
+from .views import login_view, signup, logout_view, contact_form, restaurant_form, restaurant_add_address, change_password
 
 urlpatterns = [
     path('signup/', signup, name='signup'),
@@ -9,4 +9,6 @@ urlpatterns = [
     path('contact/', contact_form, name='contact'),
     path('restaurant-form/', restaurant_form, name='restaurant-form'),
     path('restaurant-add-address/<int:restaurant_id>/',restaurant_add_address, name='restaurant_add_address'),
+    path('change-password/', change_password, name='change-password'),
+
 ]

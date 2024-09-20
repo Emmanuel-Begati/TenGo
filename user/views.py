@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from .forms import UserRegistrationForm, UserLoginForm, ContactForm ,RestaurantAddressForm
+from .forms import UserRegistrationForm, UserLoginForm, ContactForm ,RestaurantAddressForm, CustomPasswordChangeForm
 from restaurant.models import Restaurant, Menu, RestaurantAddress
 from .models import Contact
 from django.contrib import messages
 from restaurant.forms import RestaurantForm
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import update_session_auth_hash
+from django.http import JsonResponse
 
 def signup(request):
     if request.method == 'POST':
@@ -46,6 +47,25 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to keep the user logged in
+            messages.success(request, 'Your password has been changed successfully.')
+            return redirect('profile')  # Redirect to the profile page or any other page
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            return redirect('profile')  # Redirect to the profile page or any other page
+    else:
+        messages.error(request, 'Invalid request method.')
+        return redirect('profile')  # Redirect to the profile page or any other page
 
 
 def contact_form(request):
