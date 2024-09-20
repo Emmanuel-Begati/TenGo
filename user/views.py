@@ -61,7 +61,7 @@ def change_password(request):
         else:
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f"{field}: {error}")
+                    messages.error(request, f"{error}")
             return redirect('profile')  # Redirect to the profile page or any other page
     else:
         messages.error(request, 'Invalid request method.')

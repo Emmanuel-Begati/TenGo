@@ -4,6 +4,11 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from .models import User, Contact
 from django.utils.translation import gettext, gettext_lazy as _
 from restaurant.models import RestaurantAddress
+from .validators import CustomPasswordValidator
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError  # Add this import
+
+
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -70,8 +75,28 @@ class RestaurantAddressForm(forms.ModelForm):
         def add_class(field, css_class):
             return field.as_widget(attrs={"class": css_class})
         
-
+        
 class CustomPasswordChangeForm(PasswordChangeForm):
-    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your current password'}))
-    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your new password'}))
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your confirm password'}))
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your current password'})
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your new password'})
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your confirm password'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(CustomPasswordChangeForm, self).__init__(*args, **kwargs)
+
+    def clean_new_password1(self):
+        password1 = self.cleaned_data.get('new_password1')
+        
+        # Use Django's validate_password to run all registered validators, including your custom one
+        try:
+            validate_password(password1, self.user)
+        except ValidationError as e:
+            self.add_error('new_password1', e)
+        
+        return password1
