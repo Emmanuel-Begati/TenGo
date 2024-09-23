@@ -1,0 +1,17 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 200" width="900" height="240">
+    <title>TENGO Delivery Logo - Enlarged</title>
+    <style>
+        .text { font-family: Arial, sans-serif; font-size: 120px; fill: #0000ff; font-weight: bold; } /* Blue text */
+        .box { fill: #d3d3d3; } /* Light gray box */
+        .wheel { fill: #0000ff; } /* Blue wheels */
+    </style>
+    <!-- Company Name -->
+    <text x="100" y="170" class="text">TENGO</text>
+
+    <!-- Box shape representing delivery -->
+    <rect x="550" y="90" width="180" height="90" class="box" rx="15" ry="15"/>
+    
+    <!-- Delivery wheels -->
+    <circle cx="600" cy="190" r="15" class="wheel" />
+    <circle cx="700" cy="190" r="15" class="wheel" />
+</svg>
