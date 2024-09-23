@@ -61,7 +61,7 @@ PyGObject==3.42.1
 PyJWT==2.3.0
 pyOpenSSL==24.2.1
 pyparsing==2.4.7
-python-apt==2.4.0+ubuntu3
+# python-apt==2.4.0+ubuntu3
 PyYAML==5.4.1
 rave-python==1.4.0
 redis==5.0.7
