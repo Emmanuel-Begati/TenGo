@@ -91,18 +91,22 @@ WSGI_APPLICATION = 'TenGo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+import environ
+import os
+
+# Initialize environment variables
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Reading .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'tengo_db',
-        'USER': 'begati',
-        'PASSWORD': 'Begati_16',
-        'HOST': 'localhost',
-        'PORT': '5432',  # default PostgreSQL port
-    }
+    'default': env.db(),
 }
-
 
 
 # Password validation
