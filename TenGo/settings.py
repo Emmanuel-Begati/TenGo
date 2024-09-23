@@ -184,7 +184,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 environ.Env.read_env(env_file=BASE_DIR / '.env')
 
-DEBUG = env('DEBUG')
 FLUTTERWAVE_SECRET_KEY = env('SECRET_KEY')
 FLUTTERWAVE_PUBLIC_KEY = env('PUBLIC_KEY')
 
