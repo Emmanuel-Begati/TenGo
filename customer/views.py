@@ -388,7 +388,7 @@ def create_order(request):
     
     if not cart_items:
         messages.error(request, "Your cart is empty. Please add items before creating an order.")
-        return redirect('menu_listing')  # Redirect to menu or appropriate page
+        return redirect('address')  # Redirect to menu or appropriate page
     
     orders_created = []
     
