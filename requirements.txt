@@ -34,4 +34,4 @@ typing_extensions==4.12.2
 urllib3==2.2.3
 whitenoise==6.7.0
 zope.interface==7.0.3
-channels_redis==3.3.1
+channels_redis
