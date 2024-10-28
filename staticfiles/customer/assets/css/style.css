@@ -482,8 +482,8 @@
 /* font family */
 /* color variables */
 :root {
-  --theme-color: 56, 106, 223;
-  --theme-color2: 149, 159, 215;
+  --theme-color: 168, 208, 141;
+  --theme-color2: 251, 150, 45;
   --light-theme-color: 255, 240, 227;
   --white: 255, 255, 255;
   --black: 0, 0, 0;
@@ -500,12 +500,12 @@
 }
 
 .dark {
-  --white: 32,42,68;
+  --white: 251, 192, 45;
   --black: 230, 230, 230;
   --dark-text: 230, 230, 230;
   --content-color: 215, 215, 215;
   --light-text: 163, 163, 163;
-  --box-bg: 57,61,71;
+  --box-bg: 168, 208, 141;
   --dashed-line: 90, 90, 90;
 }
 
@@ -8843,7 +8843,6 @@ header.header2 .navbar .nav-option .profile-part h6 {
   z-index: 1;
   position: relative;
   padding: calc(95px + 85 * (100vw - 320px) / 1600) 0 calc(60px + 40 * (100vw - 320px) / 1600) !important;
-  filter: grayscale(70%);
 }
 .home-wrapper .right-vector {
   position: absolute;
