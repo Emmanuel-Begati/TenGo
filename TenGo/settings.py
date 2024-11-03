@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-!dz$^0qy*@b3yj$u84de^as1cv=d=8$co%)6!xtnj%y$ojko8p
 
 # SECURITY WARNING: don't run with debug turned on in production
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://tengo.thisisemmanuel.pro','tengo.thisisemmanuel.pro', 'localhost', '127.0.0.1', '194.61.28.101']
 CSRF_TRUSTED_ORIGINS = ['https://tengo.thisisemmanuel.pro']

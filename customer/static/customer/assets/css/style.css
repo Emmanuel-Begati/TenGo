@@ -482,8 +482,8 @@
 /* font family */
 /* color variables */
 :root {
-  --theme-color: 168, 208, 141;
-  --theme-color2: 251, 150, 45;
+  --theme-color2: 38, 53, 31;
+  --theme-color: 87, 123, 87;
   --light-theme-color: 255, 240, 227;
   --white: 255, 255, 255;
   --black: 0, 0, 0;
@@ -500,12 +500,12 @@
 }
 
 .dark {
-  --white: 251, 192, 45;
+  --white: 51, 51, 51;
   --black: 230, 230, 230;
   --dark-text: 230, 230, 230;
   --content-color: 215, 215, 215;
   --light-text: 163, 163, 163;
-  --box-bg: 168, 208, 141;
+  --box-bg: 32, 32, 32;
   --dashed-line: 90, 90, 90;
 }
 
@@ -756,7 +756,7 @@ h3 {
 
 h4 {
   font-weight: 400;
-  font-size: calc(16px + 6 * (100vw - 320px) / 1600);
+  font-size: calc(12px + 6 * (100vw - 320px) / 1600);
   margin-bottom: 0;
 }
 
@@ -1236,7 +1236,7 @@ li {
   padding: calc(15px + 5 * (100vw - 320px) / 1600);
   border-radius: 13px;
   -webkit-box-shadow: 0 15px 60px -20px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 15px 60px -20px rgba(0, 0, 0, 0.1);
+          box-shadow:1px 1px 16px 4px rgb(0 0 0 / 15%);
   margin-top: calc(-45px + -25 * (100vw - 320px) / 1600);
 }
 .categories-section .item-2 {
@@ -1267,18 +1267,18 @@ li {
   padding: calc(10px + 10 * (100vw - 320px) / 1600) calc(8px + 7 * (100vw - 320px) / 1600);
   margin-top: 10px;
   border-radius: 8px;
-  background-color: rgba(var(--box-bg), 1);
   -webkit-transition: 0.4s ease;
   transition: 0.4s ease;
-  border: 1px solid transparent;
+  background: rgb(194 255 153 / 8%);
+  border: 1px solid rgba(var(--theme-color), 0.3);
 }
 .categories-section .categories-style .food-categories:hover {
   -webkit-transform: translateY(-5px);
           transform: translateY(-5px);
   -webkit-transition: 0.4s ease;
   transition: 0.4s ease;
-  background: rgba(var(--theme-color), 0.08);
-  border: 1px solid rgba(var(--theme-color), 0.3);
+  background: rgb(249 255 245 / 8%);
+  border: 1px solid rgb(255 255 255 / 30%);
 }
 .categories-section .categories-style .food-categories:hover h4 {
   color: rgba(var(--theme-color), 1) !important;
@@ -1303,7 +1303,7 @@ li {
   -o-object-fit: contain;
      object-fit: contain;
   height: 66px;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 .categories-section .categories-style .food-categories h4 {
   display: block;
@@ -1369,6 +1369,8 @@ li {
   top: -40px;
   z-index: 1;
   left: 0;
+  width: 10%;
+  rotate: 50deg;
 }
 [dir=rtl] .popcorn-img {
   right: 0;
@@ -4930,7 +4932,7 @@ li {
 ==========================*/
 .footer-section {
   position: relative;
-  background-color: rgb(32,42,68);
+  background-color: rgb(22, 22, 22);
   overflow: hidden;
 }
 .footer-section .item-3 {
@@ -8835,10 +8837,10 @@ header.header2 .navbar .nav-option .profile-part h6 {
    5.8 Home-section style start
 ==========================*/
 .home-wrapper {
-  background-image: url(../images/background/bg.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: rgb(32, 32, 32);
   width: 100%;
   z-index: 1;
   position: relative;
@@ -9006,7 +9008,7 @@ header.header2 .navbar .nav-option .profile-part h6 {
   left: 15px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  color: rgba(var(--theme-color2), 1);
+  color: rgba(var(--theme-color), 1);
   font-size: calc(20px + 2 * (100vw - 320px) / 1600);
 }
 [dir=rtl] .home-wrapper .search-section .search-head .form-group .form-input .search-icon {
