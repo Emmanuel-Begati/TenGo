@@ -49,8 +49,17 @@ INSTALLED_APPS = [
 ]
 
 ASGI_APPLICATION = 'TenGo.asgi.application'
-REDIS_URL = os.getenv('REDIS_URL')
+REDIS_URL = 'redis://default:NZZAIGpMqjCcrCzeDoEqTxIVtMHkLUKR@autorack.proxy.rlwy.net:32953' #need to work on environment variables
+from redis import Redis
 
+print(f"Connecting to Redis at: {REDIS_URL}")
+
+try:
+    redis = Redis.from_url(REDIS_URL)
+    redis.ping()
+    print("Connected to Redis successfully!")
+except Exception as e:
+    print(f"Failed to connect to Redis: {e}")
 
 CHANNEL_LAYERS = {
     'default': {
