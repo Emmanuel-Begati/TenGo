@@ -1366,10 +1366,10 @@ li {
 
 .popcorn-img {
   position: absolute;
-  top: -40px;
-  z-index: 1;
-  left: 0;
-  width: 10%;
+  top: -132px;
+  z-index: 2;
+  left: -131px;
+  width: 18%;
   rotate: 50deg;
 }
 [dir=rtl] .popcorn-img {
