@@ -33,7 +33,7 @@ ALLOWED_HOSTS = [
     '194.61.28.101',
     'tengo.onrender.com',
 ]
-CSRF_TRUSTED_ORIGINS = ['https://tengo.thisisemmanuel.pro', 'tengo.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://tengo.thisisemmanuel.pro', 'https://tengo.onrender.com']
 
 # Application definition
 
