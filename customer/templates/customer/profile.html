@@ -1,0 +1,256 @@
+{%extends "customer/base.html"%}
+{%load static%}
+{% block content %}
+    <!-- profile section starts -->
+    <section class="profile-section section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-3">
+                    <div class="profile-sidebar sticky-top">
+                        <div class="profile-cover">
+                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
+                        </div>
+                        <div class="profile-name">
+                            <h5 class="user-name">{{request.user.first_name}}</h5>
+                            <h6>{{request.user.email}}</h6>
+                        </div>
+                        <ul class="profile-list">
+                            <li class="active">
+                                <i class="ri-user-3-line"></i>
+                                <a href="{% url 'profile' %}">Change Profile</a>
+                            </li>
+                            <li>
+                                <i class="ri-shopping-bag-3-line"></i>
+                                <a href="{% url 'my-order' %}">My Order</a>
+                            </li>
+                            <li>
+                                <i class="ri-map-pin-line"></i>
+                                <a href="{% url 'saved-address' %}">Saved Address</a>
+                            </li>
+                            <li>
+                                <i class="ri-bank-card-line"></i>
+                                <a href="{% url 'saved-card' %}">Saved Card</a>
+                            </li>
+                            <li>
+                                <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
+                            </li>
+                            <li>
+                                <i class="ri-logout-box-r-line"></i>
+                                <a href="#log-out" data-bs-toggle="modal">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    {% if messages %}
+                    <div class="alert alert-dismissible fade show" role="alert">
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags == 'error' %}alert-danger{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+                        <div class="change-profile-content">
+                        <div class="title">
+                            <div class="loader-line"></div>
+                            <h3>Change Profile</h3>
+                        </div>
+                        <ul class="profile-details-list">
+                            <li>
+                                <div class="profile-content">
+                                    <div class="d-flex align-items-center gap-sm-2 gap-1">
+                                        <i class="ri-user-3-fill"></i>
+                                        <span>Name :</span>
+                                    </div>
+                                    <h6> {{request.user.first_name}} {{request.user.last_name}}</h6>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="profile-content">
+                                    <div class="d-flex align-items-center gap-sm-2 gap-1">
+                                        <i class="ri-mail-fill"></i>
+                                        <span>Email :</span>
+                                    </div>
+                                    <h6>{{request.user.email}}</h6>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="profile-content">
+                                    <div class="d-flex align-items-center gap-sm-2 gap-1">
+                                        <i class="ri-phone-fill"></i>
+                                        <span>Phone Number :</span>
+                                    </div>
+                                    <h6>{{request.user.phone_number}}</h6>
+                                </div>
+                            </li>
+                            <a href="#edit-details" class="btn change-details theme-outline mt-0" data-bs-toggle="modal">Update Details</a>
+
+                            <li>
+                                <div class="profile-content">
+                                    <div class="d-flex align-items-center gap-sm-2 gap-1">
+                                        <i class="ri-lock-2-fill"></i>
+                                        <span>Password :</span>
+                                    </div>
+                                    <h6>********</h6>
+                                </div>
+                                <a href="#password" class="btn theme-outline mt-0" data-bs-toggle="modal">Change</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- profile section end -->
+
+    
+
+    <!-- location offcanvas start -->
+    <div class="modal fade location-modal" id="location" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <h5 class="fw-semibold">Select a Location</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="search-section">
+                        <form class="form_search" role="form">
+                            <input type="search" placeholder="Search Location" class="nav-search nav-search-field">
+                        </form>
+                    </div>
+                    <a href="#!" class="current-location">
+                        <div class="current-address">
+                            <i class="ri-focus-3-line focus"></i>
+                            <div>
+                                <h5>Use current-location</h5>
+                                <h6>Wellington St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                        <i class="ri-arrow-right-s-line arrow"></i>
+                    </a>
+                    <h5 class="mt-sm-3 mt-2 fw-medium recent-title dark-text">
+                        Recent Location
+                    </h5>
+                    <a href="#!" class="recent-location">
+                        <div class="recant-address">
+                            <i class="ri-map-pin-line theme-color"></i>
+                            <div>
+                                <h5>Bayshore</h5>
+                                <h6>kingston St., Ottawa, Ontario, Canada</h6>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn gray-btn" data-bs-dismiss="modal">Close</a>
+                    <a href="#" class="btn theme-btn mt-0" data-bs-dismiss="modal">Save</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- location offcanvas end -->
+
+
+    <!-- profile details modal starts -->
+    <div class="modal address-details-modal fade" id="edit-details" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Profile Details
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3" id='updateForm' method='post'>
+                    {% csrf_token %}
+                    <div class="col-8">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter your first name" value="{{ user.first_name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="last_name" class="form-label">Second Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Enter your second name" value="{{ user.last_name }}">
+                    </div>
+                    <div class="col-8">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="{{ user.email }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone_number" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your phone number" value="{{ user.phone_number }}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <a href="address.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+              <button type="submit" form="updateForm" class="btn theme-btn mt-0">SUBMIT</button>
+          </div>
+        </div>
+    </div>
+</div>
+<!-- profile details modal end -->
+
+    <!-- edit password number modal starts -->
+   
+
+<!-- edit password modal starts -->
+<div class="modal profile-modal fade" id="password" aria-hidden="true" aria-labelledby="exampleModalTogglePass" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalTogglePass">Password</h1>
+            </div>
+            <div class="modal-body">
+                <form id="passwordChangeForm" method="post" action="{% url 'change-password' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputcurrentPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="inputcurrentPassword" name="old_password" placeholder="Enter your current password">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="inputnewPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="inputnewPassword" name="new_password1" placeholder="Enter your new password">
+                    </div>
+                    <div class="form-group mt-2">
+                        <label for="inputconfirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="inputconfirmPassword" name="new_password2" placeholder="Enter your confirm password">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn gray-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn theme-btn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- edit password number modal end -->
+
+    <!-- logout modal starts -->
+    <div class="modal address-details-modal fade" id="log-out" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Logging Out</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you Sure, You are logging out</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="saved-card.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                    <a href="index-2.html" class="btn theme-btn mt-0">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>  
+    {% endblock content %}

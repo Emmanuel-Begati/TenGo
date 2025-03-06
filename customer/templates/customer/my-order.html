@@ -1,0 +1,217 @@
+
+{%extends "customer/base.html"%}
+{%load static%}
+{% block content %}
+    <!-- profile section starts -->
+    <section class="profile-section section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-3">
+                    <div class="profile-sidebar sticky-top">
+                        <div class="profile-cover">
+                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
+                        </div>
+                        <div class="profile-name">
+                            <h5 class="user-name">{{request.user.first_name}}</h5>
+                            <h6>{{request.user.email}}</h6>
+                        </div>
+                        <ul class="profile-list">
+                            <li>
+                                <i class="ri-user-3-line"></i>
+                                <a href="{% url 'profile' %}">Change Profile</a>
+                            </li>
+                            <li>
+                                <i class="ri-shopping-bag-3-line"></i>
+                                <a href="{% url 'my-order' %}">My Order</a>
+                            </li>
+                            <li>
+                                <i class="ri-map-pin-line"></i>
+                                <a href="{% url 'saved-address' %}">Saved Address</a>
+                            </li>
+                            <li>
+                                <i class="ri-bank-card-line"></i>
+                                <a href="{% url 'saved-card' %}">Saved Card</a>
+                            </li>
+                            <li>
+                                <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
+                            </li>
+                            <li>
+                                <i class="ri-logout-box-r-line"></i>
+                                <a href="#log-out" data-bs-toggle="modal">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="my-order-content">
+                        <div class="title">
+                            <div class="loader-line"></div>
+                            <h3>My Orders</h3>
+                        </div>
+                        <ul class="order-box-list">
+                            {% for order in orders %}
+                            <li>
+                                <div class="order-box">
+                                    <div class="order-box-content">
+                                        <div class="brand-icon
+                                        ">
+                                            <img class="img-fluid icon" src="{{restaurant.image.url}}"
+                                                alt="brand1">
+                                        </div>
+                                        <div class="order-details">
+                                            <div class="d-flex align-items-center justify-content-between w-100">
+                                                <h5 class="brand-name
+                                                dark-text fw-medium">
+                                                    {{order.restaurant.name}}
+                                                </h5>
+                                                <h6 class="fw-medium content-color text-end">
+                                                    {{order.order_time | date:"D, d M Y"}}
+                                                </h6>
+                                            </div>
+                                            <h6 class="fw-medium dark-text">
+                                                <span class="fw-normal content-color">Transaction Id :
+                                                </span>
+                                                #{{order.id}}
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                                        <h6 class="fw-medium dark-text">
+                                            <span class="fw-normal content-color">Total Amount :</span>
+                                            $ {{order.total}}
+                                        </h6>
+                                        <a href="#order-{{ order.id }}" class="btn theme-outline details-btn" data-bs-toggle="modal">Details</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- profile section end -->
+
+    
+     <!-- order details modal starts -->
+     {% for order in orders %}
+    <div class="modal order-details-modal fade" id="order-{{ order.id }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+    tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-medium" id="exampleModalToggleLabel">
+                    Order details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="order-details-box">
+                    <div class="order-icon">
+                    </div>
+                    <div class="order-content">
+                        <h5 class="brand-name dark-text fw-medium">{{restaurant.name}}</h5>
+                        {% if order.status == 'Delivered' %}
+                            <h6 class="order-deliver-label">Delivered</h6>
+                        {% elif order.status == 'Pending' %}
+                            <h6 class="order-deliver-label">Pending</h6>
+                        {% elif order.status == 'Preparing' %}
+                            <h6 class="order-deliver-label">Preparing</h6>
+                        {% elif order.status == 'Cancelled' %}
+                            <h6 class="order-deliver-label">Cancelled</h6>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="delivery-address">
+                    <div class="d-flex align-items-center gap-2 mt-2">
+                        <i class="ri-map-pin-fill theme-color"></i>
+                        <p>{{order.delivery_address}}</p>
+                    </div>
+                </div>
+                <div class="delivery-on-going">
+                    <ul class="delivery-list">
+                        <li>
+                            <h6>Id Transaction</h6>
+                            <h5>#{{order.id}}</h5>
+                        </li>
+                        <li>
+                            <h6>Date & Time</h6>
+                            <h5>{{order.order_time | date:"D, d M Y"}}</h5>
+                        </li>
+                    </ul>
+                    <ul class="delivery-list">
+                        <li>
+                            <div class="order-address">
+                                 <h5>Restaurant Address</h5>
+                            </div>
+                            <h6 class="delivery-place">{{restaurant.name}}</h6>
+                        </li>
+                        <li>
+                            <div class="order-address">
+
+                                <h5>Delivery Address</h5>
+                            </div>
+                            <h6 class="delivery-place">{{order.delivery_address.city}}</h6>
+                        </li>
+                    </ul>
+                </div>
+                <ul class="order-list">
+                    {% for item in order.items.all %}
+                    <li>
+                        <div class="order-content-box">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6>{{ item.name }}</h6>
+                                <h6>${{ item.price }}</h6>
+                            </div>
+                            <div>
+                                {% comment %} <p>Qty: {{ cart_items.first  }}</p> <!-- Will work on this later --> {% endcomment %}
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="total-amount">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h6 class="fw-medium dark-text">Total</h6>
+                        <h6 class="fw-medium dark-text">${{ order.total }}</h6>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="fw-normal content-color">Delivery Charge</p>
+                        <p class="fw-normal content-color">Free</p>
+                    </div>
+                    <div class="grand-amount d-flex align-items-center justify-content-between">
+                        <h6 class="fw-medium dark-text">Grand Total</h6>
+                        <h6 class="fw-medium dark-text">${{ order.total }}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+<!-- order details modal end -->
+
+<!-- logout modal starts -->
+<div class="modal address-details-modal fade" id="log-out" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Logging Out</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you Sure, You are logging out</p>
+            </div>
+            <div class="modal-footer">
+                <a href="saved-card.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                <a href="index-2.html" class="btn theme-btn mt-0">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- logout modal end -->
+    {% endblock content %}

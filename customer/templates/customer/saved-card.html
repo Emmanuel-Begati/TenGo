@@ -1,0 +1,174 @@
+
+    {%extends "customer/base.html"%}
+    {%load static%}
+    {%block content%}
+    <!-- card section starts -->
+    <section class="profile-section section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-3">
+                    <div class="profile-sidebar sticky-top">
+                        <div class="profile-cover">
+                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
+                        </div>
+                        <div class="profile-name">
+                            <h5 class="user-name">Mark Jecno</h5>
+                            <h6>mark-jecno@gmail.com</h6>
+                        </div>
+                        <ul class="profile-list">
+                            <li>
+                                <i class="ri-user-3-line"></i>
+                                <a href="{% url 'profile' %}">Change Profile</a>
+                            </li>
+                            <li>
+                                <i class="ri-shopping-bag-3-line"></i>
+                                <a href="{% url 'my-order' %}">My Order</a>
+                            </li>
+                            <li>
+                                <i class="ri-map-pin-line"></i>
+                                <a href="{% url 'saved-address' %}">Saved Address</a>
+                            </li>
+                            <li>
+                                <i class="ri-bank-card-line"></i>
+                                <a href="{% url 'saved-card' %}">Saved Card</a>
+                            </li>
+                            <li>
+                                <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
+                            </li>
+                            <li>
+                                <i class="ri-logout-box-r-line"></i>
+                                <a href="#log-out" data-bs-toggle="modal">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="cards-content">
+                        <div class="title">
+                            <div class="loader-line"></div>
+                            <h3>Saved Card</h3>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+                                <div class="debit-card color-1">
+                                    <div class="card-details">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-name fw-semibold">CREDIT CARD</h5>
+                                            <img class="img-fluid network" src="{% static 'customer/assets/images/svg/network.svg' %}" alt="network">
+                                        </div>
+                                        <img class="img-fluid chip" src="{% static 'customer/assets/images/svg/Chip.svg' %}" alt="chip">
+                                        <div class="ac-details">
+                                            <h6>AC No.</h6>
+                                            <h3>5322 2564 1011 1202</h3>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex gap-2">
+                                                <h6>Exp.</h6>
+                                                <h5>12/26</h5>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <h6>CVV</h6>
+                                                <h5>***</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user-name">
+                                            <h5>Nathaniel Ellis</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-hover">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <a data-bs-toggle="modal" data-bs-target="#edit-card" href="#" class="text-white">
+                                                <i class="ri-edit-2-fill edit-icon"></i> Edit</a>
+                                            <a href="#delete-card" data-bs-toggle="modal" class="text-white"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+                                <div class="debit-card color-2">
+                                    <div class="card-details">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-name fw-semibold">CREDIT CARD</h5>
+                                            <img class="img-fluid network" src="{% static 'customer/assets/images/svg/network.svg' %}" alt="network">
+                                        </div>
+                                        <img class="img-fluid chip" src="{% static 'customer/assets/images/svg/Chip.svg' %}" alt="chip">
+                                        <div class="ac-details">
+                                            <h6>AC No.</h6>
+                                            <h3>5322 2564 1011 1234</h3>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex gap-2">
+                                                <h6>Exp.</h6>
+                                                <h5>2/28</h5>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <h6>CVV</h6>
+                                                <h5>***</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user-name">
+                                            <h5>Mike Jonathan</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-hover">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <a data-bs-toggle="modal" data-bs-target="#edit-card" href="#" class="text-white">
+                                                <i class="ri-edit-2-fill edit-icon"></i> Edit</a>
+                                            <a href="#delete-card" data-bs-toggle="modal" class="text-white"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+                                <div class="debit-card color-3">
+                                    <div class="card-details">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <h5 class="card-name fw-semibold">CREDIT CARD</h5>
+                                            <img class="img-fluid network" src="{% static 'customer/assets/images/svg/network.svg' %}" alt="network">
+                                        </div>
+                                        <img class="img-fluid chip" src="{% static 'customer/assets/images/svg/Chip.svg' %}" alt="chip">
+                                        <div class="ac-details">
+                                            <h6>AC No.</h6>
+                                            <h3>5322 2564 1011 4528</h3>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex gap-2">
+                                                <h6>Exp.</h6>
+                                                <h5>10/25</h5>
+                                            </div>
+                                            <div class="d-flex gap-2">
+                                                <h6>CVV</h6>
+                                                <h5>***</h5>
+                                            </div>
+                                        </div>
+                                        <div class="user-name">
+                                            <h5>John Kathryn</h5>
+                                        </div>
+                                    </div>
+                                    <div class="card-hover">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <a data-bs-toggle="modal" data-bs-target="#edit-card" href="#" class="text-white">
+                                                <i class="ri-edit-2-fill edit-icon"></i> Edit</a>
+                                            <a href="#delete-card" data-bs-toggle="modal" class="text-white"><i class="ri-delete-bin-fill"></i> Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-sm-6 col-12">
+                                <div class="add-card">
+                                    <div data-bs-toggle="modal" data-bs-target="#add-card" class="card-details">
+                                        <div>
+                                            <i class="ri-add-line add-icon"></i>
+                                            <h5 class="fw-normal dark-text">Add New Card</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- profile section end -->
+    {%endblock content%}

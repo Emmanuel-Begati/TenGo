@@ -1,0 +1,133 @@
+{%extends "customer/base.html"%}
+{%load static%}
+{%block content%}
+    <!-- contact section starts -->
+    <section class="section-b-space">
+        <div class="container">
+            <div class="title animated-title">
+                <div class="loader-line"></div>
+                <div class="d-flex align-items-center justify-content-between flex-wrap w-100">
+                    <div>
+                        <h2>Inform us of Yourself</h2>
+                        <h6>
+                            Contact us if you have any queries or merely want to say hi.
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-detail">
+                <div class="row g-4">
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="contact-detail-box">
+                            <div class="contact-icon">
+                                <i class="ri-phone-fill"></i>
+                            </div>
+                            <div>
+                                <div class="contact-detail-title">
+                                    <h4>Phone</h4>
+                                </div>
+                                <div class="contact-detail-contain">
+                                    <p>+250791955885</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="contact-detail-box">
+                            <div class="contact-icon">
+                                <i class="ri-mail-open-fill"></i>
+                            </div>
+                            <div>
+                                <div class="contact-detail-title">
+                                    <h4>Email</h4>
+                                </div>
+                                <div class="contact-detail-contain">
+                                    <p>begati16@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="contact-detail-box">
+                            <div class="contact-icon">
+                                <i class="ri-map-pin-fill"></i>
+                            </div>
+                            <div>
+                                <div class="contact-detail-title">
+                                    <h4>Kisimenti</h4>
+                                </div>
+                                <div class="contact-detail-contain">
+                                    <p>KIgali</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-3 col-md-6">
+                        <div class="contact-detail-box">
+                            <div class="contact-icon">
+                                <i class="ri-building-fill"></i>
+                            </div>
+                            <div>
+                                <div class="contact-detail-title">
+                                    <h4>Headquarters</h4>
+                                </div>
+                                <div class="contact-detail-contain">
+                                    <p>Gombe, Nigeria</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-xl-8">
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>There were some problems with your input:</strong>
+                        <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                            <li><strong>{{ field|capfirst }}:</strong> {{ error|escape }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <div class="contact-form">
+                        <form class="row g-3" method='POST' id='contactForm'>
+                            {%csrf_token%}
+                            <div class="col-md-12">
+                                <label for="inputFirstname" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPhone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your number">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="inputtext" class="form-label">How Can We Help You?</label>
+                                <textarea class="form-control" id="message" name="message" rows="3" placeholder="Hi there, I would like to...."></textarea>
+                            </div>
+                            <div class="buttons d-flex align-items-center justify-content-end gap-3">
+                                <a href="{%url 'contact'%}" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                                <button type="submit" form="contactForm" class="btn theme-btn mt-0">SUBMIT</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.2625191604434!2d-81.27475172358754!3d33.364211773423776!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88f91bc85b065379%3A0x2d14689bf5c52e3d!2s93%20Songbird%20Cir%2C%20Blackville%2C%20SC%2029817%2C%20USA!5e0!3m2!1sen!2sin!4v1690353019073!5m2!1sen!2sin"
+                        width="600" height="450" class="contact-map border-0 w-100 h-100" allowfullscreen=""
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- contact section end -->
+
+{%endblock content%}

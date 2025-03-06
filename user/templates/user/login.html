@@ -1,0 +1,69 @@
+<!-- login.html -->
+{% extends "customer/base.html" %}
+{% load static %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<section class="login-hero-section section-b-space">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-5 col-lg-6 col-md-10 m-auto">
+                <div class="login-data">
+                    <form method="post" class="auth-form">
+                        {% csrf_token %}
+                        <h2>Sign in</h2>
+                        <h5>
+                            or
+                            <a href="{% url 'signup' %}"><span class="theme-color">create an account</span></a>
+                        </h5>
+
+                        <!-- Display form fields -->
+                        <div class="form-input">
+                            {{ form.username }}
+                            <i class="ri-mail-line"></i>
+                            <!-- Display errors for username field -->
+                            {% for error in form.username.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="form-input">
+                            {{ form.password }}
+                            <i class="ri-lock-password-line"></i>
+                            <!-- Display errors for password field -->
+                            {% for error in form.password.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Display non-field errors -->
+                        {% if form.non_field_errors %}
+                            <ul class="errorlist" id="error-messages">
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <!-- Display success message (if any) -->
+                        {% if success_message %}
+                            <ul class="successlist" id="success-message">
+                                <li>{{ success_message }}</li>
+                            </ul>
+                        {% endif %}
+
+                        <button type="submit" class="btn theme-btn submit-btn w-100 rounded-2">CONTINUE</button>
+                        <p class="fw-normal content-color">
+                            By signing in, I accept the
+                            <span class="fw-semibold">
+                                Terms & Conditions & Privacy Policy</span>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,5 @@
+.env
+venv/
+tengo_venv/
+.vercel
+.vscode/

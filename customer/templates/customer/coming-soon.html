@@ -1,0 +1,57 @@
+    {%extends "customer/base.html"%}
+    {%load static%}
+    {%block content%}
+    <!-- coming soon section start -->
+    <section class="fog">
+        <div class="absolute-bg"></div>
+        <div class="fog-container">
+            <div class="fog-img fog-img-first"></div>
+            <div class="fog-img fog-img-second"></div>
+        </div>
+        <div class="coming-soon">
+            <div class="coming-soon-text">
+                <h2>Stay Tuned ! we’ll be live soon...</h2>
+                <p>
+                    We've had a great team working on something amazing, and we're
+                    almost ready to present it to the public. improved, comparable
+                    content
+                </p>
+                <div class="notify-section">
+                    <form method="post" id="notify-form">
+                        <div class="custom-group">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email"
+                                required="">
+                            <button class="btn primary-btn theme-btn">notify me</button>
+                        </div>
+                        <h5 class="success-msg text-white mb-0 mt-3 d-none">
+                            Thank You!
+                        </h5>
+                    </form>
+                </div>
+                <div class="coming-soon-social">
+                    <a class="social-link" href="https://www.facebook.com/" target="_blank">
+                        <i class="ri-facebook-fill"></i>
+                    </a>
+                    <a class="social-link" href="https://www.instagram.com/" target="_blank"><i
+                            class="ri-instagram-line"></i></a>
+                    <a class="social-link" href="https://www.instagram.com/" target="_blank"><i
+                            class="ri-twitter-line"></i></a>
+                    <a class="social-link" href="https://www.instagram.com/" target="_blank"><i
+                            class="ri-pinterest-line"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- copyright-box start -->
+        <div class="copyright-box">
+            <p>@ Copyright 2024 TenGo. All rights Reserved.</p>
+        </div>
+        <!-- copyright-box end -->
+    </section>
+    <!-- coming soon section end -->
+
+    <!-- tap to top start -->
+    <button class="scroll scroll-to-top">
+        <i class="ri-arrow-up-s-line arrow"></i>
+    </button>
+    <!-- tap to top end -->
+    {%endblock%}

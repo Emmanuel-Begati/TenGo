@@ -1,0 +1,254 @@
+{%extends "customer/base.html"%}
+{%load static%}
+{% block content %}
+    <!-- coupon section starts -->
+    <section>
+        <div class="container">
+            <div class="title restaurant-title w-border pb-0">
+                <div class="loader-line"></div>
+                <h2>Available Coupons</h2>
+                <ul class="nav nav-pills restaurant-tab tab-style2 w-100 border-0 m-0" id="offer-tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pill-new-tab" data-bs-toggle="pill"
+                            data-bs-target="#new-tab" aria-selected="true" role="tab">
+                            New Coupon
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pill-used-tab" data-bs-toggle="pill" data-bs-target="#used-tab"
+                            aria-selected="false" tabindex="-1" role="tab">
+                            Used Coupon
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pill-expired-tab" data-bs-toggle="pill"
+                            data-bs-target="#expired-tab" aria-selected="false" tabindex="-1" role="tab">
+                            Expired Coupon
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="TabContent">
+                <div class="tab-pane fade show active" id="new-tab" role="tabpanel" aria-labelledby="pill-new-tab" tabindex="0">
+                    <div class="row g-4">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div class="coupon-box">
+                                <div class="coupon-name">
+                                    <div class="coupon-img">
+                                        <img class="img-fluid img" src="{% static 'customer/assets/images/icons/google-pay.png' %}" alt="c1">
+                                    </div>
+                                    <div class="coupon-name-content d-flex align-items-center justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="fw-semibold dark-text">Google Pay</h5>
+                                            <h6 class="content-color">Use Gpay</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="coupon-content">
+                                    <h6 class="fw-medium dark-text">
+                                        Get cashback between $5 to $10 using Gpay
+                                    </h6>
+                                    <p>
+                                        Valid on order with items worth $10 or more.
+                                    </p>
+                                    <div class="coupon-apply">
+                                        <h6 class="coupon-code success-color">#GOOGLE10</h6>
+                                        <a href="#" class="btn theme-outline copy-btn mt-0 rounded-2">Copy Code</a>
+                                    </div>
+                                </div>
+                                <img class="img-fluid coupon-bottom" src="{% static 'customer/assets/images/svg/coupon-bottom.svg' %}" alt="border-bottom">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div class="coupon-box">
+                                <div class="coupon-name">
+                                    <div class="coupon-img">
+                                        <img class="img-fluid img" src="{% static 'customer/assets/images/icons/amex.png' %}" alt="c1">
+                                    </div>
+                                    <div class="coupon-name-content d-flex align-items-center justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="fw-semibold dark-text">Amex</h5>
+                                            <h6 class="content-color">Use Amex</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="coupon-content">
+                                    <h6 class="fw-medium dark-text">
+                                        Get cashback between $10 to $20 using Amex
+                                    </h6>
+                                    <p>
+                                        Valid on order with items worth $10 or more.
+                                    </p>
+                                    <div class="coupon-apply">
+                                        <h6 class="coupon-code success-color">#AMEX20</h6>
+                                        <a href="#" class="btn theme-outline copy-btn mt-0 rounded-2">Copy Code</a>
+                                    </div>
+                                </div>
+                                <img class="img-fluid coupon-bottom" src="{% static 'customer/assets/images/svg/coupon-bottom.svg' %}" alt="border-bottom">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div class="coupon-box">
+                                <div class="coupon-name">
+                                    <div class="coupon-img">
+                                        <img class="img-fluid img" src="{% static 'customer/assets/images/icons/amazon.png' %}" alt="c1">
+                                    </div>
+                                    <div class="coupon-name-content d-flex align-items-center justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="fw-semibold dark-text">Amazon</h5>
+                                            <h6 class="content-color">Use Amazon</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="coupon-content">
+                                    <h6 class="fw-medium dark-text">
+                                        Get cashback between $20 to $50 using Amazon
+                                    </h6>
+                                    <p>
+                                        Valid on order with items worth $10 or more.
+                                    </p>
+                                    <div class="coupon-apply">
+                                        <h6 class="coupon-code success-color">#AMAZON30</h6>
+                                        <a href="#" class="btn theme-outline copy-btn mt-0 rounded-2">Copy Code</a>
+                                    </div>
+                                </div>
+                                <img class="img-fluid coupon-bottom" src="{% static 'customer/assets/images/svg/coupon-bottom.svg' %}" alt="border-bottom">
+                            </div>
+                        </div>
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                            <div class="coupon-box">
+                                <div class="coupon-name">
+                                    <div class="coupon-img">
+                                        <img class="img-fluid img" src="{% static 'customer/assets/images/icons/amazon.png' %}" alt="c1">
+                                    </div>
+                                    <div class="coupon-name-content d-flex align-items-center justify-content-between flex-wrap">
+                                        <div>
+                                            <h5 class="fw-semibold dark-text">Amazon</h5>
+                                            <h6 class="content-color">Use Amazon</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="coupon-content">
+                                    <h6 class="fw-medium dark-text">
+                                        Get cashback between $20 to $50 using Amazon
+                                    </h6>
+                                    <p>
+                                        Valid on order with items wroth $10 or more.
+                                    </p>
+                                    <div class="coupon-apply">
+                                        <h6 class="coupon-code success-color">#AMAZON30</h6>
+                                        <a href="#" class="btn theme-outline copy-btn mt-0 rounded-2">Copy Code</a>
+                                    </div>
+                                </div>
+                                <img class="img-fluid coupon-bottom" src="{% static 'customer/assets/images/svg/coupon-bottom.svg' %}" alt="border-bottom">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- coupon section end -->
+
+    <!-- bank offer section start -->
+    <section class="product-section section-b-space">
+        <div class="container">
+            <div class="title animated-title">
+                <div class="loader-line"></div>
+                <h2>Bank Offers</h2>
+                <div class="sub-title">
+                    <h6>There are many variations of Offer Coupes</h6>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="coupon-box">
+                        <a href="#" class="coupon-name">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/hdfc.svg' %}" alt="c1">
+                            <div class="bank-name d-flex align-items-center justify-content-between flex-wrap w-100">
+                                <div>
+                                    <h5 class="fw-semibold dark-text">HDFC</h5>
+                                    <h6 class="content-color">Pay hdfc bank card</h6>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="coupon-content bank-offer-content">
+                            <p class="p-0">
+                                Receive 10% cashback when using American Express cards to make
+                                purchases.
+                            </p>
+                        </div>
+                        <img class="img-fluid coupon-right" src="{% static 'customer/assets/images/svg/coupon-right.svg' %}"
+                            alt="border-bottom">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="coupon-box">
+                        <a href="#" class="coupon-name">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/b2b.svg' %}" alt="c1">
+                            <div class="bank-name d-flex align-items-center justify-content-between flex-wrap w-100">
+                                <div>
+                                    <h5 class="fw-semibold dark-text">B2B Bank</h5>
+                                    <h6 class="content-color">Pay b2b bank card</h6>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="coupon-content bank-offer-content">
+                            <p class="p-0">
+                                Receive 10% cashback when using American Express cards to make
+                                purchases.
+                            </p>
+                        </div>
+                        <img class="img-fluid coupon-right" src="{% static 'customer/assets/images/svg/coupon-right.svg' %}"
+                            alt="border-bottom">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="coupon-box">
+                        <a href="#" class="coupon-name">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/cibc.svg' %}" alt="c1">
+                            <div class="bank-name d-flex align-items-center justify-content-between flex-wrap w-100">
+                                <div>
+                                    <h5 class="fw-semibold dark-text">CIBC</h5>
+                                    <h6 class="content-color">Pay cibc card</h6>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="coupon-content bank-offer-content">
+                            <p class="p-0">
+                                Receive 10% cashback when using American Express cards to make
+                                purchases.
+                            </p>
+                        </div>
+                        <img class="img-fluid coupon-right" src="{% static 'customer/assets/images/svg/coupon-right.svg' %}"
+                            alt="border-bottom">
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                    <div class="coupon-box">
+                        <a href="#" class="coupon-name">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/american.svg' %}" alt="c1">
+                            <div class="bank-name d-flex align-items-center justify-content-between flex-wrap w-100">
+                                <div>
+                                    <h5 class="fw-semibold dark-text">American Express</h5>
+                                    <h6 class="content-color">Pay american ex. card</h6>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="coupon-content bank-offer-content">
+                            <p class="p-0">
+                                Receive 10% cashback when using American Express cards to make
+                                purchases.
+                            </p>
+                        </div>
+                        <img class="img-fluid coupon-right" src="{% static 'customer/assets/images/svg/coupon-right.svg' %}"
+                            alt="border-bottom">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- bank offer section end -->
+
+  {%endblock content%}

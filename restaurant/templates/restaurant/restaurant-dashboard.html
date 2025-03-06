@@ -1,0 +1,93 @@
+{% extends "restaurant/base.html" %}
+{%load static%}
+{% block content %}
+    <!-- Recent Orders section starts -->
+    <section class="restaurant-list section-b-space banner-section ratio3_2">
+        <div class="container">
+            <div class="title restaurant-title w-border pb-0">
+                <h2>Dashboard of {{restaurant.name}}</h2>
+                <div class="loader-line"></div>
+            </div>
+            <div class="container py-4">
+
+                <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
+                <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
+
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Menu items</h5>
+                                <p class="card-text display-4">{{restaurant_analysis.total_menu_items}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Revenue</h5>
+                                <p class="card-text display-4">{{restaurant_analysis.total_revenue  }}k</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Orders</h5>
+                                <p class="card-text display-4">{{restaurant_analysis.total_orders}}</p>
+                                <i class="fa-solid fa-receipt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <div class="card bg-secondary text-center text-white h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Clients</h5>
+                                <p class="card-text display-4">{{restaurant_analysis.total_customers}}</p>
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-header">
+                                <h5>Orders Summary</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-around mb-3">
+                                    <p>New Orders: <span>{{restaurant_analysis.new_orders}}</span></p>
+                                    <p>On Delivery: <span>{{restaurant_analysis.on_delivery}}</span></p>
+                                    <p>Delivered: <span>{{restaurant_analysis.delivered}}</span></p>
+                                    <p>Canceled: <span>{{restaurant_analysis.canceled}}</span></p>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-header">
+                                <h5>Revenue</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-around mb-3">
+                                    <p>Income: {{restaurant_analysis.total_revenue}}</p>
+                                    <p>Expense: $41,512k</p>
+                                </div>
+                                <div class="text-center">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Recent Orders section end -->
+
+    
+    {%endblock content %}

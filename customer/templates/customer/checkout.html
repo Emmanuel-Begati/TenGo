@@ -1,0 +1,134 @@
+    {% extends 'customer/base.html' %}
+    {% load static %}
+    {% block title %}Checkout{% endblock %}
+    {% block content %}
+    <!--  account section starts -->
+      <br>
+      <br>
+    <section class="account-section section-b-space pt-0">
+        <div class="container">
+            <div class="layout-sec">
+                <div class="row g-lg-4 g-4">
+                    <div class="col-lg-8">
+                        <div class="process-section">
+                            <ul class="process-list">
+                                <li class="active">
+                                    <a href="checkout.html">
+                                        <div class="process-icon">
+                                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/user.svg' %}" alt="user">
+                                        </div>
+                                        <h6>Account</h6>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="address.html">
+                                        <div class="process-icon">
+                                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/location.svg' %}" alt="location">
+                                        </div>
+                                        <h6>Address</h6>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="payment.html">
+                                        <div class="process-icon">
+                                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/wallet-add.svg' %}" alt="wallet-add">
+                                        </div>
+                                        <h6>Payment</h6>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="confirm-order.html">
+                                        <div class="process-icon">
+                                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/verify.svg' %}" alt="verify">
+                                        </div>
+                                        <h6>Confirm</h6>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        {%if request.user.is_authenticated%}
+
+                        {%else%}
+                        <div class="account-part">
+                            <img class="img-fluid account-img" src="{% static 'customer/assets/images/account.svg' %}" alt="account">
+                            <div class="title mb-0">
+                                <div class="loader-line"></div>
+                                <h3>Account</h3>
+                                <p>
+                                    To place your order now, log in to in your existing account
+                                    or sign up
+                                </p>
+                                <div class="account-btn d-flex justify-content-center gap-2">
+                                    <a target="_blank" href="signin.html" class="btn theme-outline mt-0">SIGN IN</a>
+                                    <a target="_blank" href="signup.html" class="btn theme-outline mt-0">SIGN UP</a>
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="order-summery-section sticky-top">
+
+                            <div class="checkout-detail">
+                                {% for item in cart_items %}
+                                <div class="horizontal-product-box">
+                                    <div class="product-content">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h5>{{item.menu_item.name}}</h5>
+                                            <h6 class="product-price">{{item.price}} * {{item.quantity}}</h6>
+                                        </div>
+                                        {% if item.menu_item.description %}
+                                        <h6 class="ingredients-text">{{item.menu_item.description}}</h6>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            
+                                <h5 class="bill-details-title fw-semibold dark-text">Bill Details</h5>
+                                <div class="sub-total">
+                                    <h6 class="content-color fw-normal">Sub Total</h6>
+                                    <h6 class="fw-semibold">{{total_price}}</h6>
+                                </div>
+                                <div class="sub-total">
+                                    <h6 class="content-color fw-normal">Delivery Charge</h6>
+                                    <h6 class="fw-semibold success-color">{% if delivery_fee %}{{delivery_fee}}{% else %}Free{% endif %}</h6>
+                                </div>
+                                <div class="grand-total">
+                                    <h6 class="fw-semibold dark-text">Total</h6>
+                                    <h6 class="fw-semibold amount">{{total_with_delivery}}</h6>
+                                </div>
+                            
+                                <a href="{% url 'create_order' %}" class="btn theme-btn restaurant-btn w-100 rounded-2">NEXT</a>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- account section end -->
+<script>
+    $(document).ready(function() {
+        $('.remove_button').on('click', function(e) {
+            e.preventDefault();
+            var cartItemId = $(this).data('cart-item-id');
+            $.ajax({
+                url: '{% url "remove_from_cart" %}',
+                method: 'POST',
+                data: {
+                    'cart_item_id': cartItemId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    // Update the cart view or remove the item from the DOM
+                    location.reload(); // Example: Reload the page after successful removal
+                },
+                error: function(error) {
+                    console.error('Error removing item from cart:', error);
+                }
+            });
+        });
+    });
+</script>
+    {% endblock %}

@@ -1,0 +1,267 @@
+{% extends "customer/base.html" %}
+{%load static%}
+
+{%block content%}
+    <!-- about section starts -->
+     <br>
+     <br>
+     <br>
+    <section class="section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-xl-7">
+                    <div class="title animated-title">
+                        <div class="loader-line"></div>
+                        <h2 class="mb-sm-3 mb-2">What is TenGo?</h2>
+                        <p class="content-color">
+                            
+                            Welcome to our online food delivery website! Here, 
+                            you can browse a wide selection of dishes from your favorite restaurants and place orders from the comfort of your home. 
+                            Whether you're craving fast food, healthy meals, or exotic cuisine, we’ve got you covered. 
+                            With easy-to-use navigation, secure payment options, and fast delivery, 
+                            satisfying your hunger has never been easier!
+                        </p>
+
+                        <p class="pt-2 content-color">
+                            We strive to make your online shopping experience as seamless as
+                            possible. Explore our website today and discover the convenience
+                            of ordering online!
+                        </p>
+
+                        <p class="pt-2 content-color">
+                            So why wait? Start shopping on our online order website today
+                            and experience the ultimate convenience of online shopping!"
+                        </p>
+                    </div>
+                    <div class="about-image-part">
+                        <div class="row g-sm-3 g-2">
+                            <div class="col-xl-3 col-lg-3 col-sm-6 col-6">
+                                <div class="about-images ratio_square">
+                                    <img class="bg-size img" src="{% static 'customer/assets/images/service/1.jpg' %}" alt="1">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-sm-6 col-6">
+                                <div class="about-images ratio_square">
+                                    <img class="bg-size img" src="{% static 'customer/assets/images/service/2.jpg' %}" alt="2">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-sm-6 col-6">
+                                <div class="about-images ratio_square">
+                                    <img class="bg-size img" src="{% static 'customer/assets/images/service/3.jpg' %}" alt="3">
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-sm-6 col-6">
+                                <div class="about-images ratio_square">
+                                    <img class="bg-size img" src="{% static 'customer/assets/images/service/4.jpg' %}" alt="4">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 d-xl-inline-block d-none">
+                    <div class="about-images h-100">
+                        <img class="img-fluid img h-100" src="{% static 'customer/assets/images/service/5.jpg' %}" alt="2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- about section end -->
+
+    <!-- service section starts -->
+    <section class="service-box-section section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+                    <div class="service-box">
+                        <div class="service-img">
+                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/routing.svg' %}" alt="routing">
+                        </div>
+                        <h5 class="service-name">Easiest Way To Order</h5>
+                        <p class="service-details">
+                            we have designed our refund policies to be easy and hassle-free.
+                        </p>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+                    <div class="service-box">
+                        <div class="service-img">
+                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/3d-rotate.svg' %}" alt="3d-rotate">
+                        </div>
+                        <h5 class="service-name">Easy Refund Policies</h5>
+                        <p class="service-details">
+                            With our commitment to speedy delivery and no additional cost to
+                            you.
+                        </p>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+                    <div class="service-box">
+                        <div class="service-img">
+                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/truck.svg' %}" alt="truck">
+                        </div>
+                        <h5 class="service-name">Free Fast Deliveries</h5>
+                        <p class="service-details">
+                            Enjoy priority access, special discounts, and more. Elevate your
+                            experience today!
+                        </p>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-6 col-sm-6 col-12">
+                    <div class="service-box">
+                        <div class="service-img">
+                            <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/medal.svg' %}" alt="medal">
+                        </div>
+                        <h5 class="service-name">Premium Options</h5>
+                        <p class="service-details">
+                            You only need to follow a few steps & the tasty food is next to
+                            your home.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- service section end -->
+
+    <!-- team section starts -->
+    <section class="section-b-space">
+        <div class="container">
+            <div class="title animated-title">
+                <div class="loader-line"></div>
+                <h2>Our Team</h2>
+                <div class="sub-title">
+                    <p>
+                        Our team is committed to delivering innovative solutions that meet
+                        the needs of our clients and users. <i>(Apart from the Founder, the remaining are made up images and roles)</i>
+                    </p>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <div class="team-box">
+                        <div class="member-image">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/service/person1.jpg' %}" alt="person1">
+                        </div>
+                        <div class="member-details">
+                            <h5 class="member-name fw-semibold dark-text">
+                                Emmanuel Yakubu
+                            </h5>
+                            <h6 class="fw-normal content-color">Founder & CTO</h6>
+                            <ul class="social-icon">
+                                <li>
+                                    <a href="https://www.facebook.com/login/">
+                                        <i class="ri-facebook-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/i/flow/login">
+                                        <i class="ri-twitter-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/accounts/login/">
+                                        <i class="ri-instagram-fill icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <div class="team-box">
+                        <div class="member-image">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/service/person2.jpg' %}" alt="person2">
+                        </div>
+                        <div class="member-details">
+                            <h5 class="member-name fw-semibold dark-text">
+                                Davido Arnold
+                            </h5>
+                            <h6 class="fw-normal content-color">Manager</h6>
+                            <ul class="social-icon">
+                                <li>
+                                    <a href="https://www.facebook.com/login/">
+                                        <i class="ri-facebook-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/i/flow/login">
+                                        <i class="ri-twitter-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/accounts/login/">
+                                        <i class="ri-instagram-fill icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <div class="team-box">
+                        <div class="member-image">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/service/person3.jpg' %}" alt="person3">
+                        </div>
+                        <div class="member-details">
+                            <h5 class="member-name fw-semibold dark-text">Charles Hakeem</h5>
+                            <h6 class="fw-normal content-color">COO</h6>
+                            <ul class="social-icon">
+                                <li>
+                                    <a href="https://www.facebook.com/login/">
+                                        <i class="ri-facebook-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/i/flow/login">
+                                        <i class="ri-twitter-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/accounts/login/">
+                                        <i class="ri-instagram-fill icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-sm-6 col-12">
+                    <div class="team-box">
+                        <div class="member-image">
+                            <img class="img-fluid img" src="{% static 'customer/assets/images/service/person4.jpg' %}" alt="person4">
+                        </div>
+                        <div class="member-details">
+                            <h5 class="member-name fw-semibold dark-text">
+                                Jessica Pearson
+                            </h5>
+                            <h6 class="fw-normal content-color mt-1">Marketing Manager</h6>
+                            <ul class="social-icon">
+                                <li>
+                                    <a href="https://www.facebook.com/login/">
+                                        <i class="ri-facebook-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com/i/flow/login">
+                                        <i class="ri-twitter-fill icon"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.instagram.com/accounts/login/">
+                                        <i class="ri-instagram-fill icon"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- team section end -->
+
+ {% endblock content  %}

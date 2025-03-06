@@ -1,0 +1,250 @@
+{% extends "customer/base.html" %}
+{% load static %}
+{% block content %}
+{% load custom_filters %}
+<!-- account section starts -->
+<br>
+<br>
+<br>
+<section class="account-section section-b-space pt-0">
+    <div class="container">
+        <div class="layout-sec">
+            <div class="row g-lg-4 g-4">
+                <div class="col-lg-8">
+                    <div class="process-section">
+                        <ul class="process-list">
+                            <li class="done">
+                                <a href="checkout.html">
+                                    <div class="process-icon">
+                                        <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/user.svg' %}" alt="user">
+                                    </div>
+                                    <h6>Account</h6>
+                                </a>
+                            </li>
+                            <li class="done">
+                                <a href="address.html">
+                                    <div class="process-icon">
+                                        <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/location-active.svg' %}" alt="location">
+                                    </div>
+                                    <h6>Address</h6>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="payment.html">
+                                    <div class="process-icon">
+                                        <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/wallet-add-active.svg' %}" alt="wallet-add">
+                                    </div>
+                                    <h6>Payment</h6>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="confirm-order.html">
+                                    <div class="process-icon">
+                                        <img class="img-fluid icon" src="{% static 'customer/assets/images/svg/verify.svg' %}" alt="verify">
+                                    </div>
+                                    <h6>Confirm</h6>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="payment-section">
+                        <div class="title mb-0">
+                            <div class="loader-line"></div>
+                            <h3>Choose Payment Method</h3>
+                            <h6>There are many Types of Payment Method</h6>
+                        </div>
+                        <div class="accordion payment-accordion" id="accordionExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                        Credit / Debit Card
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <form class="row g-3" method="POST">
+                                            {% csrf_token %}
+                                            <ul class="card-list">
+                                                {% for card in card_details %}
+                                                <li>
+                                                    <div class="form-check form-check-reverse d-flex align-items-center justify-content-between">
+                                                        <label class="form-check-label" for="flexRadioDefault{{ forloop.counter }}">
+                                                            <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/mastercard.svg' %}" alt="mastercard">
+                                                            <span class="card-name dark-text">
+                                                                {{ card.name_on_card }} <span>{{ card.card_number|mask_card_number }}</span> | Expires on <span>{{ card.expiry_month }}/{{ card.expiry_year }}</span>
+                                                            </span>
+                                                        </label>
+                                                        <button type="submit" class="btn theme-btn mt-0" name="selected_card" value="{{ card.id }}">Use This Card</button>
+                                                    </div>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                            <div class="col-12">
+                                                <label for="id_card_number" class="form-label">Card Number</label>
+                                                <input type="number" class="form-control" id="id_card_number" name="card_number" placeholder="Enter your card number">
+                                                <!-- Display errors for card_number field -->
+                                                {% for error in form.card_number.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="id_name_on_card" class="form-label">Card Holder Name</label>
+                                                <input type="text" class="form-control" id="id_name_on_card" name="name_on_card" placeholder="Enter Holder name">
+                                                <!-- Display errors for name_on_card field -->
+                                                {% for error in form.name_on_card.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="id_expiry_month" class="form-label">Exp. Month</label>
+                                                <input type="text" class="form-control" id="id_expiry_month" name="expiry_month" placeholder="MM">
+                                                <!-- Display errors for expiry_month field -->
+                                                {% for error in form.expiry_month.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="id_expiry_year" class="form-label">Exp. Year</label>
+                                                <input type="text" class="form-control" id="id_expiry_year" name="expiry_year" placeholder="YYYY">
+                                                <!-- Display errors for expiry_year field -->
+                                                {% for error in form.expiry_year.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <label for="id_cvv" class="form-label">CVV</label>
+                                                <input type="number" class="form-control" id="id_cvv" name="cvv" placeholder="Enter your CVV">
+                                                <!-- Display errors for cvv field -->
+                                                {% for error in form.cvv.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label for="id_zip_code" class="form-label">Zip Code</label>
+                                                <input type="text" class="form-control" id="id_zip_code" name="zip_code" placeholder="Enter Zip Code">
+                                                <!-- Display errors for zip_code field -->
+                                                {% for error in form.zip_code.errors %}
+                                                    <span class="text-danger">{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-12">
+                                                <button type="submit" class="btn theme-btn">Make Payment</button>
+                                            </div>
+                                        
+                                            <!-- Display non-field errors -->
+                                            {% if form.non_field_errors %}
+                                                <ul class="errorlist" id="error-messages">
+                                                    {% for error in form.non_field_errors %}
+                                                        <li>{{ error }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                        aria-expanded="false" aria-controls="collapseThree">
+                                        Delivery Option
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <ul class="card-list">
+                                            <li>
+                                                <div class="form-check form-check-reverse">
+                                                    <label class="form-check-label" for="cashRadio">
+                                                        <img class="img-fluid img" src="{% static 'customer/assets/images/icons/svg/cash.svg' %}" alt="cash">
+                                                        <span class="card-name dark-text">
+                                                            Cash on Delivery
+                                                        </span>
+                                                    </label>
+                                                    <input class="form-check-input" type="radio" name="selected_card_id" id="cashRadio" checked>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="order-summery-section sticky-top">
+                        <div class="checkout-detail">
+                            <div class="cart-address-box">
+                                <div class="add-img">
+                                    <img class="img-fluid img" src="{% static 'customer/assets/images/home.png' %}" alt="home">
+                                </div>
+                                <div class="add-content">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h5 class="dark-text deliver-place">
+                                            Deliver to : {{ order.delivery_address.home}}
+                                        </h5>
+                                        <a href="{% url 'address'%}" class="change-add">Change</a>
+                                    </div>
+                                    <h6 class="address mt-2 content-color">
+                                        {{ order.delivery_address }}
+                                    </h6>
+                                </div>
+                            </div>
+                            <ul>
+                                {% for item in cart_items %}
+                                <div class="horizontal-product-box">
+                                    <div class="product-content">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h5>{{ item.menu_item.name }}</h5>
+                                            <h6 class="product-price">{{ item.price }} * {{ item.quantity }}</h6>
+                                        </div>
+                                        {% if item.extra %}
+                                        <h6 class="ingredients-text">
+                                            Hot Nacho Chips
+                                        </h6>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </ul>
+                            {% if promo %}
+                            <div class="promo-code position-relative">
+                                <input type="email" class="form-control code-form-control" placeholder="Enter promo code">
+                                <a href="#" class="btn theme-btn apply-btn mt-0">APPLY</a>
+                            </div>
+                            {% endif %}
+
+                            <h5 class="bill-details-title fw-semibold dark-text">
+                                Bill Details
+                            </h5>
+                            <div class="sub-total">
+                                <h6 class="content-color fw-normal">Sub Total</h6>
+                                <h6 class="fw-semibold">{{ total_price }}</h6>
+                            </div>
+                            <div class="sub-total">
+                                <h6 class="content-color fw-normal">Delivery Fee</h6>
+                                <h6 class="fw-semibold">{{ delivery_fee }}</h6>
+                            </div>
+                            <div class="sub-total">
+                                <h6 class="content-color fw-normal">Tax</h6>
+                                <h6 class="fw-semibold">{{ tax }}</h6>
+                            </div>
+                            <div class="total">
+                                <h6 class="content-color fw-normal">Total (Incl. VAT)</h6>
+                                <h5 class="theme-color fw-semibold">{{ final_total }}</h5>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- account section ends -->
+{% endblock %}

@@ -1,0 +1,65 @@
+{%extends "customer/base.html"%}
+{%load static%}
+{% block content %}
+    <!-- popular restaurant section starts -->
+    <section class="restaurant-list section-b-space ratio3_2">
+        <div class="container">
+            <div class="title restaurant-title pb-0 w-border">
+                <h2>{{category}}</h2>
+               </div>
+            <div class="tab-content restaurant-content" id="TabContent">
+                <div class="tab-pane fade show active" id="delivery-tab">
+                    <div class="row g-lg-4 g-3">
+                        
+                        {% for menu_item in menu_items %}
+                            <div class="col-xl-3 col-lg-4 col-sm-6">
+                                <div class="vertical-product-box">
+                                    <div class="vertical-product-box-img">
+                                        <a href="{% url 'menu-listing' menu_item.restaurant.id %}#item-{{ menu_item.category.id }}">
+                                            <img class="vertical-product-img-top w-100 bg-img" src="{{menu_item.image.url}}" alt="vp-8">
+                                        </a>
+                                        {% if menu_item.restaurant.offer %}
+                                            <div class="offers">
+                                                <h6>upto $2</h6>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h4>50% OFF</h4>
+                                                    <div class="seller-badge">
+                                                        <img class="img-fluid badge" src="{% static 'customer/assets/images/svg/medal-fill.svg' %}" alt="medal">
+                                                        <h6>Best Seller</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="vertical-product-body">
+                                        <div class="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                                            <a href="{% url 'menu-listing' menu_item.restaurant.id %}#item-{{ menu_item.category.id }}">
+                                                <h4 class="vertical-product-title">{{ menu_item.name }}</h4>
+                                                <h3 class="vertical-product-title" style='color:grey;' >{{ menu_item.restaurant }}</h3>
+                                            </a>
+                                            <h6 class="rating-star">
+                                                <span class="star"><i class="ri-star-s-fill"></i></span>{{ menu_item.rating|default:"N/A" }}
+                                            </h6>
+                                        </div>
+                                        <h5 class="product-items">
+                                            {{ menu_item.description|default:"Chicken quesadilla, avocado...." }}
+                                        </h5>
+                                        <div class="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                                            <h5 class="place">{{ menu_item.restaurant.address.city|default:"Kigali" }}  </h5>
+                                            <ul class="distance">
+                                                <li><i class="ri-map-pin-fill icon"></i> {{ menu_item.restaurant.distance|default:"1.8 km" }}</li>
+                                                <li><i class="ri-time-fill icon"></i> {{ menu_item.restaurant.delivery_time|default:"12 min" }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- popular restaurant section end -->
+
+ {%endblock content%}

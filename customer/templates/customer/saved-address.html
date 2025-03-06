@@ -1,0 +1,142 @@
+{%extends "customer/base.html"%}
+{%load static%}
+{% block content %}
+    <!-- card section starts -->
+    <section class="profile-section section-b-space">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-3">
+                    <div class="profile-sidebar sticky-top">
+                        <div class="profile-cover">
+                            <img class="img-fluid profile-pic" src="{% static 'customer/assets/images/icons/p5.png' %}" alt="profile">
+                        </div>
+                        <div class="profile-name">
+                            <h5 class="user-name">Mark Jecno</h5>
+                            <h6>mark-jecno@gmail.com</h6>
+                        </div>
+                        <ul class="profile-list">
+                            <li>
+                                <i class="ri-user-3-line"></i>
+                                <a href="{% url 'profile' %}">Change Profile</a>
+                            </li>
+                            <li>
+                                <i class="ri-shopping-bag-3-line"></i>
+                                <a href="{% url 'my-order' %}">My Order</a>
+                            </li>
+                            <li>
+                                <i class="ri-map-pin-line"></i>
+                                <a href="{% url 'saved-address' %}">Saved Address</a>
+                            </li>
+                            <li>
+                                <i class="ri-bank-card-line"></i>
+                                <a href="{% url 'saved-card' %}">Saved Card</a>
+                            </li>
+                            <li>
+                                <i class="ri-question-line"></i><a href="{% url 'faq' %}">Help</a>
+                            </li>
+                            <li>
+                                <i class="ri-logout-box-r-line"></i>
+                                <a href="#log-out" data-bs-toggle="modal">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="address-section bg-color h-100 mt-0">
+                        <div class="title">
+                            <div class="loader-line"></div>
+                            <h3>Saved Address</h3>
+                        </div>
+                        <div class="row g-3">
+                            {%for address in customer_addresses%}
+                                    <div class="col-md-6">
+                                        <div class="address-box white-bg">
+                                            <div class="address-title">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <i class="ri-home-4-fill icon"></i>
+                                                    <h6>{{address.type}}</h6>
+                                                </div>
+                                                <a href="#edit-address" class="edit-btn" data-bs-toggle="modal">Edit</a>
+                                            </div>
+                                            <div class="address-details">
+                                                <h6>
+                                                    {{address.street}}, {{address.city}}, {{address.state}}-{{address.zip_code}},
+                                                </h6>
+                                                <h6 class="phone-number">{{address.phone_number}}</h6>
+                                                </div>
+                                        </div>
+                                    </div>
+                                {%endfor%}
+                            <div class="col-md-6">
+                                <div class="address-box white-bg new-address-box white-bg">
+                                    <a href="#address-details" class="btn new-address-btn theme-outline rounded-2 mt-0"
+                                        data-bs-toggle="modal">Add New Address</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- profile section end -->
+
+      <!-- address details modal starts -->
+      <div class="modal address-details-modal fade" id="address-details" tabindex="-1" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                      Address Details
+                  </h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form class="row g-3" id='addressForm' method='post'>
+                    {% csrf_token %}
+
+                    <div class="col-8">
+                        <label for="street" class="form-label">Street Name</label>
+                        <input type="text" class="form-control" id="street" name="street" placeholder="Enter your street">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="zip_code" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder="Enter your zip code">
+                    </div>
+                    <div class="col-8">
+                        <label for="state" class="form-label">State</label>
+                        <input type="text" class="form-control" id="state" name="state" placeholder="Enter your state">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="city" class="form-label">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="Enter your city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" class="form-control" id="country" name="country" placeholder="Enter your country">
+                    </div>
+                    <div class="col-md-8">
+                        <label for="phone_number" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter your phone number">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="type" class="form-label">Address Type</label>
+                        <select class="form-control" id="type" name="type">
+                            <option value="Home">Home</option>
+                            <option value="Work">Work</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <a href="address.html" class="btn gray-btn mt-0" data-bs-dismiss="modal">CANCEL</a>
+                <button type="submit" form="addressForm" class="btn theme-btn mt-0">SUBMIT</button>
+            </div>
+          </div>
+      </div>
+  </div>
+  <!-- address details modal end -->
+
+    {%endblock content%}
