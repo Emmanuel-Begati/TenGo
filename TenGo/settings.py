@@ -10,17 +10,30 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import environ
+
+
 from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Calling my environment
+env = environ.Env(DEBUG=(bool, True))
+env_file = os.path.join(BASE_DIR, ".env")
+if os.path.exists(env_file):
+    print(f"Loading environment from {env_file}")
+    environ.Env.read_env(env_file)
+else:
+    print("No .env file found!")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!dz$^0qy*@b3yj$u84de^as1cv=d=8$co%)6!xtnj%y$ojko8p'
+# Fetch SECRET_KEY
+SECRET_KEY = env("SECRET_KEY", default="fallback-secret-key")
+print(f"Loaded SECRET_KEY: {SECRET_KEY[:10]}********")  # Print first 10 chars for debugging
 
 # SECURITY WARNING: don't run with debug turned on in production
 
@@ -119,12 +132,15 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-# Reading .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT', default='5432'),
+    }
 }
 
 
@@ -188,20 +204,17 @@ LOGOUT_REDIRECT_URL = '/customer/login'
 
 AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
 
-# _PUBLIC_KEY = 'FLWPUBK_TEST-d4be5c3db5841a342a54464fee0b1b13-X'
-# FLUTTERWAVE_SECRET_KEY = 'FLWSECK_TESTbd2f68794fab'
+
 
 
 # -----------------------------------------------------------Using environment variables-----------------------------------------------------------
-import environ
 
-env = environ.Env(DEBUG=(bool, True))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(env_file=BASE_DIR / '.env')
+# environ.Env.read_env(env_file=BASE_DIR / '.env')
 
-FLUTTERWAVE_SECRET_KEY = env('SECRET_KEY')
-FLUTTERWAVE_PUBLIC_KEY = env('PUBLIC_KEY')
+FLUTTERWAVE_SECRET_KEY = env('FLUTTERWAVE_SECRET_KEY')
+FLUTTERWAVE_PUBLIC_KEY = env('FLUTTERWAVE_PUBLIC_KEY')
 
 

@@ -3,3 +3,4 @@ venv/
 tengo_venv/
 .vercel
 .vscode/
+.env
