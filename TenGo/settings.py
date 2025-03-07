@@ -21,11 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Calling my environment
 env = environ.Env(DEBUG=(bool, True))
 env_file = os.path.join(BASE_DIR, ".env")
-if os.path.exists(env_file):
-    print(f"Loading environment from {env_file}")
-    environ.Env.read_env(env_file)
-else:
-    print("No .env file found!")
+
+environ.Env.read_env(env_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -33,11 +30,10 @@ else:
 # SECURITY WARNING: keep the secret key used in production secret!
 # Fetch SECRET_KEY
 SECRET_KEY = env("SECRET_KEY", default="fallback-secret-key")
-print(f"Loaded SECRET_KEY: {SECRET_KEY[:10]}********")  # Print first 10 chars for debugging
 
 # SECURITY WARNING: don't run with debug turned on in production
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'tengo.thisisemmanuel.pro',
