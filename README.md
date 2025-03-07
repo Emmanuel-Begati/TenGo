@@ -163,4 +163,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-For more information, please contact [your@email.com](mailto:begati16@email.com)
+For more information, please contact [begati16@gmail.com](mailto:begati16@email.com)
