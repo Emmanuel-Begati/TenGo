@@ -68,7 +68,7 @@ INSTALLED_APPS = [
 ]
 
 ASGI_APPLICATION = 'TenGo.asgi.application'
-REDIS_URL = 'redis://default:NZZAIGpMqjCcrCzeDoEqTxIVtMHkLUKR@autorack.proxy.rlwy.net:32953' #need to work on environment variablesYea
+REDIS_URL = 'rediss://red-cv538n56l47c73d0495g:GMRJS4viHi53EQYcV21i0GaXlOLUGWhL@oregon-keyvalue.render.com:6379' #need to work on environment variablesYea
 from redis import Redis
 
 print(f"Connecting to Redis at: {REDIS_URL}")

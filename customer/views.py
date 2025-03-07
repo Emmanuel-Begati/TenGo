@@ -469,7 +469,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 # Initialize Rave
-rave = Rave(env('PUBLIC_KEY'), env('SECRET_KEY'), usingEnv=False)
+rave = Rave(env('FLUTTERWAVE_PUBLIC_KEY'), env('FLUTTERWAVE_SECRET_KEY'), usingEnv=False)
 
 def make_payment(request):
     card_detail = None
