@@ -121,13 +121,17 @@ def update_order_status(request, order_id):
             order = form.save()
             if order.status == "Ready for Delivery":
                 channel_layer = get_channel_layer()
+
+                # First, notify all delivery personnel that a new order is ready
                 async_to_sync(channel_layer.group_send)(
                     "delivery_notifications",
                     {
                         "type": "send_notification",
-                        "message": f"Order {order.id} is ready for delivery.",
+                        "message": f"Order #{order.id} from {order.restaurant.name} is ready for delivery.",
                     },
                 )
+
+                # Then, send the complete order data for the delivery dashboard
                 async_to_sync(channel_layer.group_send)(
                     "order_updates",
                     {
@@ -135,12 +139,34 @@ def update_order_status(request, order_id):
                         "order": {
                             "id": order.id,
                             "restaurant_name": order.restaurant.name,
-                            "customer_name": order.user.first_name,
+                            "restaurant_id": order.restaurant.id,
+                            "customer_name": f"{order.user.first_name} {order.user.last_name}".strip(),
                             "customer_address": order.delivery_address,
                             "status": order.status,
+                            "total": str(order.total),
+                            "order_time": order.order_time.isoformat()
+                            if order.order_time
+                            else None,
                         },
                     },
                 )
+
+                # Also notify the customer that their order is ready for delivery
+                try:
+                    async_to_sync(channel_layer.group_send)(
+                        f"user_{order.user.id}",
+                        {
+                            "type": "order_update",
+                            "message": "Your order is ready for delivery!",
+                            "order": {
+                                "id": order.id,
+                                "status": order.status,
+                            },
+                        },
+                    )
+                except Exception as e:
+                    print(f"Error notifying customer: {str(e)}")
+
             return redirect("order-list")
     else:
         form = OrderStatusUpdateForm(instance=order)
