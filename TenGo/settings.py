@@ -10,11 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-import environ
-
-
 from pathlib import Path
 import os
+import environ
+from redis import Redis
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,40 +32,41 @@ environ.Env.read_env(env_file)
 SECRET_KEY = env("SECRET_KEY", default="fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production
-
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'tengo.thisisemmanuel.pro',
-    'localhost',
-    '127.0.0.1',
-    '194.61.28.101',
-    'tengo.onrender.com',
+    "tengo.thisisemmanuel.pro",
+    "localhost",
+    "127.0.0.1",
+    "194.61.28.101",
+    "tengo.onrender.com",
 ]
-CSRF_TRUSTED_ORIGINS = ['https://tengo.thisisemmanuel.pro', 'https://tengo.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    "https://tengo.thisisemmanuel.pro",
+    "https://tengo.onrender.com",
+]
 
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
-    'channels', 
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.gis',
-    'customer',
-    'restaurant',
-    'user',
-    'delivery',
-
+    "daphne",
+    "channels",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.gis",
+    "customer",
+    "restaurant",
+    "user",
+    "delivery",
 ]
 
-ASGI_APPLICATION = 'TenGo.asgi.application'
-REDIS_URL = 'rediss://red-cv538n56l47c73d0495g:GMRJS4viHi53EQYcV21i0GaXlOLUGWhL@oregon-keyvalue.render.com:6379' #need to work on environment variablesYea
-from redis import Redis
+# Redis and Channels configuration
+ASGI_APPLICATION = "TenGo.asgi.application"
+REDIS_URL = "rediss://red-cv538n56l47c73d0495g:GMRJS4viHi53EQYcV21i0GaXlOLUGWhL@oregon-keyvalue.render.com:6379"  # need to work on environment variables
 
 print(f"Connecting to Redis at: {REDIS_URL}")
 
@@ -77,61 +78,66 @@ except Exception as e:
     print(f"Failed to connect to Redis: {e}")
 
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
             "hosts": [REDIS_URL],
         },
     },
 }
 
+# Middleware
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-ROOT_URLCONF = 'TenGo.urls'
+ROOT_URLCONF = "TenGo.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'TenGo.wsgi.application'
+WSGI_APPLICATION = "TenGo.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-import environ
-import os
 
-# Initialize environment variables
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
-
+# Instead of using env.db() which requires DATABASE_URL to be set,
+# use explicit database configuration
 DATABASES = {
-   'default': env.db(),
+    "default": {
+        "ENGINE": "django.contrib.gis.db.backends.postgis",  # Using PostGIS for GeoDjango support
+        "NAME": env("DB_NAME", default="tengo"),
+        "USER": env("DB_USER", default="begati"),
+        "PASSWORD": env("DB_PASSWORD", default="npg_wip8y5Ivjmen"),
+        "HOST": env(
+            "DB_HOST", default="ep-raspy-queen-a5gbmwj3-pooler.us-east-2.aws.neon.tech"
+        ),
+        "PORT": env("DB_PORT", default="5432"),
+        "OPTIONS": {
+            "sslmode": "require",
+        },
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -149,16 +155,16 @@ AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     # },
-    {'NAME': 'user.validators.CustomPasswordValidator'},
+    {"NAME": "user.validators.CustomPasswordValidator"},
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -168,42 +174,40 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = 'staticfiles'
+STATIC_URL = "static/"
+STATIC_ROOT = "staticfiles"
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media/"
+
+# GDAL Configuration
+GDAL_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu/libgdal.so"
+GEOS_LIBRARY_PATH = "/usr/lib/x86_64-linux-gnu/libgeos_c.so"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'user.User'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+AUTH_USER_MODEL = "user.User"
 
 
-LOGIN_REDIRECT_URL = '/home/s'  
+LOGIN_REDIRECT_URL = "/home/s"
 
-LOGIN_URL = '/user/login'
+LOGIN_URL = "/user/login"
 
-LOGOUT_REDIRECT_URL = '/customer/login'  
+LOGOUT_REDIRECT_URL = "/customer/login"
 
-AUTHENTICATION_BACKENDS = ['user.backends.EmailBackend']
-
-
+AUTHENTICATION_BACKENDS = ["user.backends.EmailBackend"]
 
 
-# -----------------------------------------------------------Using environment variables-----------------------------------------------------------
-
-
-# BASE_DIR = Path(__file__).resolve().parent.parent
-
-# environ.Env.read_env(env_file=BASE_DIR / '.env')
-
-FLUTTERWAVE_SECRET_KEY = env('FLUTTERWAVE_SECRET_KEY')
-FLUTTERWAVE_PUBLIC_KEY = env('FLUTTERWAVE_PUBLIC_KEY')
-
-
+# Flutterwave configuration
+FLUTTERWAVE_SECRET_KEY = env(
+    "FLUTTERWAVE_SECRET_KEY", default="FLWSECK_TESTbd2f68794fab"
+)
+FLUTTERWAVE_PUBLIC_KEY = env(
+    "FLUTTERWAVE_PUBLIC_KEY", default="FLWPUBK_TEST-d4be5c3db5841a342a54464fee0b1b13-X"
+)

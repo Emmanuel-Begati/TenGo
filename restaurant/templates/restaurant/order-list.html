@@ -193,64 +193,147 @@
                 orderElement.scrollIntoView();
             }
         }
+        
+        // Fix the loader error
+        const loaderElements = document.querySelectorAll('.loader-line');
+        loaderElements.forEach(loader => {
+            if(loader) {
+                // Any loader initialization can go here
+            }
+        });
     });
 </script>
 <script>
-    const restaurantSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/restaurant/{{ user.id }}/'
-    );
-
-    restaurantSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-        if (data.type === 'order_update' || data.type === 'new_order') {
-            updateOrderUI(data.order);
-            showNotification(`Order #${data.order.id} status: ${data.order.status}`);
+    // Get restaurant ID from the data attribute
+    const restaurantData = document.getElementById('restaurant-data');
+    const restaurantId = restaurantData && restaurantData.getAttribute('data-restaurant-id') ? 
+                          restaurantData.getAttribute('data-restaurant-id') : 
+                          '{{ restaurant.id }}';
+    
+    // Check if restaurantId exists before attempting connection
+    if (!restaurantId) {
+        console.error('No restaurant ID found. WebSocket connection cannot be established.');
+        if (document.getElementById('notification-box')) {
+            document.getElementById('notification-box').innerHTML = 
+                '<div class="notification error"><p>Error: No restaurant ID found for WebSocket connection</p></div>';
         }
-    };
-
-    function updateOrderUI(order) {
-        const orderElement = document.getElementById(`order-${order.id}`);
-        if (orderElement) {
-            // Update existing order
-            orderElement.querySelector('.order-details .fw-medium.content-color.text-end').innerText = order.status;
-        } else {
-            // Add new order
-            const orderBoxList = document.getElementById('order-box-list');
-            const newOrderHTML = `
-                <li id="order-${order.id}">
-                    <div class="order-box">
-                        <div class="order-box-content">
-                            <div class="brand-icon">
-                                <!-- Add restaurant logo if available -->
-                            </div>
-                            <div class="order-details">
-                                <h5 class="fw-medium content-color">Order #${order.id}</h5>
-                                <p class="fw-medium content-color text-end">${order.status}</p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            `;
-            orderBoxList.insertAdjacentHTML('beforeend', newOrderHTML);
+    } else {
+        // Use secure WebSockets if the page is loaded over HTTPS
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        
+        // Use hostname without port for connection
+        const host = window.location.hostname;
+        
+        // Use port 8001 for WebSockets (where Daphne is running)
+        const port = '8001';
+        
+        // Create WebSocket connection
+        const connectionUrl = `${protocol}${host}:${port}/ws/restaurant/${restaurantId}/`;
+        console.log(`Attempting WebSocket connection to: ${connectionUrl}`);
+        
+        try {
+            const restaurantSocket = new WebSocket(connectionUrl);
+            
+            // Add event handlers for connection states
+            restaurantSocket.onopen = function(e) {
+                console.log('WebSocket connection established');
+                if (typeof showNotification === 'function') {
+                    showNotification('WebSocket connected');
+                }
+            };
+            
+            restaurantSocket.onclose = function(e) {
+                console.error('WebSocket connection closed', e);
+                if (typeof showNotification === 'function') {
+                    showNotification('WebSocket disconnected. Please refresh the page.', 'error');
+                }
+            };
+            
+            restaurantSocket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+                if (typeof showNotification === 'function') {
+                    showNotification('WebSocket error occurred. Check console for details.', 'error');
+                }
+            };
+            
+            restaurantSocket.onmessage = function(e) {
+                console.log('WebSocket message received:', e.data);
+                try {
+                    const data = JSON.parse(e.data);
+                    if (data.type === 'order_update' || data.type === 'new_order') {
+                        updateOrderUI(data.order);
+                        if (typeof showNotification === 'function') {
+                            showNotification(`Order #${data.order.id} status: ${data.order.status}`);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error processing WebSocket message:', error);
+                }
+            };
+        } catch (error) {
+            console.error('Error initializing WebSocket:', error);
+            if (document.getElementById('notification-box')) {
+                document.getElementById('notification-box').innerHTML = 
+                    '<div class="notification error"><p>Error connecting to WebSocket server</p></div>';
+            }
         }
     }
 
-    function showNotification(message) {
-        const notificationBox = document.getElementById('notification-box');
-        const notificationHTML = `
-            <div class="notification">
-                <p>${message}</p>
-            </div>
-        `;
-        notificationBox.insertAdjacentHTML('beforeend', notificationHTML);
-
-        // Remove the notification after a few seconds
-        setTimeout(() => {
-            const notification = notificationBox.querySelector('.notification');
-            if (notification) {
-                notification.remove();
+    function updateOrderUI(order) {
+        if (!order || !order.id) {
+            console.error('Invalid order data received:', order);
+            return;
+        }
+        
+        const orderElement = document.getElementById(`order-${order.id}`);
+        if (orderElement) {
+            // Update existing order
+            const statusElement = orderElement.querySelector('.order-details .fw-medium.content-color.text-end');
+            if (statusElement) {
+                statusElement.innerText = order.status;
             }
-        }, 5000); // Adjust the timeout duration as needed
+        } else {
+            // Add new order
+            const orderBoxList = document.getElementById('order-box-list');
+            if (orderBoxList) {
+                const newOrderHTML = `
+                    <li id="order-${order.id}">
+                        <div class="order-box">
+                            <div class="order-box-content">
+                                <div class="brand-icon">
+                                    <!-- Add restaurant logo if available -->
+                                </div>
+                                <div class="order-details">
+                                    <h5 class="fw-medium content-color">Order #${order.id}</h5>
+                                    <p class="fw-medium content-color text-end">${order.status}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+                orderBoxList.insertAdjacentHTML('beforeend', newOrderHTML);
+            }
+        }
+    }
+
+    function showNotification(message, type = 'info') {
+        const notificationBox = document.getElementById('notification-box');
+        if (notificationBox) {
+            const notificationHTML = `
+                <div class="notification ${type}">
+                    <p>${message}</p>
+                </div>
+            `;
+            notificationBox.insertAdjacentHTML('beforeend', notificationHTML);
+
+            // Remove the notification after a few seconds
+            setTimeout(() => {
+                const notification = notificationBox.querySelector('.notification');
+                if (notification) {
+                    notification.remove();
+                }
+            }, 5000); // Adjust the timeout duration as needed
+        }
     }
 </script>
 {% endblock content %}

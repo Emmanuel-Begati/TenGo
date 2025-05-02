@@ -476,46 +476,151 @@
 
                             // Update cart count and total price
                             $('.cart-button span').text(data.new_cart_count);
-                            $('.price-box h4').text(`$${data.total_price}`);
-
-                            // Check if the item is already in the cart
-                            let existingItem = $(`#cart-item-${data.cart_item_id}`);
-                            if (existingItem.length > 0) {
-                                // If the item exists, just update the quantity and price
-                                existingItem.find('.quantity').text(`${data.quantity} x`);
-                                existingItem.find('.price').text(`$${data.price}`);
-                            } else {
-                                // If it's a new item, append it to the cart dropdown
-                                const cartItemHTML = `
-                                    <li class="product-box-contain" id="cart-item-${data.cart_item_id}">
-                                        <div class="drop-cart">
-                                            <a href="#!" class="drop-image">
-                                                <img src="${data.menu_item.image}" class="blur-up lazyloaded" alt="${data.menu_item.name}">
-                                            </a>
-                                            <div class="drop-contain">
-                                                <a href="#!">
-                                                    <h5>${data.menu_item.name}</h5>
-                                                </a>
-                                                <h6><span class="quantity">${data.quantity} x</span> $${data.price}</h6>
-                                                <button class="close-button close_button" data-cart-item-id="${data.cart_item_id}">
-                                                    <i class="fa-solid fa-xmark"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                `;
-                                $('.cart-list').append(cartItemHTML);
+                            
+                            // Create or update the cart item in the dropdown
+                            updateCartDisplay(data);
+                            
+                            // If this is the first item, replace "Your cart is empty" message
+                            if ($('.onhover-box p').length && $('.onhover-box p').text().trim() === 'Your cart is empty.') {
+                                refreshCartDisplay(data);
                             }
                         } else {
                             showToast('Failed to add item to cart', true);
                         }
                     },
                     error: function(xhr, status, error) {
+                        console.error("Cart update error:", error);
                         showToast('Failed to add item to cart', true);
                     }
                 });
             });
         });
+        
+        // Handle cart item removal
+        $(document).on('click', '.close_button', function() {
+            const cartItemId = $(this).data('cart-item-id');
+            $.ajax({
+                url: '/remove_from_cart/',
+                type: 'POST',
+                data: { cart_item_id: cartItemId },
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                success: function(data) {
+                    showToast('Item removed from cart');
+                    $(`#cart-item-${cartItemId}`).remove();
+                    
+                    // Update the cart count
+                    const currentCount = parseInt($('.cart-button span').text());
+                    $('.cart-button span').text(currentCount - 1);
+                    
+                    // If cart is empty now, update the display
+                    if (currentCount - 1 <= 0) {
+                        $('.onhover-box').html('<p>Your cart is empty.</p>');
+                    }
+                }
+            });
+        });
+
+        function updateCartDisplay(data) {
+            // Check if the cart list exists, if not create it
+            let cartList = $('.cart-list');
+            if (cartList.length === 0) {
+                $('.onhover-box').html(`
+                    <ul class="cart-list"></ul>
+                    <div class="price-box">
+                        <h5>Total :</h5>
+                        <h4 class="theme-color fw-semibold">$0</h4>
+                    </div>
+                    <div class="button-group">
+                        <a href="{% url 'checkout' %}" class="btn btn-sm theme-btn w-100 d-block rounded-2">View Cart</a>
+                    </div>
+                `);
+                cartList = $('.cart-list');
+            }
+
+            // Update total price
+            $('.price-box h4').text(`$${data.total_price}`);
+
+            // Check if the item already exists in the cart
+            const existingItem = $(`#cart-item-${data.cart_item_id}`);
+            
+            if (existingItem.length > 0) {
+                // Item exists, update quantity and price
+                existingItem.find('.quantity').text(`${data.quantity} x`);
+                existingItem.find('.price').text(`$${data.price}`);
+            } else {
+                // Item doesn't exist, add it to the cart list
+                const cartItemHTML = `
+                    <li class="product-box-contain" id="cart-item-${data.cart_item_id}">
+                        <div class="drop-cart">
+                            <a href="#!" class="drop-image">
+                                <img src="${data.menu_item.image}" class="blur-up lazyloaded" alt="${data.menu_item.name}">
+                            </a>
+                            <div class="drop-contain">
+                                <a href="#!">
+                                    <h5>${data.menu_item.name}</h5>
+                                </a>
+                                <h6><span class="quantity">${data.quantity} x</span> <span class="price">$${data.price}</span></h6>
+                                <button class="close-button close_button" data-cart-item-id="${data.cart_item_id}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                `;
+                cartList.append(cartItemHTML);
+                
+                // Ensure the item handlers work
+                $(`#cart-item-${data.cart_item_id} .close_button`).on('click', function() {
+                    const itemId = $(this).data('cart-item-id');
+                    removeCartItem(itemId);
+                });
+            }
+        }
+        
+        function refreshCartDisplay(data) {
+            // Replace the entire cart display for first item
+            const cartHTML = `
+                <ul class="cart-list">
+                    <li class="product-box-contain" id="cart-item-${data.cart_item_id}">
+                        <div class="drop-cart">
+                            <a href="#!" class="drop-image">
+                                <img src="${data.menu_item.image}" class="blur-up lazyloaded" alt="${data.menu_item.name}">
+                            </a>
+                            <div class="drop-contain">
+                                <a href="#!">
+                                    <h5>${data.menu_item.name}</h5>
+                                </a>
+                                <h6><span class="quantity">${data.quantity} x</span> <span class="price">$${data.price}</span></h6>
+                                <button class="close-button close_button" data-cart-item-id="${data.cart_item_id}">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="price-box">
+                    <h5>Total :</h5>
+                    <h4 class="theme-color fw-semibold">$${data.total_price}</h4>
+                </div>
+                <div class="button-group">
+                    <a href="{% url 'checkout' %}" class="btn btn-sm theme-btn w-100 d-block rounded-2">View Cart</a>
+                </div>
+            `;
+            $('.onhover-box').html(cartHTML);
+        }
+        
+        function removeCartItem(cartItemId) {
+            $.ajax({
+                url: '/remove_from_cart/',
+                type: 'POST',
+                data: { cart_item_id: cartItemId },
+                headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                success: function(data) {
+                    showToast('Item removed from cart');
+                    $(`#cart-item-${cartItemId}`).remove();
+                }
+            });
+        }
 
         function showToast(message, isError = false) {
             const toast = $("#toast-notification");
@@ -524,15 +629,14 @@
 
             // Set toast class based on error or success
             if (isError) {
-                toast.removeClass('alert-success').addClass('alert-danger');
+                toast.removeClass('bg-theme').addClass('bg-danger');
             } else {
-                toast.removeClass('alert-danger').addClass('alert-success');
+                toast.removeClass('bg-danger').addClass('bg-theme');
             }
 
-            toast.show();
-            setTimeout(function() {
-                toast.hide();
-            }, 2000);
+            // Show toast using Bootstrap's toast API
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
         }
     });
 </script>
