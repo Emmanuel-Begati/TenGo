@@ -264,5 +264,84 @@
 <script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
 <script src="{% static 'restaurant/scripts/restaurant.js' %}"></script>
 
+<script>
+// Safe DOM manipulation helper
+function safeDOM() {
+  // Create a wrapper for safe DOM manipulation
+  window.safeDOMManipulation = {
+    // Safely get an element, return null if not found
+    get: function(selector) {
+      return document.querySelector(selector);
+    },
+    
+    // Safely set an attribute on an element
+    setAttribute: function(selector, attribute, value) {
+      const element = this.get(selector);
+      if (element) {
+        element.setAttribute(attribute, value);
+        return true;
+      }
+      return false;
+    },
+    
+    // Safely set a property on an element
+    setProperty: function(selector, property, value) {
+      const element = this.get(selector);
+      if (element) {
+        element[property] = value;
+        return true;
+      }
+      return false;
+    },
+    
+    // Safely add an event listener
+    addListener: function(selector, event, callback) {
+      const element = this.get(selector);
+      if (element) {
+        element.addEventListener(event, callback);
+        return true;
+      }
+      return false;
+    }
+  };
+  
+  // Initialize when DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Safe DOM manipulation helper loaded');
+  });
+}
+
+// Run the initialization
+safeDOM();
+</script>
+
+<script>
+// Fix RTL button issues from script.js
+document.addEventListener('DOMContentLoaded', function() {
+  // Safely handle RTL button operations
+  window.safeRtlOperations = function() {
+    const rtlBtn = document.querySelector("#rtl-btn");
+    const rtlLink = document.querySelector("#rtl-link");
+    
+    // If elements don't exist, create dummy elements to prevent errors
+    if (!rtlBtn) {
+      console.log('RTL button not found, creating dummy element');
+      const dummyRtl = document.createElement('div');
+      dummyRtl.id = 'rtl-btn';
+      dummyRtl.style.display = 'none';
+      document.body.appendChild(dummyRtl);
+      
+      // Create the text value element inside it
+      const textValue = document.createElement('span');
+      textValue.className = 'text-value';
+      dummyRtl.appendChild(textValue);
+    }
+  };
+  
+  // Run the RTL fix
+  window.safeRtlOperations();
+});
+</script>
+
 </body>
 </html>

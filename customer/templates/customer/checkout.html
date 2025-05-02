@@ -1,4 +1,4 @@
-    {% extends 'customer/base.html' %}
+{% extends 'customer/base.html' %}
     {% load static %}
     {% block title %}Checkout{% endblock %}
     {% block content %}
@@ -71,15 +71,21 @@
 
                             <div class="checkout-detail">
                                 {% for item in cart_items %}
-                                <div class="horizontal-product-box">
+                                <div class="horizontal-product-box" id="cart-item-{{ item.id }}">
                                     <div class="product-content">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <h5>{{item.menu_item.name}}</h5>
-                                            <h6 class="product-price">{{item.price}} * {{item.quantity}}</h6>
+                                            <h6 class="product-price item-total-price">{{item.price}} * <span class="item-quantity">{{item.quantity}}</span></h6>
                                         </div>
                                         {% if item.menu_item.description %}
                                         <h6 class="ingredients-text">{{item.menu_item.description}}</h6>
                                         {% endif %}
+                                        <div class="quantity-controls mt-2">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary quantity-btn decrease-btn" data-cart-item-id="{{ item.id }}">-</button>
+                                            <span class="mx-2 item-quantity">{{ item.quantity }}</span>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary quantity-btn increase-btn" data-cart-item-id="{{ item.id }}">+</button>
+                                            <button type="button" class="btn btn-sm btn-danger remove-btn ms-3" data-cart-item-id="{{ item.id }}">Remove</button>
+                                        </div>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -110,9 +116,63 @@
     <!-- account section end -->
 <script>
     $(document).ready(function() {
-        $('.remove_button').on('click', function(e) {
-            e.preventDefault();
-            var cartItemId = $(this).data('cart-item-id');
+        // Handle quantity adjustment (increase/decrease)
+        $('.quantity-btn').on('click', function() {
+            const cartItemId = $(this).data('cart-item-id');
+            const action = $(this).hasClass('increase-btn') ? 'increase' : 'decrease';
+            
+            $.ajax({
+                url: '{% url "update_cart_quantity" %}',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    'cart_item_id': cartItemId,
+                    'action': action
+                }),
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        if (response.removed) {
+                            // Item was removed (quantity decreased to 0)
+                            $(`#cart-item-${cartItemId}`).fadeOut('fast', function() {
+                                $(this).remove();
+                                updateCartTotals(response.total_price);
+                                
+                                // If no items left, redirect to empty cart page
+                                if (response.cart_count === 0) {
+                                    window.location.href = '{% url "empty_cart" %}';
+                                }
+                            });
+                        } else {
+                            // Update quantity display
+                            $(`#cart-item-${cartItemId} .item-quantity`).text(response.quantity);
+                            
+                            // Update item total price
+                            const itemPrice = parseFloat(response.item_total);
+                            $(`#cart-item-${cartItemId} .product-price`).html(
+                                `$${itemPrice.toFixed(2)} * <span class="item-quantity">${response.quantity}</span>`
+                            );
+                            
+                            // Update cart totals
+                            updateCartTotals(response.total_price);
+                        }
+                    } else {
+                        showNotification('Failed to update quantity', 'error');
+                    }
+                },
+                error: function(error) {
+                    console.error('Error updating cart quantity:', error);
+                    showNotification('Failed to update quantity', 'error');
+                }
+            });
+        });
+        
+        // Handle item removal
+        $('.remove-btn').on('click', function() {
+            const cartItemId = $(this).data('cart-item-id');
+            
             $.ajax({
                 url: '{% url "remove_from_cart" %}',
                 method: 'POST',
@@ -121,14 +181,56 @@
                     'csrfmiddlewaretoken': '{{ csrf_token }}'
                 },
                 success: function(response) {
-                    // Update the cart view or remove the item from the DOM
-                    location.reload(); // Example: Reload the page after successful removal
+                    // Remove the item from the DOM
+                    $(`#cart-item-${cartItemId}`).fadeOut('fast', function() {
+                        $(this).remove();
+                        
+                        // Reload page to update cart totals
+                        location.reload();
+                    });
                 },
                 error: function(error) {
                     console.error('Error removing item from cart:', error);
+                    showNotification('Failed to remove item', 'error');
                 }
             });
         });
+        
+        // Helper function to update cart totals
+        function updateCartTotals(totalPrice) {
+            $('.sub-total .fw-semibold:not(.success-color)').text(`$${parseFloat(totalPrice).toFixed(2)}`);
+            $('.grand-total .amount').text(`$${parseFloat(totalPrice).toFixed(2)}`);
+        }
+        
+        // Helper function to show notifications
+        function showNotification(message, type) {
+            // Check if the notification element exists
+            let notificationElement = $('#cart-notification');
+            if (notificationElement.length === 0) {
+                // Create a new notification element
+                $('body').append(`
+                    <div id="cart-notification" class="position-fixed top-0 end-0 p-3" style="z-index: 1050;">
+                        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header ${type === 'error' ? 'bg-danger text-white' : 'bg-success text-white'}">
+                                <strong class="me-auto">Cart Update</strong>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">${message}</div>
+                        </div>
+                    </div>
+                `);
+                notificationElement = $('#cart-notification');
+            }
+            
+            // Update notification message and type
+            const toastElement = notificationElement.find('.toast');
+            toastElement.find('.toast-body').text(message);
+            toastElement.find('.toast-header').removeClass('bg-danger bg-success').addClass(type === 'error' ? 'bg-danger' : 'bg-success');
+            
+            // Show notification
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
     });
 </script>
     {% endblock %}

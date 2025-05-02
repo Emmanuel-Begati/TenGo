@@ -122,7 +122,7 @@ def coming_soon(request):
 
 @login_required
 def confirm_order(request):
-    # Check if there are any unpaid orders for this user
+    # Directly fetch unpaid orders for this user
     unpaid_orders = Order.objects.filter(user=request.user, payment_status=False)
 
     if not unpaid_orders.exists():
@@ -132,75 +132,71 @@ def confirm_order(request):
         )
         return redirect("my-order")
 
-    # Try to update all unpaid orders for this user to be paid and visible to restaurants
-    try:
-        with transaction.atomic():
-            orders_updated = unpaid_orders.update(
-                payment_status=True, is_visible_to_restaurant=True
-            )
+    orders_updated = 0
+    update_failed = []
 
-            if orders_updated == 0:
-                # If no orders were updated, show an error
-                messages.error(
-                    request,
-                    "Failed to confirm your orders. Please try again or contact customer service.",
-                )
-                return redirect("checkout")
+    # Process each order individually to avoid transaction issues
+    for order in unpaid_orders:
+        try:
+            # Update each order's statuses directly
+            order.payment_status = True
+            order.is_visible_to_restaurant = True
+            order.save()
 
-            # Clear the cart after successful order confirmation
-            CartItem.objects.filter(cart__user=request.user).delete()
-
-            # Get the now-updated orders for notifications
-            confirmed_orders = Order.objects.filter(
-                user=request.user, payment_status=True, is_visible_to_restaurant=True
-            ).filter(id__in=[order.id for order in unpaid_orders])
-
-            # Use WebSockets to notify restaurant of newly paid orders
+            # Use WebSocket to notify restaurant
             try:
                 channel_layer = get_channel_layer()
-                for order in confirmed_orders:
-                    async_to_sync(channel_layer.group_send)(
-                        f"restaurant_{order.restaurant.id}",
-                        {
-                            "type": "order_update",
-                            "message": "Order has been paid and confirmed.",
-                            "order": {
-                                "id": order.id,
-                                "status": order.status,
-                                "payment_status": order.payment_status,
-                            },
+                async_to_sync(channel_layer.group_send)(
+                    f"restaurant_{order.restaurant.id}",
+                    {
+                        "type": "order_update",
+                        "message": "Order has been paid and confirmed.",
+                        "order": {
+                            "id": order.id,
+                            "status": order.status,
+                            "payment_status": True,  # Explicitly set to True here
                         },
-                    )
-            except Exception as e:
-                # Log WebSocket notification errors but don't fail the order
-                print(f"Error notifying restaurant: {str(e)}")
-
-            # Double-check if orders were actually updated in the database
-            verification_check = Order.objects.filter(
-                user=request.user,
-                id__in=[order.id for order in unpaid_orders],
-                payment_status=False,
-            )
-
-            if verification_check.exists():
-                messages.error(
-                    request,
-                    "Order confirmation was incomplete. Some orders may not have been confirmed properly. Please check your order status.",
+                    },
                 )
-                return redirect("my-order")
+            except Exception as e:
+                print(f"Error notifying restaurant for order {order.id}: {str(e)}")
 
-            messages.success(
-                request,
-                f"Your {orders_updated} order(s) have been confirmed, payment completed, and your cart has been cleared.",
-            )
+            orders_updated += 1
+        except Exception as e:
+            update_failed.append(order.id)
+            print(f"Failed to update order {order.id}: {str(e)}")
 
-    except Exception as e:
-        messages.error(
-            request, f"An error occurred during order confirmation: {str(e)}"
+    # Clear the cart after confirmation attempts
+    CartItem.objects.filter(cart__user=request.user).delete()
+
+    if orders_updated > 0:
+        messages.success(
+            request,
+            f"Your {orders_updated} order(s) have been confirmed, payment completed, and your cart has been cleared.",
         )
-        return redirect("checkout")
+    else:
+        messages.error(
+            request,
+            "Failed to confirm any orders. Please try again or contact customer service.",
+        )
 
-    return render(request, "customer/confirm-order.html", context=cart_content(request))
+    if update_failed:
+        messages.warning(
+            request,
+            f"Some orders ({', '.join(map(str, update_failed))}) could not be updated. Please check their status.",
+        )
+
+    # After confirmation, fetch the updated orders to verify changes
+    confirmed_orders = Order.objects.filter(
+        user=request.user,
+        id__in=[order.id for order in unpaid_orders],
+        payment_status=True,
+        is_visible_to_restaurant=True,
+    )
+
+    context = cart_content(request)
+    context["confirmed_orders"] = confirmed_orders
+    return render(request, "customer/confirm-order.html", context=context)
 
 
 @login_required
@@ -210,7 +206,8 @@ def faq(request):
 
 @login_required
 def my_order(request):
-    orders = Order.objects.filter(user=request.user)
+    # Get orders for the current user and sort by order_time in descending order (newest first)
+    orders = Order.objects.filter(user=request.user).order_by("-order_time")
     restaurant = Restaurant.objects.filter(orders__in=orders).distinct().first()
     cart_context = cart_content(request)  # Get cart context
     context = {
@@ -228,7 +225,8 @@ def offer(request):
 
 @login_required
 def order_tracking(request):
-    orders = Order.objects.all()
+    # Sort orders by newest first
+    orders = Order.objects.filter(user=request.user).order_by("-order_time")
     restaurant = Restaurant.objects.filter(orders__in=orders).distinct().first()
     cart_context = cart_content(request)  # Get cart context
     context = {
@@ -495,6 +493,68 @@ def empty_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart.cart_items.all().delete()
     return render(request, "customer/empty-cart.html")
+
+
+@login_required
+@require_POST
+def update_cart_quantity(request):
+    try:
+        # Parse the incoming JSON data
+        data = json.loads(request.body)
+        cart_item_id = data.get("cart_item_id")
+        action = data.get("action")
+
+        # Validate input
+        if not cart_item_id or action not in ["increase", "decrease"]:
+            return JsonResponse(
+                {"success": False, "message": "Invalid input parameters"}
+            )
+
+        # Get the cart item
+        cart_item = get_object_or_404(CartItem, id=cart_item_id)
+
+        # Update quantity based on action
+        if action == "increase":
+            cart_item.quantity += 1
+            cart_item.save()
+        elif action == "decrease":
+            if cart_item.quantity <= 1:
+                # Remove item if quantity would become 0
+                cart_item.delete()
+                cart = Cart.objects.get(user=request.user)
+                return JsonResponse(
+                    {
+                        "success": True,
+                        "removed": True,
+                        "message": "Item removed from cart",
+                        "cart_count": cart.cart_items.count(),
+                        "total_price": str(cart.total_price()),
+                    }
+                )
+            else:
+                cart_item.quantity -= 1
+                cart_item.save()
+
+        # Get updated cart information
+        cart = Cart.objects.get(user=request.user)
+        total_price = cart.total_price()
+
+        # Calculate item total (price * quantity)
+        item_total = cart_item.price * cart_item.quantity
+
+        return JsonResponse(
+            {
+                "success": True,
+                "removed": False,
+                "quantity": cart_item.quantity,
+                "item_total": str(item_total),
+                "total_price": str(total_price),
+                "cart_count": cart.cart_items.count(),
+            }
+        )
+
+    except Exception as e:
+        return JsonResponse({"success": False, "message": str(e)})
 
 
 @login_required

@@ -1,4 +1,3 @@
-
 {%extends "customer/base.html"%}
 {%load static%}
 {% block content %}
@@ -53,10 +52,12 @@
                             <li>
                                 <div class="order-box">
                                     <div class="order-box-content">
-                                        <div class="brand-icon
-                                        ">
-                                            <img class="img-fluid icon" src="{{restaurant.image.url}}"
-                                                alt="brand1">
+                                        <div class="brand-icon">
+                                            {% if order.restaurant.image %}
+                                                <img class="img-fluid icon" src="{{ order.restaurant.image.url }}" alt="{{ order.restaurant.name }}">
+                                            {% else %}
+                                                <img class="img-fluid icon" src="{% static 'customer/assets/images/restaurant/placeholder.png' %}" alt="Restaurant">
+                                            {% endif %}
                                         </div>
                                         <div class="order-details">
                                             <div class="d-flex align-items-center justify-content-between w-100">
@@ -111,9 +112,14 @@
             <div class="modal-body">
                 <div class="order-details-box">
                     <div class="order-icon">
+                        {% if order.restaurant.image %}
+                            <img class="img-fluid icon" src="{{ order.restaurant.image.url }}" alt="{{ order.restaurant.name }}">
+                        {% else %}
+                            <img class="img-fluid icon" src="{% static 'customer/assets/images/restaurant/placeholder.png' %}" alt="Restaurant">
+                        {% endif %}
                     </div>
                     <div class="order-content">
-                        <h5 class="brand-name dark-text fw-medium">{{restaurant.name}}</h5>
+                        <h5 class="brand-name dark-text fw-medium">{{order.restaurant.name}}</h5>
                         {% if order.status == 'Delivered' %}
                             <h6 class="order-deliver-label">Delivered</h6>
                         {% elif order.status == 'Pending' %}
@@ -134,27 +140,16 @@
                 <div class="delivery-on-going">
                     <ul class="delivery-list">
                         <li>
-                            <h6>Id Transaction</h6>
-                            <h5>#{{order.id}}</h5>
-                        </li>
-                        <li>
-                            <h6>Date & Time</h6>
-                            <h5>{{order.order_time | date:"D, d M Y"}}</h5>
-                        </li>
-                    </ul>
-                    <ul class="delivery-list">
-                        <li>
                             <div class="order-address">
                                  <h5>Restaurant Address</h5>
                             </div>
-                            <h6 class="delivery-place">{{restaurant.name}}</h6>
+                            <h6 class="delivery-place">{{order.restaurant.name}}</h6>
                         </li>
                         <li>
                             <div class="order-address">
-
                                 <h5>Delivery Address</h5>
                             </div>
-                            <h6 class="delivery-place">{{order.delivery_address.city}}</h6>
+                            <h6 class="delivery-place">{{order.delivery_address}}</h6>
                         </li>
                     </ul>
                 </div>
