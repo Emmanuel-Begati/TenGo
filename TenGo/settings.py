@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.gis",
+    # "django.contrib.gis",  # Uncomment if using GIS features
     "customer",
     "restaurant",
     "user",
@@ -125,7 +125,7 @@ WSGI_APPLICATION = "TenGo.wsgi.application"
 # use explicit database configuration
 DATABASES = {
     "default": {
-        "ENGINE": "django.contrib.gis.db.backends.postgis",  # Using PostGIS for GeoDjango support
+        "ENGINE": "django.db.backends.postgresql",  # Changed from postgis to regular postgresql
         "NAME": env("DB_NAME", default="tengo"),
         "USER": env("DB_USER", default="begati"),
         "PASSWORD": env("DB_PASSWORD", default="npg_wip8y5Ivjmen"),
