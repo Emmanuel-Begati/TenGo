@@ -29,7 +29,7 @@ class Address(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Automatically updates to current time when object is saved
+    updated_at = models.DateTimeField(auto_now=True)
     STATUS_CHOICES = (
         ('active', 'Active'),
         ('completed', 'Completed'),
@@ -37,11 +37,21 @@ class Cart(models.Model):
     )
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'status']),
+        ]
+
     def __str__(self):
         return f"Cart of {self.user.email}"
     
     def total_price(self):
-        return sum(item.total_price() for item in self.cart_items.all())
+        # Use aggregation for better performance
+        from django.db.models import Sum, F
+        total = self.cart_items.aggregate(
+            total=Sum(F('price') * F('quantity'))
+        )['total']
+        return total or 0
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='cart_items', on_delete=models.CASCADE, null=True, blank=True)

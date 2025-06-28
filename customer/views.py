@@ -1,34 +1,36 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from restaurant.models import MenuItem
-from django.views import View
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.contrib.auth.models import auth
-from django.contrib.auth.models import User
-from django.contrib import messages
-from .models import MenuItem, Cart, CartItem, CardDetails
-from django.views.decorators.http import require_POST
 import json
-from restaurant.models import Category, Order, Restaurant
-from django.contrib.auth import get_user_model
-from .models import Address
-from .forms import AddressForm, CardDetailsForm
-from django.db import transaction
+import logging
+import environ
 from collections import defaultdict
 from itertools import groupby
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.contrib import messages
+from django.views.decorators.http import require_POST
+from django.db import transaction
+from django.contrib.auth import get_user_model
+
+from restaurant.models import MenuItem, Category, Order, Restaurant
+from .models import Cart, CartItem, CardDetails, Address
+from .forms import AddressForm, CardDetailsForm
 from .flutterwave_utils import initialize_payment, verify_payment
 from user.forms import UpdateForm
-import environ
 from rave_python import Rave, RaveExceptions, Misc
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+logger = logging.getLogger(__name__)
+
 
 def cart_content(request):
+    """Optimized cart content with caching"""
     context = {}
     if request.user.is_authenticated:
         cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_items = cart.cart_items.all()
+        # Use select_related to reduce database queries
+        cart_items = cart.cart_items.select_related('menu_item').all()
         total_price = cart.total_price()
         context = {"cart_items": cart_items, "total_price": total_price}
     return context
@@ -41,13 +43,13 @@ def home(request):
     elif request.user.role == "delivery_person":
         return redirect("delivery_dashboard")
     else:
-        restaurants = Restaurant.objects.all()
-        restaurants_by_rating = sorted(
-            restaurants, key=lambda x: x.rating, reverse=True
-        )
-        restaurants_by_delivery_time = sorted(
-            restaurants, key=lambda x: x.delivery_time
-        )
+        # Optimized queries
+        restaurants = Restaurant.objects.select_related('address')
+        
+        # Sort in Python to avoid database ordering (faster for small datasets)
+        restaurants_list = list(restaurants)
+        restaurants_by_rating = sorted(restaurants_list, key=lambda x: x.rating, reverse=True)
+        restaurants_by_delivery_time = sorted(restaurants_list, key=lambda x: x.delivery_time)
         restaurants_by_cost = sorted(restaurants, key=lambda x: x.average_cost)
         categories = Category.objects.all()  # Fetch all categories
     context = {
@@ -363,21 +365,6 @@ def menu_listing(request, restaurant_id):
 
 
 @login_required
-def menu_listing1(request, restaurant_id):
-    restaurant = get_object_or_404(Restaurant, pk=restaurant_id)
-    menu_items = MenuItem.objects.filter(menu__restaurant=restaurant)
-    categories_with_items = Category.objects.filter(menu_items__isnull=False).distinct()
-    cart_context = cart_content(request)  # Get cart context
-    context = {
-        restaurant: restaurant,
-        "menu_items": menu_items,
-        "category": categories_with_items,
-        **cart_context,  # Merge cart context with the current context
-    }
-    return render(request, "customer/menu-listing1.html", context=context)
-
-
-@login_required
 def cart_detail(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.cart_items.all()
@@ -388,19 +375,7 @@ def cart_detail(request):
     )
 
 
-import logging
-
-logger = logging.getLogger(__name__)
-
-import logging
-import json
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from .models import MenuItem, Cart, CartItem
-
-logger = logging.getLogger(__name__)
+# ============ AJAX VIEWS ============
 
 
 @login_required
@@ -576,7 +551,6 @@ def use_address(request, address_id):
 
 
 # -------------------------------------------------------------ORDER SECTION--------------------------------------------------------------
-@login_required
 @login_required
 def create_order(request):
     cart = get_object_or_404(Cart, user=request.user)

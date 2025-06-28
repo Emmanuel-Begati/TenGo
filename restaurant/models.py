@@ -18,6 +18,13 @@ class Restaurant(models.Model):
     is_open = models.BooleanField(default=True)
     average_cost = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['owner']),
+            models.Index(fields=['is_open', 'rating']),
+            models.Index(fields=['delivery_time']),
+        ]
+
     def __str__(self):
         return self.name
     
@@ -40,53 +47,90 @@ class Restaurant(models.Model):
             self.delivery_time = self.calculate_average_delivery_time()
                     
     def calculate_average_cost(self):
-        total_menu_items = self.total_menu_items()
-        if total_menu_items == 0:
-            return 0  # Return 0 or any default value you see fit when there are no menu items
-        total = 0
-        for menu in self.menus.all():
-            for item in menu.menu_items.all():
-                total += item.price
-        return total / total_menu_items
+        # Optimized single query instead of multiple queries
+        avg_price = MenuItem.objects.filter(restaurant=self).aggregate(
+            avg_price=models.Avg('price')
+        )['avg_price']
+        return avg_price or 0
+    
+    def calculate_average_delivery_time(self):
+        # Default delivery time calculation or return default
+        return 30  # Default 30 minutes
            
         
 
 class RestaurantAnalysis(models.Model):
     restaurant = models.OneToOneField(Restaurant, on_delete=models.CASCADE, related_name='analysis')
+    
+    # Cache these values to avoid repeated database hits
+    _cached_stats = None
+    
+    def get_cached_stats(self):
+        """Get all statistics in a single optimized query"""
+        if self._cached_stats is None:
+            from django.db.models import Count, Sum, Q
+            
+            # Single aggregated query for all order statistics
+            order_stats = Order.objects.filter(
+                restaurant=self.restaurant, 
+                is_visible_to_restaurant=True
+            ).aggregate(
+                total_orders=Count('id'),
+                total_revenue=Sum('total', filter=Q(payment_status=True)),
+                total_customers=Count('user', distinct=True),
+                new_orders=Count('id', filter=Q(status='Pending')),
+                preparing_orders=Count('id', filter=Q(status='Preparing')),
+                delivered_orders=Count('id', filter=Q(status='Delivered')),
+                cancelled_orders=Count('id', filter=Q(status='Cancelled'))
+            )
+            
+            # Menu items count
+            menu_items_count = MenuItem.objects.filter(restaurant=self.restaurant).count()
+            
+            # Reviews stats
+            review_stats = Review.objects.filter(restaurant=self.restaurant).aggregate(
+                total_reviews=Count('id'),
+                total_ratings=Sum('rating')
+            )
+            
+            self._cached_stats = {
+                **order_stats,
+                'menu_items_count': menu_items_count,
+                **review_stats
+            }
+            
+        return self._cached_stats
+    
     def total_menu_items(self):
-        menus = Menu.objects.filter(restaurant=self.restaurant)
-        return MenuItem.objects.filter(menu__in=menus).count()
+        return self.get_cached_stats()['menu_items_count']
     
     def total_orders(self):
-        return Order.objects.filter(restaurant=self.restaurant, is_visible_to_restaurant=True).count()
+        return self.get_cached_stats()['total_orders'] or 0
 
     def total_revenue(self):
-        total_sum = Order.objects.filter(restaurant=self.restaurant, payment_status=True, is_visible_to_restaurant=True).aggregate(Sum('total'))['total__sum']
-        return (total_sum or 0) / 1000
+        revenue = self.get_cached_stats()['total_revenue'] or 0
+        return revenue / 1000
 
     def total_customers(self):
-        return Order.objects.filter(restaurant=self.restaurant, is_visible_to_restaurant=True).values('user').distinct().count() or 0
+        return self.get_cached_stats()['total_customers'] or 0
 
     def total_reviews(self):
-        return Review.objects.filter(restaurant=self.restaurant).count()
+        return self.get_cached_stats()['total_reviews'] or 0
 
     def total_ratings(self):
-        return Review.objects.filter(restaurant=self.restaurant).aggregate(Sum('rating'))['rating__sum'] or 0
+        return self.get_cached_stats()['total_ratings'] or 0
     
     def new_orders(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Pending', is_visible_to_restaurant=True).count()
+        return self.get_cached_stats()['new_orders'] or 0
 
     def on_delivery(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Preparing', is_visible_to_restaurant=True).count()
+        return self.get_cached_stats()['preparing_orders'] or 0
 
     def delivered(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Delivered', is_visible_to_restaurant=True).count()
+        return self.get_cached_stats()['delivered_orders'] or 0
 
     def canceled(self):
-        return Order.objects.filter(restaurant=self.restaurant, status='Cancelled', is_visible_to_restaurant=True).count()
-
-    def __str__(self):
-        return f'Analysis for {self.restaurant.name}'
+        return self.get_cached_stats()['cancelled_orders'] or 0
 
     def __str__(self):
         return f'Analysis for {self.restaurant.name}'
@@ -154,19 +198,26 @@ class Order(models.Model):
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     reference = models.CharField(max_length=100, unique=True, blank=True, null=True)
-    payment_status = models.BooleanField(default=False)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     items = models.ManyToManyField(MenuItem, related_name='orders')
     total = models.DecimalField(max_digits=6, decimal_places=2)
     order_time = models.DateTimeField(auto_now_add=True)
     delivery_person = models.ForeignKey('delivery.DeliveryPerson', on_delete=models.SET_NULL, related_name='orders', null=True, blank=True)
     delivery_address = models.CharField(max_length=100, blank=True, null=True, default='')
-    is_visible_to_restaurant = models.BooleanField(default=False)  # New field
+    is_visible_to_restaurant = models.BooleanField(default=False)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Pending')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_CHOICES, default='Card')
     payment_status = models.BooleanField(default=False)
     restaurant_otp_code = models.CharField(max_length=6, blank=True, null=True)
     customer_otp_code = models.CharField(max_length=6, blank=True, null=True)
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'payment_status']),
+            models.Index(fields=['restaurant', 'is_visible_to_restaurant']),
+            models.Index(fields=['status']),
+            models.Index(fields=['order_time']),
+        ]
     
     def __str__(self):
         return f'Order {self.id} - {self.restaurant.name}'

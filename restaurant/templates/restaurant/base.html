@@ -253,71 +253,17 @@
     <!-- toast js -->
     <script src="{% static 'customer/assets/js/toast.js' %}"></script>
 
-    <!-- script js -->
-<script src="{% static 'customer/assets/js/script.js' %}"></script> 
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
-<!-- restaurant/templates/restaurant/base.html -->
-<script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
-<!-- restaurant/templates/restaurant/base.html -->
-<script src="{% static 'customer/assets/js/restaurant-script.js' %}"></script>
-<script src="{% static 'restaurant/scripts/restaurant.js' %}"></script>
-
-<script>
-// Safe DOM manipulation helper
-function safeDOM() {
-  // Create a wrapper for safe DOM manipulation
-  window.safeDOMManipulation = {
-    // Safely get an element, return null if not found
-    get: function(selector) {
-      return document.querySelector(selector);
-    },
+    <!-- Optimized script loading -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="{% static 'customer/assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    // Safely set an attribute on an element
-    setAttribute: function(selector, attribute, value) {
-      const element = this.get(selector);
-      if (element) {
-        element.setAttribute(attribute, value);
-        return true;
-      }
-      return false;
-    },
-    
-    // Safely set a property on an element
-    setProperty: function(selector, property, value) {
-      const element = this.get(selector);
-      if (element) {
-        element[property] = value;
-        return true;
-      }
-      return false;
-    },
-    
-    // Safely add an event listener
-    addListener: function(selector, event, callback) {
-      const element = this.get(selector);
-      if (element) {
-        element.addEventListener(event, callback);
-        return true;
-      }
-      return false;
-    }
-  };
-  
-  // Initialize when DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('Safe DOM manipulation helper loaded');
-  });
-}
+    <!-- Custom scripts -->
+    <script src="{% static 'customer/assets/js/script.js' %}"></script>
+    <script src="{% static 'restaurant/scripts/restaurant.js' %}"></script>
 
-// Run the initialization
-safeDOM();
-</script>
+
 
 <script>
 // Fix RTL button issues from script.js

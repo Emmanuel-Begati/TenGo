@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 import environ
 from redis import Redis
 
@@ -66,25 +67,54 @@ INSTALLED_APPS = [
 
 # Redis and Channels configuration
 ASGI_APPLICATION = "TenGo.asgi.application"
-REDIS_URL = "rediss://red-cv538n56l47c73d0495g:GMRJS4viHi53EQYcV21i0GaXlOLUGWhL@oregon-keyvalue.render.com:6379"  # need to work on environment variables
 
-print(f"Connecting to Redis at: {REDIS_URL}")
+# For development, we'll disable Redis and use in-memory channel layer
+# This avoids connection hanging issues
+REDIS_AVAILABLE = False
+USE_REDIS = env("USE_REDIS", default="false").lower() == "true"
 
-try:
-    redis = Redis.from_url(REDIS_URL)
-    redis.ping()
-    print("Connected to Redis successfully!")
-except Exception as e:
-    print(f"Failed to connect to Redis: {e}")
+if USE_REDIS:
+    REDIS_URL = env("REDIS_URL", default="redis://localhost:6379/0")
+    print(f"🔄 Attempting to connect to Redis at: {REDIS_URL}")
+    
+    try:
+        # Set a very short timeout for Redis connection test
+        redis = Redis.from_url(REDIS_URL, socket_connect_timeout=1, socket_timeout=1)
+        redis.ping()
+        print("✅ Connected to Redis successfully!")
+        REDIS_AVAILABLE = True
+    except Exception as e:
+        print(f"❌ Failed to connect to Redis: {e}")
+        print("🔄 Using in-memory channel layer (WebSockets will still work)")
+        REDIS_AVAILABLE = False
+else:
+    print("🔄 Redis disabled - using in-memory channel layer for development")
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [REDIS_URL],
+# Channel layers configuration
+if REDIS_AVAILABLE and USE_REDIS:
+    # Parse Redis URL for channels configuration
+    from urllib.parse import urlparse
+    redis_parsed = urlparse(REDIS_URL)
+    redis_host = redis_parsed.hostname or 'localhost'
+    redis_port = redis_parsed.port or 6379
+    
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [(redis_host, redis_port)],
+            },
         },
-    },
-}
+    }
+    print(f"📡 Using Redis channel layer: {redis_host}:{redis_port}")
+else:
+    # Use in-memory channel layer for development
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+        },
+    }
+    print("📡 Using in-memory channel layer (development mode)")
 
 # Middleware
 MIDDLEWARE = [
@@ -125,7 +155,7 @@ WSGI_APPLICATION = "TenGo.wsgi.application"
 # use explicit database configuration
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",  # Changed from postgis to regular postgresql
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env("DB_NAME", default="tengo"),
         "USER": env("DB_USER", default="begati"),
         "PASSWORD": env("DB_PASSWORD", default="npg_wip8y5Ivjmen"),
@@ -136,8 +166,40 @@ DATABASES = {
         "OPTIONS": {
             "sslmode": "require",
         },
+        "CONN_MAX_AGE": 60,  # Connection pooling
+        "CONN_HEALTH_CHECKS": True,
     }
 }
+
+# Caching Configuration
+if REDIS_AVAILABLE and USE_REDIS:
+    REDIS_URL = env("REDIS_URL", default="redis://localhost:6379/0")
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            },
+            'KEY_PREFIX': 'tengo',
+            'TIMEOUT': 300,  # 5 minutes default timeout
+        }
+    }
+    # Session configuration to use cache
+    SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+    SESSION_CACHE_ALIAS = 'default'
+    print("💾 Using Redis cache")
+else:
+    # Fallback to local memory cache for development
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+        }
+    }
+    # Use database sessions when Redis is not available
+    SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+    print("💾 Using local memory cache")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
