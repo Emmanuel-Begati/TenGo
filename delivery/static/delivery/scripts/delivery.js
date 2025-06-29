@@ -2,11 +2,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set up WebSocket connection
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const host = window.location.hostname || '127.0.0.1';
-    const port = '8001'; // Daphne server port
-    const socket = new WebSocket(`${protocol}${host}:${port}/ws/delivery/`);
+    
+    // Use nginx proxy for production, direct connection for development
+    let wsUrl;
+    if (window.location.hostname === 'tengo.thisisemmanuel.pro') {
+        // Production: use nginx proxy (no port specified)
+        wsUrl = `${protocol}${host}/ws/delivery/`;
+    } else {
+        // Development: connect directly to Daphne server
+        const port = '8060'; // Daphne server port
+        wsUrl = `${protocol}${host}:${port}/ws/delivery/`;
+    }
+    
+    const socket = new WebSocket(wsUrl);
     
     // Enable console debugging to track WebSocket status
-    console.log(`Attempting to connect WebSocket to: ${protocol}${host}:${port}/ws/delivery/`);
+    console.log(`Attempting to connect WebSocket to: ${wsUrl}`);
     
     const pendingDeliveriesTableBody = document.querySelector('#pending-deliveries-table tbody');
     const acceptedDeliveriesTableBody = document.querySelector('table:not(#pending-deliveries-table) tbody');

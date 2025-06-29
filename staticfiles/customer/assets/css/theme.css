@@ -1,0 +1,180 @@
+:root {
+  /* Primary colors */
+  --primary: #ff8d2f;      /* Orange as your primary color - updated to match template */
+  --secondary: #4caf50;    /* Green as secondary color */
+  --accent: #ffeb3b;       /* Yellow accent */
+  
+  /* Text colors */
+  --text-light: #ffffff;   /* Light text for dark backgrounds */
+  --text-dark: #333333;    /* Dark text for light backgrounds */
+  --text-muted: #888888;   /* Muted text */
+  
+  /* Background colors */
+  --bg-light: #ffffff;     /* Light background */
+  --bg-dark: #2c2c2c;      /* Dark background */
+  --bg-medium: #3a3a3a;    /* Medium dark background */
+  
+  /* UI Elements */
+  --border-color: #444444;
+  --input-bg: #f5f5f5;
+  --card-bg: #ffffff;
+  --header-bg: var(--primary);
+  --footer-bg: var(--bg-dark);
+  
+  /* Status colors */
+  --success: #4caf50;      /* Green */
+  --warning: #ff9800;      /* Orange */
+  --danger: #f44336;       /* Red */
+  --info: #2196f3;         /* Blue */
+}
+
+/* Apply consistent styling to common elements */
+body {
+  color: var(--text-dark);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Dark mode body alternative */
+body.dark-theme {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary);
+}
+
+body.dark-theme h1,
+body.dark-theme h2, 
+body.dark-theme h3, 
+body.dark-theme h4, 
+body.dark-theme h5, 
+body.dark-theme h6 {
+  color: var(--accent);
+}
+
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+body.dark-theme a {
+  color: var(--accent);
+}
+
+body.dark-theme a:hover {
+  color: var(--primary);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
+.btn-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: var(--text-light);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme .card {
+  background-color: var(--bg-medium);
+  color: var(--text-light);
+}
+
+.card-header {
+  background-color: var(--primary);
+  color: var(--text-light);
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Navigation */
+.navbar {
+  /* background-color: var(--primary); */
+  color: var(--text-light);
+}
+
+.navbar a {
+  color: var(--text-light);
+}
+
+.navbar a:hover {
+  color: var(--accent);
+}
+
+/* Forms */
+input, select, textarea {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+body.dark-theme input,
+body.dark-theme select,
+body.dark-theme textarea {
+  background-color: var(--bg-medium);
+  color: var(--text-light);
+  border-color: var(--border-color);
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: var(--primary);
+  color: var(--text-light);
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+body.dark-theme td {
+  color: var(--text-light);
+}
+
+/* Profile section */
+.profile-cover {
+  background-color: var(--primary);
+  color: var(--text-light);
+  padding: 20px;
+  margin-bottom: 20px;
+}

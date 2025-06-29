@@ -233,11 +233,16 @@
         // Use hostname without port for connection
         const host = window.location.hostname;
         
-        // Use port 8001 for WebSockets (where Daphne is running)
-        const port = '8001';
-        
-        // Create WebSocket connection
-        const connectionUrl = `${protocol}${host}:${port}/ws/restaurant/${restaurantId}/`;
+        // Create WebSocket connection - use nginx proxy for production
+        let connectionUrl;
+        if (window.location.hostname === 'tengo.thisisemmanuel.pro') {
+            // Production: use nginx proxy (no port specified)
+            connectionUrl = `${protocol}${host}/ws/restaurant/${restaurantId}/`;
+        } else {
+            // Development: connect directly to Daphne server
+            const port = '8060';
+            connectionUrl = `${protocol}${host}:${port}/ws/restaurant/${restaurantId}/`;
+        }
         console.log(`Attempting WebSocket connection to: ${connectionUrl}`);
         
         try {

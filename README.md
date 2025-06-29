@@ -109,7 +109,7 @@ Ensure you have the following installed:
 
 To run the WebSocket server using Daphne:
 ```bash
-daphne -b 0.0.0.0 -p 8001 tengo.asgi:application
+daphne -b 0.0.0.0 -p 8060 tengo.asgi:application
 ```
 
 ## Usage

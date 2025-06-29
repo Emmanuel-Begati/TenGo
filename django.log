@@ -1,0 +1,21 @@
+2025-06-29 08:49:18,773 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
+2025-06-29 08:49:18,774 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-06-29 08:49:18,774 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
+2025-06-29 08:49:18,775 INFO     Listening on TCP address 0.0.0.0:8060
+2025-06-29 08:49:27,952 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
+2025-06-29 08:49:31,071 WARNING  Not Found: /staticfiles/restaurant/scripts/restaurant.js
+2025-06-29 08:49:31,387 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
+2025-06-29 08:49:35,407 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
+2025-06-29 08:49:35,856 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
+2025-06-29 08:49:42,239 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
+2025-06-29 08:49:42,595 WARNING  Not Found: /staticfiles/delivery/sounds/notification.mp3
+2025-06-29 08:49:42,601 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
+2025-06-29 08:50:07,092 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
+2025-06-29 08:50:07,422 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
+2025-06-29 08:50:07,470 WARNING  Not Found: /staticfiles/delivery/sounds/notification.mp3
+2025-06-29 08:50:38,066 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}}
+2025-06-29 08:50:38,067 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}
+2025-06-29 08:50:38,067 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}}
+2025-06-29 08:50:38,067 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}
+2025-06-29 08:50:40,292 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
+2025-06-29 08:50:40,509 WARNING  Not Found: /staticfiles/restaurant/scripts/restaurant.js

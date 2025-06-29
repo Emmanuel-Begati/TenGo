@@ -33,18 +33,15 @@ environ.Env.read_env(env_file)
 SECRET_KEY = env("SECRET_KEY", default="fallback-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "tengo.thisisemmanuel.pro",
     "localhost",
     "127.0.0.1",
-    "194.61.28.101",
-    "tengo.onrender.com",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://tengo.thisisemmanuel.pro",
-    "https://tengo.onrender.com",
 ]
 
 # Application definition
@@ -68,10 +65,8 @@ INSTALLED_APPS = [
 # Redis and Channels configuration
 ASGI_APPLICATION = "TenGo.asgi.application"
 
-# For development, we'll disable Redis and use in-memory channel layer
-# This avoids connection hanging issues
-REDIS_AVAILABLE = False
-USE_REDIS = env("USE_REDIS", default="false").lower() == "true"
+# Redis and Channel configuration
+USE_REDIS = env("USE_REDIS", default="true").lower() == "true"
 
 if USE_REDIS:
     REDIS_URL = env("REDIS_URL", default="redis://localhost:6379/0")
@@ -89,6 +84,7 @@ if USE_REDIS:
         REDIS_AVAILABLE = False
 else:
     print("🔄 Redis disabled - using in-memory channel layer for development")
+    REDIS_AVAILABLE = False
 
 # Channel layers configuration
 if REDIS_AVAILABLE and USE_REDIS:
@@ -232,14 +228,37 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = "staticfiles"
+STATIC_URL = "/staticfiles/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+# Static files finders
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Additional locations of static files
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+# WhiteNoise configuration for better static file serving with cache busting
+if DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+    WHITENOISE_USE_FINDERS = True
+    WHITENOISE_AUTOREFRESH = True
+    WHITENOISE_MAX_AGE = 0  # No cache in debug mode for immediate updates
+else:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    WHITENOISE_USE_FINDERS = False
+    WHITENOISE_AUTOREFRESH = False
+    WHITENOISE_MAX_AGE = 31536000  # 1 year cache in production
+
+# WhiteNoise settings for better performance and cache control
+WHITENOISE_SKIP_COMPRESS_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'zip', 'gz', 'tgz', 'bz2', 'tbz', 'xz', 'br']
 
 
 MEDIA_URL = "/media/"
