@@ -1,21 +1,26 @@
-2025-06-29 08:49:18,773 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
-2025-06-29 08:49:18,774 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-06-29 08:49:18,774 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
-2025-06-29 08:49:18,775 INFO     Listening on TCP address 0.0.0.0:8060
-2025-06-29 08:49:27,952 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
-2025-06-29 08:49:31,071 WARNING  Not Found: /staticfiles/restaurant/scripts/restaurant.js
-2025-06-29 08:49:31,387 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
-2025-06-29 08:49:35,407 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
-2025-06-29 08:49:35,856 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
-2025-06-29 08:49:42,239 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
-2025-06-29 08:49:42,595 WARNING  Not Found: /staticfiles/delivery/sounds/notification.mp3
-2025-06-29 08:49:42,601 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
-2025-06-29 08:50:07,092 WARNING  Not Found: /staticfiles/customer/assets/css/custom-theme.css
-2025-06-29 08:50:07,422 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
-2025-06-29 08:50:07,470 WARNING  Not Found: /staticfiles/delivery/sounds/notification.mp3
-2025-06-29 08:50:38,066 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}}
-2025-06-29 08:50:38,067 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}
-2025-06-29 08:50:38,067 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}}
-2025-06-29 08:50:38,067 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'customer_name': 'Emmanuel Musa Yakubu', 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00'}
-2025-06-29 08:50:40,292 WARNING  Not Found: /staticfiles/customer/assets/js/swiper-bundle.min.js.map
-2025-06-29 08:50:40,509 WARNING  Not Found: /staticfiles/restaurant/scripts/restaurant.js
+2025-06-29 17:44:04,375 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
+2025-06-29 17:44:04,376 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-06-29 17:44:04,377 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
+2025-06-29 17:44:04,377 INFO     Listening on TCP address 0.0.0.0:8060
+2025-06-29 17:44:08,867 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
+2025-06-29 17:44:13,431 WARNING  Not Found: /404.html
+2025-06-29 17:44:13,755 WARNING  Not Found: /404.html
+2025-06-29 17:44:14,571 WARNING  Not Found: /404.html
+2025-06-29 17:44:14,628 WARNING  Not Found: /404.html
+2025-06-29 17:44:14,746 INFO     Delivery person connected to WebSocket: specific.a020095c48024a94b06dc47269bd99bc!d053c9a7720d4faea6c8c7be2982ca31
+2025-06-29 17:44:15,548 INFO     Customer 3 connected to WebSocket
+2025-06-29 17:44:15,896 WARNING  Not Found: /404.html
+2025-06-29 17:44:16,735 WARNING  Not Found: /404.html
+2025-06-29 17:44:31,121 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'restaurant_address': 'David Street, Kebbi, Rwanda', 'customer_name': 'Emmanuel Musa Yakubu', 'customer_phone': None, 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00', 'restaurant_otp': '139478', 'items_count': 2, 'special_instructions': None, 'priority': 'normal', 'estimated_prep_time': '5-10 minutes'}}
+2025-06-29 17:44:31,121 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'restaurant_address': 'David Street, Kebbi, Rwanda', 'customer_name': 'Emmanuel Musa Yakubu', 'customer_phone': None, 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00', 'restaurant_otp': '139478', 'items_count': 2, 'special_instructions': None, 'priority': 'normal', 'estimated_prep_time': '5-10 minutes'}
+2025-06-29 17:44:33,172 WARNING  Not Found: /404.html
+2025-06-29 17:44:33,195 WARNING  Not Found: /404.html
+2025-06-29 17:44:39,939 INFO     Customer 3 disconnected from WebSocket
+2025-06-29 17:44:42,528 INFO     Received order update: {'type': 'order_update', 'message': 'Order #40 from Jollof Kigali has been accepted by Delivery.', 'order': {'id': 40, 'status': 'Accepted', 'accepted_by': 'Delivery Person', 'restaurant_name': 'Jollof Kigali', 'no_longer_available': True}}
+2025-06-29 17:44:44,567 INFO     Delivery person disconnecting with close code: 1001, channel: specific.a020095c48024a94b06dc47269bd99bc!d053c9a7720d4faea6c8c7be2982ca31
+2025-06-29 17:44:44,723 WARNING  Not Found: /404.html
+2025-06-29 17:44:45,063 WARNING  Not Found: /404.html
+2025-06-29 17:44:45,081 WARNING  Not Found: /404.html
+2025-06-29 17:44:45,085 WARNING  Not Found: /404.html
+2025-06-29 17:44:45,332 INFO     Delivery person connected to WebSocket: specific.a020095c48024a94b06dc47269bd99bc!332c845602124d099ef58ee1a66bee33
+2025-06-29 17:44:46,097 INFO     Customer 3 connected to WebSocket

@@ -145,19 +145,49 @@ def confirm_order(request):
             order.is_visible_to_restaurant = True
             order.save()
 
-            # Use WebSocket to notify restaurant
+            # Enhanced WebSocket notification to restaurant with comprehensive order details
             try:
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
                     f"restaurant_{order.restaurant.id}",
                     {
                         "type": "order_update",
-                        "message": "Order has been paid and confirmed.",
+                        "message": f"💰 New paid order received! Order #{order.id} has been confirmed and paid by {order.user.first_name} {order.user.last_name}.",
                         "order": {
                             "id": order.id,
                             "status": order.status,
-                            "payment_status": True,  # Explicitly set to True here
+                            "payment_status": order.payment_status,
+                            "customer_name": f"{order.user.first_name} {order.user.last_name}",
+                            "customer_phone": order.user.phone if hasattr(order.user, 'phone') else None,
+                            "total_amount": str(order.total),
+                            "delivery_address": order.delivery_address,
+                            "order_time": order.order_time.isoformat() if order.order_time else None,
+                            "items_count": order.items.count(),
+                            "payment_method": "Card",
+                            "priority": "new_order",
                         },
+                        "notification_type": "new_paid_order",
+                        "priority": "high"
+                    },
+                )
+                
+                # Also notify the customer about successful payment
+                async_to_sync(channel_layer.group_send)(
+                    f"user_{order.user.id}",
+                    {
+                        "type": "payment_update",
+                        "message": f"✅ Payment successful! Your order #{order.id} from {order.restaurant.name} has been confirmed and sent to the restaurant.",
+                        "order": {
+                            "id": order.id,
+                            "status": order.status,
+                            "payment_status": True,
+                            "restaurant": order.restaurant.name,
+                            "total_amount": str(order.total),
+                            "estimated_prep_time": "20-30 minutes",
+                            "next_step": "Restaurant is preparing your order",
+                        },
+                        "notification_type": "payment_confirmed",
+                        "priority": "high"
                     },
                 )
             except Exception as e:
@@ -587,14 +617,22 @@ def create_order(request):
 
         channel_layer = get_channel_layer()
         for order in orders_created:
+            # Notify restaurant about new order with enhanced details
             async_to_sync(channel_layer.group_send)(
                 f"restaurant_{order.restaurant.id}",
                 {
                     "type": "new_order",
-                    "message": "A new order has been placed.",
+                    "message": f"📋 New order #{order.id} received from {order.user.first_name} {order.user.last_name}. Ready to be processed.",
                     "order": {
                         "id": order.id,
                         "status": order.status,
+                        "customer_name": f"{order.user.first_name} {order.user.last_name}",
+                        "customer_phone": order.user.phone if hasattr(order.user, 'phone') else None,
+                        "total": str(order.total),
+                        "items_count": order.items.count(),
+                        "order_time": order.order_time.isoformat() if order.order_time else None,
+                        "restaurant_id": order.restaurant.id,
+                        "payment_status": order.payment_status,
                     },
                 },
             )
@@ -796,27 +834,58 @@ def handle_successful_payment(request):
             # Clear the cart after payment
             CartItem.objects.filter(cart__user=request.user).delete()
 
-            # Send notifications to restaurant via WebSockets
+            # Enhanced WebSocket notifications to restaurants with detailed order information
             try:
                 channel_layer = get_channel_layer()
                 for order in Order.objects.filter(
                     id__in=unpaid_orders.values_list("id", flat=True)
                 ):
+                    # Notify restaurant with comprehensive order details
                     async_to_sync(channel_layer.group_send)(
                         f"restaurant_{order.restaurant.id}",
                         {
                             "type": "order_update",
-                            "message": "Order has been paid and confirmed.",
+                            "message": f"🎉 New order confirmed! Order #{order.id} has been paid and is ready for preparation.",
                             "order": {
                                 "id": order.id,
                                 "status": order.status,
                                 "payment_status": order.payment_status,
+                                "customer_name": f"{order.user.first_name} {order.user.last_name}",
+                                "customer_phone": order.user.phone if hasattr(order.user, 'phone') else None,
+                                "total_amount": str(order.total),
+                                "delivery_address": order.delivery_address,
+                                "order_time": order.order_time.isoformat() if order.order_time else None,
+                                "items_count": order.items.count(),
+                                "payment_confirmed": True,
+                                "needs_preparation": True,
                             },
+                            "notification_type": "new_paid_order",
+                            "priority": "high"
+                        },
+                    )
+                    
+                    # Notify customer about successful payment and order progression
+                    async_to_sync(channel_layer.group_send)(
+                        f"user_{order.user.id}",
+                        {
+                            "type": "payment_update", 
+                            "message": f"✅ Payment successful! Your order from {order.restaurant.name} has been confirmed and sent to the restaurant for preparation.",
+                            "order": {
+                                "id": order.id,
+                                "status": order.status,
+                                "payment_status": True,
+                                "restaurant": order.restaurant.name,
+                                "total_amount": str(order.total),
+                                "next_step": "Restaurant will start preparing your order",
+                                "estimated_total_time": "35-45 minutes",
+                            },
+                            "notification_type": "payment_success",
+                            "priority": "high"
                         },
                     )
             except Exception as e:
                 # Log WebSocket notification errors but don't fail the payment
-                print(f"Error notifying restaurant: {str(e)}")
+                print(f"Error notifying restaurants and customers: {str(e)}")
 
             messages.success(
                 request, f"{updated_count} order(s) have been successfully paid for."

@@ -1,6 +1,22 @@
 {%extends "customer/base.html"%}
 {%load static%}
 {% block content %}
+    <!-- Order data for JavaScript (hidden) -->
+    {% if orders %}
+    <script id="order-tracking-data" type="application/json">
+    [
+        {% for order in orders %}
+        {
+            "id": {{ order.id }},
+            "status": "{{ order.status }}",
+            "delivery_person": "{{ order.delivery_person.user.first_name|default:'' }} {{ order.delivery_person.user.last_name|default:'' }}",
+            "estimated_time": "30 mins"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+    </script>
+    {% endif %}
+
     <!-- order tracking section starts -->
     <section class="section-b-space">
         <div class="container">
@@ -29,20 +45,78 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="status-tab-pane" role="tabpanel" tabindex="0">
                                 <div class="order-status-content">
+                                    <!-- Real-time connection status -->
+                                    <div id="tracking-status" class="alert alert-info d-flex align-items-center mb-3">
+                                        <i class="ri-wifi-line me-2"></i>
+                                        <span>Connecting to real-time updates...</span>
+                                    </div>
+                                    
+                                    <!-- Enhanced order progress indicator -->
+                                    <div class="order-progress mb-4" data-order-id="{{ order.id }}">
+                                        <div class="progress-container">
+                                            <div class="progress">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" id="order-progress-bar"></div>
+                                            </div>
+                                            <div class="progress-steps d-flex justify-content-between mt-2">
+                                                <div class="progress-step" data-step="confirmed">
+                                                    <i class="ri-check-line"></i>
+                                                    <small>Confirmed</small>
+                                                </div>
+                                                <div class="progress-step" data-step="preparing">
+                                                    <i class="ri-restaurant-line"></i>
+                                                    <small>Preparing</small>
+                                                </div>
+                                                <div class="progress-step" data-step="ready">
+                                                    <i class="ri-truck-line"></i>
+                                                    <small>Ready</small>
+                                                </div>
+                                                <div class="progress-step" data-step="delivery">
+                                                    <i class="ri-map-pin-line"></i>
+                                                    <small>Out for Delivery</small>
+                                                </div>
+                                                <div class="progress-step" data-step="delivered">
+                                                    <i class="ri-check-double-line"></i>
+                                                    <small>Delivered</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                    <small>Preparing</small>
+                                                </div>
+                                                <div class="progress-step" data-step="ready">
+                                                    <i class="ri-truck-line"></i>
+                                                    <small>Ready</small>
+                                                </div>
+                                                <div class="progress-step" data-step="delivery">
+                                                    <i class="ri-map-pin-line"></i>
+                                                    <small>Out for Delivery</small>
+                                                </div>
+                                                <div class="progress-step" data-step="delivered">
+                                                    <i class="ri-check-double-line"></i>
+                                                    <small>Delivered</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="driver-details">
-                                        <h4>Drivers Information</h4>
+                                        <h4>Delivery Information</h4>
                                         <div class="driver-details-box">
                                             <div class="driver-image">
-                                                <img class="img-fluid img" src="{% static 'customer/assets/images/icons/p1.png' %}" alt="p1">
+                                                <img class="img-fluid img" src="{% static 'customer/assets/images/icons/p1.png' %}" alt="delivery-person">
                                             </div>
                                             <div class="driver-content">
                                                 <div class="driver-info">
-                                                    <h6>Driver Name :</h6>
-                                                    <h5>Jose Mike</h5>
+                                                    <h6>Delivery Person:</h6>
+                                                    <h5 class="delivery-person-name">Waiting for assignment...</h5>
                                                 </div>
                                                 <div class="driver-info">
-                                                    <h6>Estimated Delivery Time :</h6>
-                                                    <h5>30 mins</h5>
+                                                    <h6>Estimated Delivery Time:</h6>
+                                                    <h5 class="estimated-delivery-time">Calculating...</h5>
+                                                </div>
+                                                <div class="driver-info contact-info" style="display: none;">
+                                                    <h6>Contact:</h6>
+                                                    <h5 class="delivery-person-phone"></h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -180,3 +254,333 @@
     <!-- order tracking section end -->
 
 {%endblock content%}
+
+<style>
+/* Enhanced Order Tracking Styles */
+.order-progress .progress {
+    height: 8px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    overflow: visible;
+}
+
+.order-progress .progress-bar {
+    transition: width 0.6s ease;
+    border-radius: 10px;
+}
+
+.progress-steps {
+    margin-top: 1rem;
+}
+
+.progress-step {
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+
+.progress-step i {
+    font-size: 1.5rem;
+    color: #6c757d;
+    background: white;
+    border: 2px solid #dee2e6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.progress-step.completed i {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.progress-step.active i {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    animation: pulse 2s infinite;
+}
+
+.progress-step small {
+    font-size: 0.75rem;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.progress-step.completed small,
+.progress-step.active small {
+    color: #495057;
+    font-weight: 600;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(0, 123, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+
+/* Connection Status Styles */
+.alert.connected {
+    border-left: 4px solid #28a745;
+}
+
+.alert.disconnected {
+    border-left: 4px solid #ffc107;
+}
+
+/* Delivery Person Info Styles */
+.driver-details-box {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #e9ecef;
+}
+
+.delivery-person-details {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Order Status Badge Styles */
+.order-status.status-confirmed { background-color: #17a2b8; }
+.order-status.status-preparing { background-color: #ffc107; }
+.order-status.status-ready-for-delivery { background-color: #fd7e14; }
+.order-status.status-accepted { background-color: #6f42c1; }
+.order-status.status-out-for-delivery { background-color: #007bff; }
+.order-status.status-delivered { background-color: #28a745; }
+.order-status.status-cancelled { background-color: #dc3545; }
+
+/* Real-time Update Animations */
+@keyframes statusUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.order-status.updating {
+    animation: statusUpdate 0.5s ease;
+}
+
+/* Tracking Animation */
+.tracking-loading {
+    animation: pulse 1.5s infinite;
+}
+</style>
+    height: 8px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
+
+.order-progress .progress-bar {
+    border-radius: 10px;
+    transition: width 0.6s ease;
+}
+
+.progress-steps {
+    margin-top: 15px;
+}
+
+.progress-step {
+    text-align: center;
+    flex: 1;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.progress-step.completed {
+    opacity: 1;
+    color: #28a745;
+}
+
+.progress-step.active {
+    opacity: 1;
+    color: #007bff;
+    transform: scale(1.1);
+}
+
+.progress-step i {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.progress-step small {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.connection-status .badge {
+    font-size: 0.75rem;
+    padding: 4px 8px;
+}
+
+.driver-details-box {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+#tracking-status {
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+#tracking-status.connected {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+#tracking-status.disconnected {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.tracking-loading {
+    animation: pulse 1.5s infinite;
+}
+</style>
+
+<script>
+// Enhanced order tracking functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize order tracking based on current orders
+    const orderDataElement = document.getElementById('order-tracking-data');
+    let orderData = null;
+    
+    if (orderDataElement) {
+        try {
+            orderData = JSON.parse(orderDataElement.textContent);
+        } catch (e) {
+            console.error('Error parsing order data:', e);
+        }
+    }
+    
+    if (orderData && orderData.length > 0) {
+        // Use the first/latest order for tracking display
+        const currentOrder = orderData[0];
+        updateTrackingDisplay(currentOrder);
+    }
+    
+    // Listen for WebSocket connection status updates
+    function updateTrackingConnectionStatus(connected) {
+        const trackingStatus = document.getElementById('tracking-status');
+        if (trackingStatus) {
+            if (connected) {
+                trackingStatus.className = 'alert alert-success connected d-flex align-items-center mb-3';
+                trackingStatus.innerHTML = '<i class="ri-wifi-line me-2"></i><span>Real-time tracking active</span>';
+            } else {
+                trackingStatus.className = 'alert alert-warning disconnected d-flex align-items-center mb-3';
+                trackingStatus.innerHTML = '<i class="ri-wifi-off-line me-2"></i><span>Reconnecting to real-time updates...</span>';
+            }
+        }
+    }
+    
+    // Update tracking display based on order status
+    function updateTrackingDisplay(order) {
+        // Update progress bar
+        const progressSteps = {
+            'Pending': 0,
+            'Confirmed': 20,
+            'Preparing': 40,
+            'Ready for Delivery': 60,
+            'Accepted': 70,
+            'Out for delivery': 85,
+            'Delivered': 100
+        };
+        
+        const progressBar = document.getElementById('order-progress-bar');
+        if (progressBar && order.status) {
+            const progress = progressSteps[order.status] || 0;
+            progressBar.style.width = progress + '%';
+        }
+        
+        // Update step indicators
+        const stepElements = document.querySelectorAll('.progress-step');
+        const currentStep = getCurrentStep(order.status);
+        
+        stepElements.forEach((step, index) => {
+            step.classList.remove('completed', 'active');
+            if (index < currentStep) {
+                step.classList.add('completed');
+            } else if (index === currentStep) {
+                step.classList.add('active');
+            }
+        });
+        
+        // Update delivery person info if available
+        if (order.delivery_person && order.delivery_person.trim()) {
+            const nameElement = document.querySelector('.delivery-person-name');
+            if (nameElement) {
+                nameElement.textContent = order.delivery_person;
+            }
+            
+            if (order.delivery_person_phone) {
+                const phoneElement = document.querySelector('.delivery-person-phone');
+                const contactInfo = document.querySelector('.contact-info');
+                if (phoneElement && contactInfo) {
+                    phoneElement.innerHTML = '<a href="tel:' + order.delivery_person_phone + '">' + order.delivery_person_phone + '</a>';
+                    contactInfo.style.display = 'block';
+                }
+            }
+        }
+        
+        // Update estimated delivery time
+        if (order.estimated_delivery || order.estimated_time) {
+            const etaElement = document.querySelector('.estimated-delivery-time');
+            if (etaElement) {
+                etaElement.textContent = order.estimated_delivery || order.estimated_time;
+            }
+        }
+    }
+    
+    function getCurrentStep(status) {
+        const stepMapping = {
+            'Confirmed': 0,
+            'Preparing': 1,
+            'Ready for Delivery': 2,
+            'Accepted': 2,
+            'Out for delivery': 3,
+            'Delivered': 4
+        };
+        return stepMapping[status] || 0;
+    }
+    
+    // Make functions available globally for WebSocket callbacks
+    window.updateTrackingConnectionStatus = updateTrackingConnectionStatus;
+    window.updateTrackingDisplay = updateTrackingDisplay;
+});
+</script>

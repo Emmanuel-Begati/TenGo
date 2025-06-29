@@ -6,6 +6,7 @@ from channels.auth import AuthMiddlewareStack
 from channels.security.websocket import AllowedHostsOriginValidator
 import delivery.routing
 import restaurant.routing
+import customer.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TenGo.settings')
 
@@ -15,7 +16,8 @@ application = ProtocolTypeRouter({
         AuthMiddlewareStack(
             URLRouter(
                 delivery.routing.websocket_urlpatterns + 
-                restaurant.routing.websocket_urlpatterns
+                restaurant.routing.websocket_urlpatterns +
+                customer.routing.websocket_urlpatterns
             )
         )
     ),

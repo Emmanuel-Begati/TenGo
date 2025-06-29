@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
         wsUrl = `${protocol}${host}:${port}/ws/delivery/`;
     }
     
-    const socket = new WebSocket(wsUrl);
+    let socket = null;
+    let reconnectAttempts = 0;
+    const maxReconnectAttempts = 5;
     
     // Enable console debugging to track WebSocket status
     console.log(`Attempting to connect WebSocket to: ${wsUrl}`);
@@ -304,62 +306,107 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Handle WebSocket messages
-    socket.onopen = function(event) {
-        console.log("WebSocket connection established");
-        updateConnectionStatus(true);
-        showNotification("Connected to delivery updates service", "success");
-    };
-    
-    socket.onmessage = function(event) {
-        console.log("WebSocket message received:", event.data);
-        
-        const data = JSON.parse(event.data);
-        
-        // Skip showing the generic notification message for orders
-        // We'll show a custom one later for orders
-        if (data.message && !data.order) {
-            showNotification(data.message);
-        }
-        
-        // Handle order data from send_order_data event - this is our primary entry point
-        if (data.order) {
-            const order = data.order;
-            
-            // Handle specifically for "Ready for Delivery" orders
-            if (order.status === "Ready for Delivery") {
-                handleReadyForDeliveryOrder(order);
-            } else {
-                // Handle other order status changes (accepted, out for delivery, delivered, etc)
-                handleOrderStatusChange(order);
+    // Function to create and setup WebSocket connection
+    function createWebSocketConnection() {
+        try {
+            // Close existing connection if any
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.close(1000, 'Creating new connection');
             }
+            
+            socket = new WebSocket(wsUrl);
+            
+            socket.onopen = function(event) {
+                console.log("WebSocket connection established");
+                updateConnectionStatus(true);
+                showNotification("Connected to delivery updates service", "success");
+                reconnectAttempts = 0; // Reset reconnection attempts on successful connection
+            };
+            
+            socket.onmessage = function(event) {
+                console.log("WebSocket message received:", event.data);
+                
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    // Skip showing the generic notification message for orders
+                    // We'll show a custom one later for orders
+                    if (data.message && !data.order) {
+                        showNotification(data.message);
+                    }
+                    
+                    // Handle order data from send_order_data event - this is our primary entry point
+                    if (data.order) {
+                        const order = data.order;
+                        
+                        // Handle specifically for "Ready for Delivery" orders
+                        if (order.status === "Ready for Delivery") {
+                            handleReadyForDeliveryOrder(order);
+                        } else {
+                            // Handle other order status changes (accepted, out for delivery, delivered, etc)
+                            handleOrderStatusChange(order);
+                        }
+                    }
+                    
+                    // Handle explicit order_update events
+                    if (data.type === 'order_update' && data.order) {
+                        handleOrderStatusChange(data.order);
+                    }
+                } catch (error) {
+                    console.error('Error parsing WebSocket message:', error);
+                }
+            };
+            
+            socket.onerror = function(e) {
+                console.error('WebSocket error:', e);
+                updateConnectionStatus(false);
+            };
+            
+            socket.onclose = function(e) {
+                console.log('WebSocket closed. Code:', e.code, 'Reason:', e.reason);
+                updateConnectionStatus(false);
+                
+                // Don't try to reconnect if it was a normal closure or user-initiated close
+                if (e.code === 1000 || e.code === 1001) {
+                    console.log('WebSocket closed normally, not attempting to reconnect');
+                    return;
+                }
+                
+                // Only attempt reconnection if we haven't exceeded max attempts
+                if (reconnectAttempts < maxReconnectAttempts) {
+                    attemptReconnect();
+                } else {
+                    showNotification('Failed to reconnect after several attempts. Please refresh the page.', 'danger');
+                }
+            };
+            
+        } catch (error) {
+            console.error('Error creating WebSocket connection:', error);
+            updateConnectionStatus(false);
         }
-        
-        // Handle explicit order_update events
-        if (data.type === 'order_update' && data.order) {
-            handleOrderStatusChange(data.order);
-        }
-    };
-
-    // Reconnect on close
-    socket.onclose = function(e) {
-        console.error('WebSocket closed unexpectedly', e);
-        updateConnectionStatus(false);
-        showNotification('Connection to server lost. Retrying in 5 seconds...', 'warning');
-        
-        // Try to reconnect after 5 seconds
-        setTimeout(() => {
-            showNotification('Attempting to reconnect...', 'info');
-            window.location.reload();
-        }, 5000);
-    };
+    }
     
-    socket.onerror = function(e) {
-        console.error('WebSocket error:', e);
-        updateConnectionStatus(false);
-        showNotification('Connection error. Please check if the WebSocket server is running.', 'danger');
-    };
-
+    // Function to attempt reconnection
+    function attemptReconnect() {
+        if (reconnectAttempts >= maxReconnectAttempts) {
+            showNotification('Failed to reconnect after several attempts. Please refresh the page.', 'danger');
+            return;
+        }
+        
+        reconnectAttempts++;
+        const timeout = Math.min(1000 * reconnectAttempts, 5000); // Exponential backoff with max 5 seconds
+        
+        console.log(`Reconnection attempt ${reconnectAttempts} in ${timeout/1000} seconds...`);
+        showNotification('Connection to server lost. Attempting to reconnect...', 'warning');
+        
+        setTimeout(() => {
+            createWebSocketConnection();
+        }, timeout);
+    }
+    
+    // Initialize WebSocket connection
+    createWebSocketConnection();
+    
     // OTP handling code
     document.addEventListener('change', function(event) {
         if (event.target.matches('.status-form select[name="status"]')) {
@@ -374,6 +421,75 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('modalActive', 'true');
                 localStorage.setItem('currentFormId', form.getAttribute('data-order-id'));
             }
+        }
+    });
+
+    // Handle accept delivery forms with AJAX to prevent page reload
+    document.addEventListener('submit', function(event) {
+        if (event.target.matches('form[action*="/delivery/accept/"]')) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Show loading state
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Accepting...';
+            
+            // Add proper headers for Django
+            const headers = {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            };
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: headers
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Success - remove the order from pending table and show notification
+                    const orderRow = form.closest('tr');
+                    const orderId = orderRow.id.replace('order-', '');
+                    
+                    showNotification(data.message || `Successfully accepted order #${orderId}!`, 'success');
+                    
+                    // Remove from pending table
+                    orderRow.remove();
+                    
+                    // Update pending count
+                    updatePendingCount();
+                    
+                    // Verify WebSocket connection is still alive after accepting order
+                    if (socket && socket.readyState === WebSocket.OPEN) {
+                        console.log('WebSocket connection maintained after accepting order');
+                    } else if (socket && socket.readyState === WebSocket.CONNECTING) {
+                        console.log('WebSocket is connecting...');
+                    } else {
+                        console.log('WebSocket connection state after accepting order:', socket ? socket.readyState : 'null');
+                        // Don't attempt reconnection here as it might be handled by the main onclose handler
+                    }
+                } else {
+                    showNotification(data.message || 'Failed to accept order', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error accepting order:', error);
+                showNotification('Error accepting order. Please try again.', 'error');
+            })
+            .finally(() => {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.textContent = originalText;
+            });
         }
     });
 
@@ -392,6 +508,25 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.removeItem('modalActive');
             localStorage.removeItem('currentFormId');
         }, { once: true });
+    }
+
+    // Function to update pending deliveries count
+    function updatePendingCount() {
+        const pendingCountEl = document.getElementById('pending-count');
+        if (pendingCountEl) {
+            const currentCount = parseInt(pendingCountEl.textContent) || 0;
+            if (currentCount > 0) {
+                pendingCountEl.textContent = currentCount - 1;
+            }
+            
+            // Show "no pending orders" message if this was the last one
+            if (currentCount - 1 === 0) {
+                const noOrdersEl = document.getElementById('no-pending-orders');
+                if (noOrdersEl) {
+                    noOrdersEl.classList.remove('d-none');
+                }
+            }
+        }
     }
     
     document.getElementById('otpForm').addEventListener('submit', function(event) {

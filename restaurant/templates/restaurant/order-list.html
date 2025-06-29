@@ -47,7 +47,7 @@
                     <div class="title">
                         <div class="loader-line"></div>
                         <h3>Customer Orders</h3>
-                        <div id="notification-box"></div>
+                        <div id="notification-box" class="position-fixed" style="top: 80px; right: 20px; z-index: 1050; max-width: 400px;"></div>
                     </div>
                     <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
                 <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
@@ -290,11 +290,37 @@
                 console.log('WebSocket message received:', e.data);
                 try {
                     const data = JSON.parse(e.data);
-                    if (data.type === 'order_update' || data.type === 'new_order') {
+                    
+                    // Handle order_update messages
+                    if (data.type === 'order_update' && data.order) {
                         updateOrderUI(data.order);
-                        if (typeof showNotification === 'function') {
-                            showNotification(`Order #${data.order.id} status: ${data.order.status}`);
+                        
+                        // Also show the message if available
+                        if (data.message && typeof showNotification === 'function') {
+                            const type = data.order.status === 'Accepted' ? 'success' : 
+                                       data.order.status === 'Delivered' ? 'success' : 'info';
+                            showNotification(data.message, type);
                         }
+                    }
+                    // Handle new_order messages
+                    else if (data.type === 'new_order' && data.order) {
+                        // Add new order to the list if it's for this restaurant
+                        if (data.order.restaurant_id == restaurantId) {
+                            addNewOrderToList(data.order);
+                            if (typeof showNotification === 'function') {
+                                showNotification(`New order #${data.order.id} received from ${data.order.customer_name}!`, 'info');
+                            }
+                        }
+                    }
+                    // Handle send_notification messages
+                    else if (data.type === 'send_notification' && data.message) {
+                        if (typeof showNotification === 'function') {
+                            showNotification(data.message, 'info');
+                        }
+                    }
+                    // Handle generic messages
+                    else if (data.message && typeof showNotification === 'function') {
+                        showNotification(data.message);
                     }
                 } catch (error) {
                     console.error('Error processing WebSocket message:', error);
@@ -306,6 +332,200 @@
                 document.getElementById('notification-box').innerHTML = 
                     '<div class="notification error"><p>Error connecting to WebSocket server</p></div>';
             }
+        }
+    }
+    
+    // Function to update the order UI when receiving WebSocket messages
+    function updateOrderUI(orderData) {
+        try {
+            console.log('Updating order UI for order:', orderData);
+            
+            // Find the order in the current page if it exists
+            const orderElement = document.querySelector(`li:has(#order-${orderData.id})`);
+            
+            if (orderData.status === 'Accepted') {
+                // Show notification about delivery acceptance
+                if (typeof showNotification === 'function') {
+                    showNotification(`✅ Order #${orderData.id} has been accepted by ${orderData.delivery_person || 'a delivery person'}!`, 'success');
+                } else {
+                    // Fallback notification display
+                    const notificationBox = document.getElementById('notification-box');
+                    if (notificationBox) {
+                        notificationBox.innerHTML = `
+                            <div class="alert alert-success alert-dismissible fade show">
+                                ✅ Order #${orderData.id} has been accepted by ${orderData.delivery_person || 'a delivery person'}!
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        `;
+                        setTimeout(() => {
+                            const alert = notificationBox.querySelector('.alert');
+                            if (alert) alert.remove();
+                        }, 5000);
+                    }
+                }
+
+                // Update the order status in the UI if the element exists
+                if (orderElement) {
+                    const statusSelect = orderElement.querySelector('select[name="status"]');
+                    if (statusSelect) {
+                        statusSelect.value = orderData.status;
+                        // Mark as accepted and disable the form
+                        statusSelect.style.backgroundColor = '#d4edda';
+                        statusSelect.disabled = true;
+                        
+                        // Add a "Accepted" badge
+                        const badge = document.createElement('span');
+                        badge.className = 'badge bg-success ms-2';
+                        badge.textContent = 'Accepted by Delivery';
+                        statusSelect.parentNode.appendChild(badge);
+                    }
+                }
+            } else if (orderData.status === 'Out for delivery') {
+                // Order is out for delivery
+                if (typeof showNotification === 'function') {
+                    showNotification(`🚗 Order #${orderData.id} is now out for delivery!`, 'info');
+                }
+                
+                if (orderElement) {
+                    const statusSelect = orderElement.querySelector('select[name="status"]');
+                    if (statusSelect) {
+                        statusSelect.value = orderData.status;
+                        statusSelect.style.backgroundColor = '#cce7ff';
+                    }
+                }
+            } else if (orderData.status === 'Delivered') {
+                // Order has been delivered
+                if (typeof showNotification === 'function') {
+                    showNotification(`🎉 Order #${orderData.id} has been delivered successfully!`, 'success');
+                }
+                
+                if (orderElement) {
+                    const statusSelect = orderElement.querySelector('select[name="status"]');
+                    if (statusSelect) {
+                        statusSelect.value = orderData.status;
+                        statusSelect.style.backgroundColor = '#d1e7dd';
+                        statusSelect.disabled = true;
+                        
+                        // Add a "Delivered" badge
+                        const badge = document.createElement('span');
+                        badge.className = 'badge bg-success ms-2';
+                        badge.textContent = 'Delivered';
+                        statusSelect.parentNode.appendChild(badge);
+                    }
+                }
+            } else {
+                // For other status updates, just show notification
+                if (typeof showNotification === 'function') {
+                    showNotification(`Order #${orderData.id} status updated to: ${orderData.status}`);
+                }
+            }
+        } catch (error) {
+            console.error('Error updating order UI:', error);
+        }
+    }
+    
+    // Function to add new orders to the list in real-time
+    function addNewOrderToList(orderData) {
+        try {
+            console.log('Adding new order to list:', orderData);
+            
+            const ordersList = document.querySelector('.order-box-list');
+            if (ordersList) {
+                // Create new order element
+                const newOrderHtml = `
+                    <li id="order-${orderData.id}">
+                        <div class="order-box">
+                            <div class="order-box-content">
+                                <div class="brand-icon"></div>
+                                <div class="order-details">
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                        <h5 class="brand-name dark-text fw-medium">
+                                            ${orderData.customer_name || 'New Customer'}
+                                        </h5>
+                                        <h6 class="fw-medium content-color text-end">
+                                            ${new Date().toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
+                                        </h6>
+                                    </div>
+                                    <h6 class="fw-medium dark-text">
+                                        <span class="fw-normal content-color">Transaction Id :</span>
+                                        #${orderData.id}
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="order-content-box">
+                                <div class="order-content">
+                                    <h6>Status: ${orderData.status || 'Pending'}</h6>
+                                    <h6>Total: $${orderData.total || '0.00'}</h6>
+                                    <h6>Items: ${orderData.items_count || '0'}</h6>
+                                </div>
+                                <div class="order-detail-btn">
+                                    <a href="#order-${orderData.id}" class="btn theme-btn mt-0" data-bs-toggle="modal">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                `;
+                
+                // Add the new order at the beginning of the list
+                ordersList.insertAdjacentHTML('afterbegin', newOrderHtml);
+                
+                // Highlight the new order briefly
+                const newOrder = document.getElementById(`order-${orderData.id}`);
+                if (newOrder) {
+                    newOrder.style.backgroundColor = '#f8f9fa';
+                    setTimeout(() => {
+                        newOrder.style.backgroundColor = '';
+                    }, 3000);
+                }
+            }
+        } catch (error) {
+            console.error('Error adding new order to list:', error);
+        }
+    }
+    
+    // Simple notification function if one doesn't exist
+    function showNotification(message, type = 'info') {
+        const notificationBox = document.getElementById('notification-box');
+        if (notificationBox) {
+            const alertClass = type === 'error' ? 'alert-danger' : 
+                              type === 'success' ? 'alert-success' : 
+                              type === 'warning' ? 'alert-warning' : 'alert-info';
+            
+            // Create notification div
+            const notification = document.createElement('div');
+            notification.className = `alert ${alertClass} alert-dismissible fade show mb-2`;
+            notification.style.maxWidth = '380px';
+            notification.style.wordBreak = 'break-word';
+            notification.innerHTML = `
+                <div class="d-flex align-items-start">
+                    <div class="flex-grow-1">${message}</div>
+                    <button type="button" class="btn-close btn-close-white ms-2" aria-label="Close"></button>
+                </div>
+            `;
+            
+            // Add click handler for close button
+            const closeBtn = notification.querySelector('.btn-close');
+            closeBtn.addEventListener('click', () => {
+                notification.remove();
+            });
+            
+            // Add to notification container
+            notificationBox.appendChild(notification);
+            
+            // Auto-dismiss after 8 seconds
+            setTimeout(() => {
+                if (notification && notification.parentNode) {
+                    notification.classList.remove('show');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, 8000);
+        } else {
+            // Fallback to console if no notification area
+            console.log(`Notification: ${message}`);
         }
     }
     

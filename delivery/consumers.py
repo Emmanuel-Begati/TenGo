@@ -27,9 +27,20 @@ class DeliveryConsumer(AsyncWebsocketConsumer):
         self.group_name = self.delivery_group_name
 
         await self.accept()
+        logger.info(f"Delivery person connected to WebSocket: {self.channel_name}")
 
     async def disconnect(self, close_code):
-        await self.channel_layer.group_discard(self.group_name, self.channel_name)
+        logger.info(f"Delivery person disconnecting with close code: {close_code}, channel: {self.channel_name}")
+        
+        # Remove from both groups
+        await self.channel_layer.group_discard(
+            self.delivery_group_name, 
+            self.channel_name
+        )
+        await self.channel_layer.group_discard(
+            self.order_updates_group_name, 
+            self.channel_name
+        )
 
     async def send_notification(self, event):
         message = event["message"]
