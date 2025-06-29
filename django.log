@@ -1,26 +1,450 @@
-2025-06-29 17:44:04,375 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
-2025-06-29 17:44:04,376 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-06-29 17:44:04,377 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
-2025-06-29 17:44:04,377 INFO     Listening on TCP address 0.0.0.0:8060
-2025-06-29 17:44:08,867 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
-2025-06-29 17:44:13,431 WARNING  Not Found: /404.html
-2025-06-29 17:44:13,755 WARNING  Not Found: /404.html
-2025-06-29 17:44:14,571 WARNING  Not Found: /404.html
-2025-06-29 17:44:14,628 WARNING  Not Found: /404.html
-2025-06-29 17:44:14,746 INFO     Delivery person connected to WebSocket: specific.a020095c48024a94b06dc47269bd99bc!d053c9a7720d4faea6c8c7be2982ca31
-2025-06-29 17:44:15,548 INFO     Customer 3 connected to WebSocket
-2025-06-29 17:44:15,896 WARNING  Not Found: /404.html
-2025-06-29 17:44:16,735 WARNING  Not Found: /404.html
-2025-06-29 17:44:31,121 INFO     Received event: {'type': 'send_order_data', 'order': {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'restaurant_address': 'David Street, Kebbi, Rwanda', 'customer_name': 'Emmanuel Musa Yakubu', 'customer_phone': None, 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00', 'restaurant_otp': '139478', 'items_count': 2, 'special_instructions': None, 'priority': 'normal', 'estimated_prep_time': '5-10 minutes'}}
-2025-06-29 17:44:31,121 INFO     Sending order data: {'id': 40, 'restaurant_name': 'Jollof Kigali', 'restaurant_id': 3, 'restaurant_address': 'David Street, Kebbi, Rwanda', 'customer_name': 'Emmanuel Musa Yakubu', 'customer_phone': None, 'customer_address': 'Zuma Royal Street, Gombe, Gombe, Nigeria', 'status': 'Ready for Delivery', 'total': '17.98', 'order_time': '2025-06-28T14:18:25.018120+00:00', 'restaurant_otp': '139478', 'items_count': 2, 'special_instructions': None, 'priority': 'normal', 'estimated_prep_time': '5-10 minutes'}
-2025-06-29 17:44:33,172 WARNING  Not Found: /404.html
-2025-06-29 17:44:33,195 WARNING  Not Found: /404.html
-2025-06-29 17:44:39,939 INFO     Customer 3 disconnected from WebSocket
-2025-06-29 17:44:42,528 INFO     Received order update: {'type': 'order_update', 'message': 'Order #40 from Jollof Kigali has been accepted by Delivery.', 'order': {'id': 40, 'status': 'Accepted', 'accepted_by': 'Delivery Person', 'restaurant_name': 'Jollof Kigali', 'no_longer_available': True}}
-2025-06-29 17:44:44,567 INFO     Delivery person disconnecting with close code: 1001, channel: specific.a020095c48024a94b06dc47269bd99bc!d053c9a7720d4faea6c8c7be2982ca31
-2025-06-29 17:44:44,723 WARNING  Not Found: /404.html
-2025-06-29 17:44:45,063 WARNING  Not Found: /404.html
-2025-06-29 17:44:45,081 WARNING  Not Found: /404.html
-2025-06-29 17:44:45,085 WARNING  Not Found: /404.html
-2025-06-29 17:44:45,332 INFO     Delivery person connected to WebSocket: specific.a020095c48024a94b06dc47269bd99bc!332c845602124d099ef58ee1a66bee33
-2025-06-29 17:44:46,097 INFO     Customer 3 connected to WebSocket
+2025-06-29 19:13:59,028 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
+2025-06-29 19:13:59,029 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-06-29 19:13:59,029 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
+2025-06-29 19:13:59,030 INFO     Listening on TCP address 0.0.0.0:8060
+2025-06-29 19:14:02,187 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
+2025-06-29 19:14:06,889 WARNING  Not Found: /404.html
+2025-06-29 19:14:07,214 WARNING  Not Found: /404.html
+2025-06-29 19:14:08,009 WARNING  Not Found: /404.html
+2025-06-29 19:14:08,009 WARNING  Not Found: /404.html
+2025-06-29 19:18:34,402 WARNING  Not Found: /404.html
+2025-06-29 19:18:35,350 WARNING  Not Found: /404.html
+2025-06-29 19:18:36,614 WARNING  Not Found: /404.html
+2025-06-29 19:18:48,108 WARNING  Not Found: /404.html
+2025-06-29 19:18:48,896 WARNING  Not Found: /404.html
+2025-06-29 19:18:48,931 WARNING  Not Found: /404.html
+2025-06-29 19:18:57,821 INFO     Starting add_to_cart view
+2025-06-29 19:18:58,903 INFO     Item added to cart: 1
+2025-06-29 19:19:01,147 INFO     Starting add_to_cart view
+2025-06-29 19:19:02,403 INFO     Item added to cart: 8
+2025-06-29 19:19:09,130 WARNING  Not Found: /404.html
+2025-06-29 19:19:11,682 WARNING  Not Found: /404.html
+2025-06-29 19:19:11,787 WARNING  Not Found: /404.html
+2025-06-29 19:19:22,051 WARNING  Not Found: /404.html
+2025-06-29 19:19:22,743 WARNING  Not Found: /404.html
+2025-06-29 19:19:23,024 WARNING  Not Found: /404.html
+2025-06-29 19:19:29,727 WARNING  Not Found: /404.html
+2025-06-29 19:19:30,639 WARNING  Not Found: /404.html
+2025-06-29 19:19:30,669 WARNING  Not Found: /404.html
+2025-06-29 19:19:35,234 INFO     Sent payment update to customer 10: payment_confirmed
+2025-06-29 19:19:36,432 WARNING  Not Found: /404.html
+2025-06-29 19:19:37,652 WARNING  Not Found: /404.html
+2025-06-29 19:19:37,652 WARNING  Not Found: /404.html
+2025-06-29 19:19:45,131 WARNING  Not Found: /404.html
+2025-06-29 19:19:46,324 WARNING  Not Found: /404.html
+2025-06-29 19:19:48,374 WARNING  Not Found: /404.html
+2025-06-29 19:19:56,101 WARNING  Not Found: /404.html
+2025-06-29 19:20:02,128 WARNING  Not Found: /404.html
+2025-06-29 19:20:02,143 WARNING  Not Found: /404.html
+2025-06-29 19:20:34,448 WARNING  Not Found: /404.html
+2025-06-29 19:20:37,618 WARNING  Not Found: /404.html
+2025-06-29 19:20:37,627 WARNING  Not Found: /404.html
+2025-06-29 19:20:46,265 WARNING  Not Found: /404.html
+2025-06-29 19:21:04,567 WARNING  Not Found: /404.html
+2025-06-29 19:21:04,810 WARNING  Not Found: /404.html
+2025-06-29 19:24:25,550 WARNING  Not Found: /404.html
+2025-06-29 19:24:25,690 WARNING  Not Found: /404.html
+2025-06-29 19:24:54,944 WARNING  Not Found: /404.html
+2025-06-29 19:24:55,641 WARNING  Not Found: /404.html
+🔄 Attempting to connect to Redis at: redis://localhost:6379/0
+✅ Connected to Redis successfully!
+📡 Using Redis channel layer: localhost:6379
+💾 Using Redis cache
+127.0.0.1:41516 - - [29/Jun/2025:19:13:59] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:41526 - - [29/Jun/2025:19:14:00] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:41516 - - [29/Jun/2025:19:14:00] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:41526 - - [29/Jun/2025:19:14:00] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:41526 - - [29/Jun/2025:19:14:01] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:41538 - - [29/Jun/2025:19:14:01] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:41538 - - [29/Jun/2025:19:14:01] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:41546 - - [29/Jun/2025:19:14:05] "GET /delivery/" 200 49699
+127.0.0.1:41560 - - [29/Jun/2025:19:14:06] "GET /404.html" 404 35682
+127.0.0.1:41578 - - [29/Jun/2025:19:14:07] "GET /404.html" 404 35682
+127.0.0.1:41600 - - [29/Jun/2025:19:14:07] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:41600 - - [29/Jun/2025:19:14:07] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:41592 - - [29/Jun/2025:19:14:08] "GET /404.html" 404 35682
+127.0.0.1:41566 - - [29/Jun/2025:19:14:08] "GET /404.html" 404 35682
+127.0.0.1:41460 - - [29/Jun/2025:19:14:08] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:41460 - - [29/Jun/2025:19:14:08] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:41516 - - [29/Jun/2025:19:18:31] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:60144 - - [29/Jun/2025:19:18:33] "GET /home/" 200 61011
+127.0.0.1:60158 - - [29/Jun/2025:19:18:34] "GET /404.html" 404 35679
+127.0.0.1:60168 - - [29/Jun/2025:19:18:35] "GET /404.html" 404 35679
+127.0.0.1:60176 - - [29/Jun/2025:19:18:36] "GET /404.html" 404 35679
+127.0.0.1:60184 - - [29/Jun/2025:19:18:37] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:60184 - - [29/Jun/2025:19:18:38] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:60184 - - [29/Jun/2025:19:18:44] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:35946 - - [29/Jun/2025:19:18:46] "GET /menu-listing/1/" 200 71846
+127.0.0.1:48994 - - [29/Jun/2025:19:18:48] "GET /404.html" 404 35679
+127.0.0.1:49010 - - [29/Jun/2025:19:18:48] "GET /404.html" 404 35679
+127.0.0.1:49020 - - [29/Jun/2025:19:18:48] "GET /404.html" 404 35679
+127.0.0.1:49022 - - [29/Jun/2025:19:18:49] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:49022 - - [29/Jun/2025:19:18:49] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:49036 - - [29/Jun/2025:19:18:58] "POST /add_to_cart/" 200 238
+127.0.0.1:44394 - - [29/Jun/2025:19:19:02] "POST /add_to_cart/" 200 238
+127.0.0.1:44396 - - [29/Jun/2025:19:19:05] "POST /update_cart_quantity/" 200 114
+127.0.0.1:49022 - - [29/Jun/2025:19:19:07] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:44398 - - [29/Jun/2025:19:19:08] "GET /checkout/" 200 52251
+127.0.0.1:41636 - - [29/Jun/2025:19:19:09] "GET /404.html" 404 35679
+127.0.0.1:41650 - - [29/Jun/2025:19:19:11] "GET /404.html" 404 35679
+127.0.0.1:41666 - - [29/Jun/2025:19:19:11] "GET /404.html" 404 35679
+127.0.0.1:41682 - - [29/Jun/2025:19:19:12] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:41682 - - [29/Jun/2025:19:19:12] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:41696 - - [29/Jun/2025:19:19:14] "POST /update_cart_quantity/" 200 114
+127.0.0.1:41704 - - [29/Jun/2025:19:19:14] "POST /update_cart_quantity/" 200 114
+127.0.0.1:41682 - - [29/Jun/2025:19:19:17] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:41710 - - [29/Jun/2025:19:19:20] "GET /create_order/" 302 -
+127.0.0.1:43422 - - [29/Jun/2025:19:19:21] "GET /address/" 200 51851
+127.0.0.1:43438 - - [29/Jun/2025:19:19:22] "GET /404.html" 404 35679
+127.0.0.1:43442 - - [29/Jun/2025:19:19:22] "GET /404.html" 404 35679
+127.0.0.1:43452 - - [29/Jun/2025:19:19:23] "GET /404.html" 404 35679
+127.0.0.1:43462 - - [29/Jun/2025:19:19:23] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:43462 - - [29/Jun/2025:19:19:24] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:43476 - - [29/Jun/2025:19:19:26] "GET /use_address/3/" 302 -
+127.0.0.1:43492 - - [29/Jun/2025:19:19:29] "GET /make_payment/" 200 54038
+127.0.0.1:43462 - - [29/Jun/2025:19:19:29] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:49672 - - [29/Jun/2025:19:19:29] "GET /404.html" 404 35679
+127.0.0.1:49674 - - [29/Jun/2025:19:19:30] "GET /404.html" 404 35679
+127.0.0.1:49682 - - [29/Jun/2025:19:19:30] "GET /404.html" 404 35679
+127.0.0.1:49696 - - [29/Jun/2025:19:19:31] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:49696 - - [29/Jun/2025:19:19:31] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:49706 - - [29/Jun/2025:19:19:33] "POST /make_payment/" 302 -
+127.0.0.1:49722 - - [29/Jun/2025:19:19:35] "GET /confirm-order/" 200 40998
+127.0.0.1:49696 - - [29/Jun/2025:19:19:36] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:49736 - - [29/Jun/2025:19:19:36] "GET /404.html" 404 35679
+127.0.0.1:49766 - - [29/Jun/2025:19:19:37] "GET /404.html" 404 35679
+127.0.0.1:49750 - - [29/Jun/2025:19:19:37] "GET /404.html" 404 35679
+127.0.0.1:38944 - - [29/Jun/2025:19:19:39] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:38944 - - [29/Jun/2025:19:19:40] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:38944 - - [29/Jun/2025:19:19:42] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:38950 - - [29/Jun/2025:19:19:44] "GET /home/" 200 61011
+127.0.0.1:38964 - - [29/Jun/2025:19:19:45] "GET /404.html" 404 35679
+127.0.0.1:38972 - - [29/Jun/2025:19:19:46] "GET /404.html" 404 35679
+127.0.0.1:37538 - - [29/Jun/2025:19:19:48] "GET /404.html" 404 35679
+127.0.0.1:37546 - - [29/Jun/2025:19:19:48] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:37546 - - [29/Jun/2025:19:19:48] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:37546 - - [29/Jun/2025:19:19:51] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:37564 - - [29/Jun/2025:19:19:55] "GET /my-order/" 200 113336
+127.0.0.1:37552 - - [29/Jun/2025:19:19:55] "GET /my-order/" 200 113336
+127.0.0.1:37580 - - [29/Jun/2025:19:19:56] "GET /404.html" 404 35679
+127.0.0.1:54368 - - [29/Jun/2025:19:20:02] "GET /404.html" 404 35679
+127.0.0.1:54374 - - [29/Jun/2025:19:20:02] "GET /404.html" 404 35679
+127.0.0.1:54378 - - [29/Jun/2025:19:20:02] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:54378 - - [29/Jun/2025:19:20:02] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:41460 - - [29/Jun/2025:19:20:24] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:33502 - - [29/Jun/2025:19:20:29] "GET /delivery/" 200 49699
+127.0.0.1:41600 - - [29/Jun/2025:19:20:29] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:33684 - - [29/Jun/2025:19:20:34] "GET /404.html" 404 35682
+127.0.0.1:33700 - - [29/Jun/2025:19:20:37] "GET /404.html" 404 35682
+127.0.0.1:33704 - - [29/Jun/2025:19:20:37] "GET /404.html" 404 35682
+127.0.0.1:44568 - - [29/Jun/2025:19:20:46] "GET /404.html" 404 35682
+127.0.0.1:33428 - - [29/Jun/2025:19:21:00] "POST /order/38/update_status/" 302 -
+127.0.0.1:33438 - - [29/Jun/2025:19:21:02] "GET /order-list" 200 116876
+127.0.0.1:41538 - - [29/Jun/2025:19:21:02] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:33446 - - [29/Jun/2025:19:21:04] "GET /404.html" 404 35680
+127.0.0.1:33450 - - [29/Jun/2025:19:21:04] "GET /404.html" 404 35680
+127.0.0.1:56316 - - [29/Jun/2025:19:21:08] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:56316 - - [29/Jun/2025:19:21:09] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:44112 - - [29/Jun/2025:19:21:21] "GET /delivery/" 200 49361
+127.0.0.1:55812 - - [29/Jun/2025:19:23:25] "GET /home/" 302 -
+127.0.0.1:60640 - - [29/Jun/2025:19:23:36] "GET /delivery/" 200 49361
+127.0.0.1:53046 - - [29/Jun/2025:19:24:12] "GET /" 302 -
+127.0.0.1:53868 - - [29/Jun/2025:19:24:24] "GET /order-list" 200 116876
+127.0.0.1:56316 - - [29/Jun/2025:19:24:25] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:53882 - - [29/Jun/2025:19:24:25] "GET /404.html" 404 35680
+127.0.0.1:53894 - - [29/Jun/2025:19:24:25] "GET /404.html" 404 35680
+127.0.0.1:53910 - - [29/Jun/2025:19:24:26] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:53910 - - [29/Jun/2025:19:24:27] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:46594 - - [29/Jun/2025:19:24:53] "GET /" 302 -
+127.0.0.1:46600 - - [29/Jun/2025:19:24:53] "GET /user/login?next=/" 301 -
+127.0.0.1:46602 - - [29/Jun/2025:19:24:54] "GET /user/login/?next=/" 200 36609
+127.0.0.1:46610 - - [29/Jun/2025:19:24:54] "GET /404.html" 404 34980
+2025-06-29 19:25:09,174 WARNING  Not Found: /404.html
+2025-06-29 19:25:09,698 WARNING  Not Found: /404.html
+2025-06-29 19:25:21,584 WARNING  Not Found: /404.html
+2025-06-29 19:25:22,076 WARNING  Not Found: /404.html
+2025-06-29 19:25:22,078 WARNING  Not Found: /404.html
+2025-06-29 19:25:42,324 WARNING  Not Found: /404.html
+2025-06-29 19:25:45,222 WARNING  Not Found: /404.html
+2025-06-29 19:26:20,842 WARNING  Not Found: /404.html
+2025-06-29 19:26:21,206 WARNING  Not Found: /404.html
+2025-06-29 19:26:33,382 WARNING  Not Found: /404.html
+2025-06-29 19:26:33,836 WARNING  Not Found: /404.html
+2025-06-29 19:26:33,839 WARNING  Not Found: /404.html
+2025-06-29 19:26:40,784 WARNING  Not Found: /404.html
+2025-06-29 19:26:41,314 WARNING  Not Found: /404.html
+2025-06-29 19:26:49,505 WARNING  Not Found: /404.html
+2025-06-29 19:26:50,193 WARNING  Not Found: /404.html
+2025-06-29 19:26:50,200 WARNING  Not Found: /404.html
+2025-06-29 19:27:07,748 WARNING  Not Found: /404.html
+2025-06-29 19:27:08,845 WARNING  Not Found: /404.html
+2025-06-29 19:27:08,888 WARNING  Not Found: /404.html
+2025-06-29 19:27:21,471 WARNING  Not Found: /404.html
+2025-06-29 19:27:21,494 WARNING  Not Found: /404.html
+2025-06-29 19:27:31,662 WARNING  Not Found: /404.html
+2025-06-29 19:27:32,023 WARNING  Not Found: /404.html
+2025-06-29 19:27:41,294 WARNING  Not Found: /404.html
+2025-06-29 19:27:41,593 WARNING  Not Found: /404.html
+2025-06-29 19:27:50,909 WARNING  Not Found: /404.html
+2025-06-29 19:27:51,330 WARNING  Not Found: /404.html
+2025-06-29 19:27:51,336 WARNING  Not Found: /404.html
+2025-06-29 19:28:04,399 WARNING  Not Found: /404.html
+2025-06-29 19:28:04,536 WARNING  Not Found: /404.html
+2025-06-29 19:28:09,131 WARNING  Not Found: /404.html
+2025-06-29 19:28:09,674 WARNING  Not Found: /404.html
+2025-06-29 19:28:09,679 WARNING  Not Found: /404.html
+127.0.0.1:46616 - - [29/Jun/2025:19:24:55] "GET /404.html" 404 34980
+<ul class="errorlist"><li>__all__<ul class="errorlist nonfield"><li>Please enter a correct email address and password. Note that both fields may be case-sensitive.</li></ul></li></ul>
+127.0.0.1:44676 - - [29/Jun/2025:19:25:08] "POST /user/login/?next=/" 200 36979
+127.0.0.1:55650 - - [29/Jun/2025:19:25:09] "GET /404.html" 404 34980
+127.0.0.1:55656 - - [29/Jun/2025:19:25:09] "GET /404.html" 404 34980
+127.0.0.1:55664 - - [29/Jun/2025:19:25:15] "POST /user/login/?next=/" 302 -
+127.0.0.1:55678 - - [29/Jun/2025:19:25:17] "GET /home/" 302 -
+127.0.0.1:55686 - - [29/Jun/2025:19:25:21] "GET /delivery/" 200 49361
+127.0.0.1:55198 - - [29/Jun/2025:19:25:21] "GET /404.html" 404 35682
+127.0.0.1:55206 - - [29/Jun/2025:19:25:22] "GET /404.html" 404 35682
+127.0.0.1:55210 - - [29/Jun/2025:19:25:22] "GET /404.html" 404 35682
+127.0.0.1:55212 - - [29/Jun/2025:19:25:22] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:55212 - - [29/Jun/2025:19:25:22] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:55216 - - [29/Jun/2025:19:25:26] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:55216 - - [29/Jun/2025:19:25:27] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:55528 - - [29/Jun/2025:19:25:35] "POST /order/43/update_status/" 302 -
+127.0.0.1:55540 - - [29/Jun/2025:19:25:37] "GET /order-list" 200 116884
+127.0.0.1:53910 - - [29/Jun/2025:19:25:37] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:35496 - - [29/Jun/2025:19:25:42] "GET /404.html" 404 35680
+127.0.0.1:35510 - - [29/Jun/2025:19:25:45] "GET /404.html" 404 35680
+127.0.0.1:35512 - - [29/Jun/2025:19:25:45] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:35512 - - [29/Jun/2025:19:25:46] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:54378 - - [29/Jun/2025:19:26:18] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:42426 - - [29/Jun/2025:19:26:20] "GET /home/" 200 61011
+127.0.0.1:42428 - - [29/Jun/2025:19:26:20] "GET /404.html" 404 35679
+127.0.0.1:42434 - - [29/Jun/2025:19:26:21] "GET /404.html" 404 35679
+127.0.0.1:42440 - - [29/Jun/2025:19:26:21] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:42440 - - [29/Jun/2025:19:26:21] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:55216 - - [29/Jun/2025:19:26:27] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:42452 - - [29/Jun/2025:19:26:29] "POST /delivery/accept/38/" 302 -
+127.0.0.1:38262 - - [29/Jun/2025:19:26:33] "GET /delivery/" 200 49785
+127.0.0.1:55212 - - [29/Jun/2025:19:26:33] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:38274 - - [29/Jun/2025:19:26:33] "GET /404.html" 404 35682
+127.0.0.1:38290 - - [29/Jun/2025:19:26:33] "GET /404.html" 404 35682
+127.0.0.1:38280 - - [29/Jun/2025:19:26:33] "GET /404.html" 404 35682
+127.0.0.1:38302 - - [29/Jun/2025:19:26:34] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:38302 - - [29/Jun/2025:19:26:35] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:38308 - - [29/Jun/2025:19:26:36] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:38308 - - [29/Jun/2025:19:26:36] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:36830 - - [29/Jun/2025:19:26:40] "GET /404.html" 404 35679
+127.0.0.1:36838 - - [29/Jun/2025:19:26:41] "GET /404.html" 404 35679
+127.0.0.1:38308 - - [29/Jun/2025:19:26:43] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:36840 - - [29/Jun/2025:19:26:45] "POST /delivery/accept/43/" 302 -
+127.0.0.1:36850 - - [29/Jun/2025:19:26:49] "GET /delivery/" 200 50123
+127.0.0.1:38302 - - [29/Jun/2025:19:26:49] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:59340 - - [29/Jun/2025:19:26:49] "GET /404.html" 404 35682
+127.0.0.1:59354 - - [29/Jun/2025:19:26:50] "GET /404.html" 404 35682
+127.0.0.1:59356 - - [29/Jun/2025:19:26:50] "GET /404.html" 404 35682
+127.0.0.1:59362 - - [29/Jun/2025:19:26:50] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:59362 - - [29/Jun/2025:19:26:50] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:59374 - - [29/Jun/2025:19:26:51] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:59374 - - [29/Jun/2025:19:26:51] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:42440 - - [29/Jun/2025:19:27:03] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:60998 - - [29/Jun/2025:19:27:07] "GET /my-order/" 200 113336
+127.0.0.1:32774 - - [29/Jun/2025:19:27:07] "GET /404.html" 404 35679
+127.0.0.1:47790 - - [29/Jun/2025:19:27:08] "GET /404.html" 404 35679
+127.0.0.1:47802 - - [29/Jun/2025:19:27:08] "GET /404.html" 404 35679
+127.0.0.1:47808 - - [29/Jun/2025:19:27:09] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:47808 - - [29/Jun/2025:19:27:09] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:56264 - - [29/Jun/2025:19:27:20] "GET /order-list" 200 116868
+127.0.0.1:35512 - - [29/Jun/2025:19:27:20] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:56266 - - [29/Jun/2025:19:27:21] "GET /404.html" 404 35680
+127.0.0.1:56280 - - [29/Jun/2025:19:27:21] "GET /404.html" 404 35680
+127.0.0.1:56286 - - [29/Jun/2025:19:27:22] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:56286 - - [29/Jun/2025:19:27:22] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:56292 - - [29/Jun/2025:19:27:27] "POST /order/43/update_status/" 302 -
+127.0.0.1:56302 - - [29/Jun/2025:19:27:29] "GET /order-list" 200 116876
+127.0.0.1:56286 - - [29/Jun/2025:19:27:29] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:54244 - - [29/Jun/2025:19:27:31] "GET /404.html" 404 35680
+127.0.0.1:54250 - - [29/Jun/2025:19:27:32] "GET /404.html" 404 35680
+127.0.0.1:54264 - - [29/Jun/2025:19:27:32] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:54264 - - [29/Jun/2025:19:27:32] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:57894 - - [29/Jun/2025:19:27:40] "GET /order-list" 200 116876
+127.0.0.1:54264 - - [29/Jun/2025:19:27:40] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:57908 - - [29/Jun/2025:19:27:41] "GET /404.html" 404 35680
+127.0.0.1:57918 - - [29/Jun/2025:19:27:41] "GET /404.html" 404 35680
+127.0.0.1:57920 - - [29/Jun/2025:19:27:41] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:57920 - - [29/Jun/2025:19:27:42] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:59374 - - [29/Jun/2025:19:27:45] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:57926 - - [29/Jun/2025:19:27:46] "POST /delivery/accept/43/" 302 -
+127.0.0.1:57934 - - [29/Jun/2025:19:27:50] "GET /delivery/" 200 50123
+127.0.0.1:59362 - - [29/Jun/2025:19:27:50] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:49418 - - [29/Jun/2025:19:27:50] "GET /404.html" 404 35682
+127.0.0.1:49442 - - [29/Jun/2025:19:27:51] "GET /404.html" 404 35682
+127.0.0.1:49428 - - [29/Jun/2025:19:27:51] "GET /404.html" 404 35682
+127.0.0.1:49456 - - [29/Jun/2025:19:27:52] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:49456 - - [29/Jun/2025:19:27:52] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:49462 - - [29/Jun/2025:19:27:54] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:49462 - - [29/Jun/2025:19:27:54] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:59610 - - [29/Jun/2025:19:28:01] "POST /order/39/update_status/" 302 -
+127.0.0.1:49462 - - [29/Jun/2025:19:28:03] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:59622 - - [29/Jun/2025:19:28:03] "GET /order-list" 200 116876
+127.0.0.1:57920 - - [29/Jun/2025:19:28:03] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:59636 - - [29/Jun/2025:19:28:04] "GET /404.html" 404 35680
+127.0.0.1:59642 - - [29/Jun/2025:19:28:04] "GET /404.html" 404 35680
+127.0.0.1:59634 - - [29/Jun/2025:19:28:05] "POST /delivery/accept/39/" 302 -
+127.0.0.1:59652 - - [29/Jun/2025:19:28:05] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:59652 - - [29/Jun/2025:19:28:05] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:59644 - - [29/Jun/2025:19:28:08] "GET /delivery/" 200 50123
+127.0.0.1:49456 - - [29/Jun/2025:19:28:08] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:34654 - - [29/Jun/2025:19:28:09] "GET /404.html" 404 35682
+127.0.0.1:34670 - - [29/Jun/2025:19:28:09] "GET /404.html" 404 35682
+127.0.0.1:34682 - - [29/Jun/2025:19:28:09] "GET /404.html" 404 35682
+127.0.0.1:34698 - - [29/Jun/2025:19:28:10] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:34698 - - [29/Jun/2025:19:28:11] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:34710 - - [29/Jun/2025:19:28:12] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:34710 - - [29/Jun/2025:19:28:13] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:40508 - - [29/Jun/2025:19:28:26] "POST /order/42/update_status/" 302 -
+127.0.0.1:40524 - - [29/Jun/2025:19:28:27] "GET /order-list" 200 116868
+2025-06-29 19:28:28,368 WARNING  Not Found: /404.html
+2025-06-29 19:28:28,574 WARNING  Not Found: /404.html
+2025-06-29 19:28:33,061 WARNING  Not Found: /404.html
+2025-06-29 19:28:33,261 WARNING  Not Found: /404.html
+2025-06-29 19:28:41,322 WARNING  Not Found: /404.html
+2025-06-29 19:28:41,938 WARNING  Not Found: /404.html
+2025-06-29 19:28:41,944 WARNING  Not Found: /404.html
+2025-06-29 19:28:44,498 WARNING  Not Found: /404.html
+2025-06-29 19:28:45,082 WARNING  Not Found: /404.html
+2025-06-29 19:28:45,112 WARNING  Not Found: /404.html
+2025-06-29 19:28:55,728 WARNING  Not Found: /404.html
+2025-06-29 19:28:56,104 WARNING  Not Found: /404.html
+2025-06-29 19:29:02,886 WARNING  Not Found: /404.html
+2025-06-29 19:29:03,478 WARNING  Not Found: /404.html
+2025-06-29 19:29:27,841 WARNING  Not Found: /404.html
+2025-06-29 19:29:28,586 WARNING  Not Found: /404.html
+2025-06-29 19:29:28,586 WARNING  Not Found: /404.html
+2025-06-29 19:32:12,461 WARNING  Not Found: /404.html
+2025-06-29 19:32:31,917 WARNING  Not Found: /404.html
+2025-06-29 19:32:35,732 WARNING  Not Found: /404.html
+2025-06-29 19:33:51,376 WARNING  Not Found: /404.html
+2025-06-29 19:33:53,963 WARNING  Not Found: /404.html
+2025-06-29 19:33:57,981 WARNING  Not Found: /404.html
+2025-06-29 19:34:26,729 WARNING  Not Found: /404.html
+2025-06-29 19:34:27,439 WARNING  Not Found: /404.html
+2025-06-29 19:34:38,237 WARNING  Not Found: /404.html
+2025-06-29 19:34:38,616 WARNING  Not Found: /404.html
+2025-06-29 19:34:38,617 WARNING  Not Found: /404.html
+2025-06-29 19:34:46,856 WARNING  Not Found: /404.html
+2025-06-29 19:34:52,640 WARNING  Not Found: /404.html
+2025-06-29 19:34:59,824 WARNING  Not Found: /404.html
+2025-06-29 19:35:33,990 WARNING  Not Found: /404.html
+2025-06-29 19:35:34,094 WARNING  Not Found: /404.html
+2025-06-29 19:35:46,049 WARNING  Not Found: /404.html
+2025-06-29 19:35:48,697 WARNING  Not Found: /404.html
+2025-06-29 19:35:48,701 WARNING  Not Found: /404.html
+127.0.0.1:59652 - - [29/Jun/2025:19:28:28] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:46920 - - [29/Jun/2025:19:28:28] "GET /404.html" 404 35680
+127.0.0.1:46932 - - [29/Jun/2025:19:28:28] "GET /404.html" 404 35680
+127.0.0.1:46944 - - [29/Jun/2025:19:28:28] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:46944 - - [29/Jun/2025:19:28:29] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:46946 - - [29/Jun/2025:19:28:32] "GET /order-list" 200 116868
+127.0.0.1:46944 - - [29/Jun/2025:19:28:32] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:46962 - - [29/Jun/2025:19:28:33] "GET /404.html" 404 35680
+127.0.0.1:46970 - - [29/Jun/2025:19:28:33] "GET /404.html" 404 35680
+127.0.0.1:46976 - - [29/Jun/2025:19:28:34] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:46976 - - [29/Jun/2025:19:28:34] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:34710 - - [29/Jun/2025:19:28:35] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:46982 - - [29/Jun/2025:19:28:37] "POST /delivery/accept/42/" 302 -
+127.0.0.1:46986 - - [29/Jun/2025:19:28:40] "GET /delivery/" 200 51178
+127.0.0.1:34698 - - [29/Jun/2025:19:28:41] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:37550 - - [29/Jun/2025:19:28:41] "GET /404.html" 404 35682
+127.0.0.1:37564 - - [29/Jun/2025:19:28:41] "GET /404.html" 404 35682
+127.0.0.1:37568 - - [29/Jun/2025:19:28:41] "GET /404.html" 404 35682
+127.0.0.1:47808 - - [29/Jun/2025:19:28:42] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:37576 - - [29/Jun/2025:19:28:42] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:37576 - - [29/Jun/2025:19:28:43] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:37588 - - [29/Jun/2025:19:28:43] "GET /home/" 200 61011
+127.0.0.1:37596 - - [29/Jun/2025:19:28:44] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:37596 - - [29/Jun/2025:19:28:44] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:37610 - - [29/Jun/2025:19:28:44] "GET /404.html" 404 35679
+127.0.0.1:37616 - - [29/Jun/2025:19:28:45] "GET /404.html" 404 35679
+127.0.0.1:37628 - - [29/Jun/2025:19:28:45] "GET /404.html" 404 35679
+127.0.0.1:37640 - - [29/Jun/2025:19:28:45] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:37640 - - [29/Jun/2025:19:28:45] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:37188 - - [29/Jun/2025:19:28:52] "POST /order/39/update_status/" 302 -
+127.0.0.1:37194 - - [29/Jun/2025:19:28:54] "GET /order-list" 200 116868
+127.0.0.1:46976 - - [29/Jun/2025:19:28:54] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:37200 - - [29/Jun/2025:19:28:55] "GET /404.html" 404 35680
+127.0.0.1:37210 - - [29/Jun/2025:19:28:56] "GET /404.html" 404 35680
+127.0.0.1:45032 - - [29/Jun/2025:19:28:58] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:45032 - - [29/Jun/2025:19:28:58] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:45034 - - [29/Jun/2025:19:29:00] "GET /order-list" 200 116868
+127.0.0.1:45032 - - [29/Jun/2025:19:29:01] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:45038 - - [29/Jun/2025:19:29:02] "GET /404.html" 404 35680
+127.0.0.1:45052 - - [29/Jun/2025:19:29:03] "GET /404.html" 404 35680
+127.0.0.1:45062 - - [29/Jun/2025:19:29:04] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:45062 - - [29/Jun/2025:19:29:04] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:37596 - - [29/Jun/2025:19:29:04] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:45066 - - [29/Jun/2025:19:29:06] "POST /delivery/accept/39/" 302 -
+127.0.0.1:45074 - - [29/Jun/2025:19:29:10] "GET /delivery/" 200 51178
+127.0.0.1:37576 - - [29/Jun/2025:19:29:20] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:58350 - - [29/Jun/2025:19:29:27] "GET /delivery/" 200 51178
+127.0.0.1:58354 - - [29/Jun/2025:19:29:27] "GET /404.html" 404 35682
+127.0.0.1:55522 - - [29/Jun/2025:19:29:28] "GET /404.html" 404 35682
+127.0.0.1:55506 - - [29/Jun/2025:19:29:28] "GET /404.html" 404 35682
+127.0.0.1:55528 - - [29/Jun/2025:19:29:29] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:55528 - - [29/Jun/2025:19:29:29] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:55530 - - [29/Jun/2025:19:29:31] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:55530 - - [29/Jun/2025:19:29:31] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:37640 - - [29/Jun/2025:19:32:06] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:36296 - - [29/Jun/2025:19:32:11] "GET /restaurant-listing/3/" 200 47119
+127.0.0.1:36310 - - [29/Jun/2025:19:32:12] "GET /404.html" 404 35679
+127.0.0.1:49164 - - [29/Jun/2025:19:32:31] "GET /404.html" 404 35679
+127.0.0.1:49166 - - [29/Jun/2025:19:32:35] "GET /404.html" 404 35679
+127.0.0.1:49172 - - [29/Jun/2025:19:32:36] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:49172 - - [29/Jun/2025:19:32:36] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:49172 - - [29/Jun/2025:19:33:47] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:47886 - - [29/Jun/2025:19:33:50] "GET /menu-listing/3/" 200 72311
+127.0.0.1:47890 - - [29/Jun/2025:19:33:51] "GET /404.html" 404 35679
+127.0.0.1:47896 - - [29/Jun/2025:19:33:53] "GET /404.html" 404 35679
+127.0.0.1:47910 - - [29/Jun/2025:19:33:57] "GET /404.html" 404 35679
+127.0.0.1:48956 - - [29/Jun/2025:19:33:58] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:48956 - - [29/Jun/2025:19:33:59] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:35596 - - [29/Jun/2025:19:34:20] "POST /order/43/update_status/" 302 -
+127.0.0.1:35606 - - [29/Jun/2025:19:34:21] "GET /order-list" 200 116868
+127.0.0.1:45062 - - [29/Jun/2025:19:34:22] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:35618 - - [29/Jun/2025:19:34:26] "GET /404.html" 404 35680
+127.0.0.1:35628 - - [29/Jun/2025:19:34:27] "GET /404.html" 404 35680
+127.0.0.1:55530 - - [29/Jun/2025:19:34:31] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:57462 - - [29/Jun/2025:19:34:32] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:57462 - - [29/Jun/2025:19:34:32] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:57458 - - [29/Jun/2025:19:34:33] "POST /delivery/accept/43/" 302 -
+127.0.0.1:57468 - - [29/Jun/2025:19:34:37] "GET /delivery/" 200 51178
+127.0.0.1:55528 - - [29/Jun/2025:19:34:38] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:59806 - - [29/Jun/2025:19:34:38] "GET /404.html" 404 35682
+127.0.0.1:59822 - - [29/Jun/2025:19:34:38] "GET /404.html" 404 35682
+127.0.0.1:59812 - - [29/Jun/2025:19:34:38] "GET /404.html" 404 35682
+127.0.0.1:59836 - - [29/Jun/2025:19:34:39] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:59836 - - [29/Jun/2025:19:34:39] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:59852 - - [29/Jun/2025:19:34:41] "WSCONNECTING /ws/customer/3/" - -
+127.0.0.1:59852 - - [29/Jun/2025:19:34:41] "WSCONNECT /ws/customer/3/" - -
+127.0.0.1:48956 - - [29/Jun/2025:19:34:44] "WSDISCONNECT /ws/customer/10/" - -
+127.0.0.1:59864 - - [29/Jun/2025:19:34:45] "GET /home/" 200 61011
+127.0.0.1:59876 - - [29/Jun/2025:19:34:46] "GET /404.html" 404 35679
+127.0.0.1:58536 - - [29/Jun/2025:19:34:52] "GET /404.html" 404 35679
+127.0.0.1:56612 - - [29/Jun/2025:19:34:59] "GET /404.html" 404 35679
+127.0.0.1:56620 - - [29/Jun/2025:19:35:00] "WSCONNECTING /ws/customer/10/" - -
+127.0.0.1:56620 - - [29/Jun/2025:19:35:01] "WSCONNECT /ws/customer/10/" - -
+127.0.0.1:56902 - - [29/Jun/2025:19:35:31] "POST /order/40/update_status/" 302 -
+127.0.0.1:56912 - - [29/Jun/2025:19:35:33] "GET /order-list" 200 116868
+127.0.0.1:57462 - - [29/Jun/2025:19:35:33] "WSDISCONNECT /ws/restaurant/3/" - -
+127.0.0.1:56928 - - [29/Jun/2025:19:35:33] "GET /404.html" 404 35680
+127.0.0.1:56930 - - [29/Jun/2025:19:35:34] "GET /404.html" 404 35680
+127.0.0.1:56942 - - [29/Jun/2025:19:35:34] "WSCONNECTING /ws/restaurant/3/" - -
+127.0.0.1:56942 - - [29/Jun/2025:19:35:35] "WSCONNECT /ws/restaurant/3/" - -
+127.0.0.1:59852 - - [29/Jun/2025:19:35:39] "WSDISCONNECT /ws/customer/3/" - -
+127.0.0.1:35676 - - [29/Jun/2025:19:35:41] "POST /delivery/accept/40/" 302 -
+127.0.0.1:35686 - - [29/Jun/2025:19:35:45] "GET /delivery/" 200 51178
+127.0.0.1:59836 - - [29/Jun/2025:19:35:45] "WSDISCONNECT /ws/delivery/" - -
+127.0.0.1:35690 - - [29/Jun/2025:19:35:46] "GET /404.html" 404 35682
+127.0.0.1:50930 - - [29/Jun/2025:19:35:48] "GET /404.html" 404 35682
+127.0.0.1:50946 - - [29/Jun/2025:19:35:48] "GET /404.html" 404 35682
+127.0.0.1:50960 - - [29/Jun/2025:19:35:50] "WSCONNECTING /ws/delivery/" - -
+127.0.0.1:50960 - - [29/Jun/2025:19:35:50] "WSCONNECT /ws/delivery/" - -
+127.0.0.1:50966 - - [29/Jun/2025:19:35:51] "WSCONNECTING /ws/customer/3/" - -

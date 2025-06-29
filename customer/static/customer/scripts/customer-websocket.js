@@ -1,15 +1,21 @@
-// Customer WebSocket for real-time order updates
+// Customer WebSocket for real-time order updates - Production Ready
 document.addEventListener('DOMContentLoaded', function() {
     // Only initialize WebSocket if user is authenticated and user ID is available
     const userDataElement = document.getElementById('user-data');
     if (!userDataElement) return;
     
     const userId = userDataElement.dataset.userId;
-    if (!userId) {
-        console.warn('User ID not found, WebSocket connection not established');
-        return;
-    }
+    if (!userId) return;
 
+    // WebSocket connection management - optimized for production
+    let socket = null;
+    let reconnectAttempts = 0;
+    let reconnectTimeout = null;
+    let isReconnecting = false;
+    let hasConnectedBefore = false;
+    const maxReconnectAttempts = 5;
+    const baseReconnectDelay = 2000;
+    
     // Set up WebSocket connection
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const host = window.location.hostname || '127.0.0.1';
@@ -17,28 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Use nginx proxy for production, direct connection for development
     let wsUrl;
     if (window.location.hostname === 'tengo.thisisemmanuel.pro') {
-        // Production: use nginx proxy (no port specified)
         wsUrl = `${protocol}${host}/ws/customer/${userId}/`;
     } else {
-        // Development: connect directly to Daphne server
-        const port = '8060'; // Daphne server port
+        const port = '8060';
         wsUrl = `${protocol}${host}:${port}/ws/customer/${userId}/`;
     }
-    
-    console.log(`Connecting customer WebSocket to: ${wsUrl}`);
-    const socket = new WebSocket(wsUrl);
 
-    // Connection status tracking
-    let reconnectAttempts = 0;
-    const maxReconnectAttempts = 5;
-
-    // Show notification function
+    // Show notification function (simplified for production)
     function showNotification(message, type = 'info', duration = 5000) {
-        // Try to find existing notification container
         let notificationContainer = document.getElementById('customer-notifications');
         
         if (!notificationContainer) {
-            // Create notification container if it doesn't exist
             notificationContainer = document.createElement('div');
             notificationContainer.id = 'customer-notifications';
             notificationContainer.className = 'position-fixed top-0 end-0 p-3';
@@ -46,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.appendChild(notificationContainer);
         }
 
-        // Create notification element
         const notification = document.createElement('div');
         notification.className = `toast align-items-center text-white bg-${type} border-0 show`;
         notification.setAttribute('role', 'alert');
@@ -61,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         notificationContainer.appendChild(notification);
 
-        // Auto-remove notification after duration
         setTimeout(() => {
             if (notification.parentElement) {
                 notification.classList.remove('show');
@@ -74,26 +67,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }, duration);
 
         // Play notification sound if available
+        playNotificationSound();
+    }
+
+    // Simplified audio notification
+    function playNotificationSound() {
         const notificationSound = document.getElementById('notification-sound');
         if (notificationSound) {
-            notificationSound.play().catch(e => console.log("Could not play notification sound:", e));
+            notificationSound.play().catch(() => {});
         }
     }
 
     // Update order status in the UI
     function updateOrderStatus(order) {
-        // Update order status in any order lists or tracking pages
         const orderElements = document.querySelectorAll(`[data-order-id="${order.id}"]`);
         
         orderElements.forEach(element => {
-            // Update status text
             const statusElement = element.querySelector('.order-status, .status');
             if (statusElement) {
                 statusElement.textContent = order.status;
                 statusElement.className = `order-status status-${order.status.toLowerCase().replace(/\s+/g, '-')}`;
             }
 
-            // Update delivery person info if available
             if (order.delivery_person) {
                 const deliveryPersonElement = element.querySelector('.delivery-person');
                 if (deliveryPersonElement) {
@@ -101,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
-            // Update estimated time if available
             if (order.estimated_time) {
                 const etaElement = element.querySelector('.estimated-time');
                 if (etaElement) {
@@ -110,13 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // If on order tracking page, update tracking info
         updateOrderTracking(order);
     }
 
     // Update order tracking specific elements
     function updateOrderTracking(order) {
-        // Update delivery driver info if on tracking page
         const driverNameElement = document.querySelector('.driver-name, .driver-info h5');
         const driverEstimateElement = document.querySelector('.estimated-delivery-time');
         
@@ -128,7 +120,6 @@ document.addEventListener('DOMContentLoaded', function() {
             driverEstimateElement.textContent = order.estimated_time;
         }
 
-        // Update progress tracking based on status
         updateProgressTracking(order.status);
     }
 
@@ -136,7 +127,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProgressTracking(status) {
         const progressSteps = document.querySelectorAll('.progress-step, .shipping-step');
         
-        // Define status order for progress tracking
         const statusOrder = ['Confirmed', 'Preparing', 'Ready for Delivery', 'Accepted', 'Out for delivery', 'Delivered'];
         const currentIndex = statusOrder.indexOf(status);
 
@@ -152,88 +142,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle different types of order updates with enhanced functionality
+    // Handle different types of order updates (production optimized)
     function handleOrderUpdate(data) {
-        console.log('Customer received order update:', data);
-        
         const order = data.order;
         const message = data.message;
         const notificationType = data.notification_type || 'general';
-        const priority = data.priority || 'medium';
 
-        // Show notification with enhanced styling based on notification type
+        // Only show critical notifications to users
+        let shouldShowNotification = false;
         let toastType = 'info';
-        let soundType = 'default';
         let duration = 5000;
         
-        // Determine notification styling and behavior based on type
         switch (notificationType) {
-            case 'new_paid_order':
             case 'payment_confirmed':
             case 'payment_success':
                 toastType = 'success';
-                soundType = 'success';
-                duration = 6000;
-                break;
-            case 'preparation_update':
-                toastType = 'info';
-                soundType = 'default';
-                break;
-            case 'ready_for_delivery':
-                toastType = 'warning';
-                soundType = 'attention';
-                duration = 7000;
+                shouldShowNotification = true;
                 break;
             case 'delivery_accepted':
             case 'out_for_delivery':
                 toastType = 'primary';
-                soundType = 'attention';
-                duration = 8000;
+                shouldShowNotification = true;
+                duration = 6000;
                 break;
             case 'delivery_completed':
                 toastType = 'success';
-                soundType = 'success';
-                duration = 10000;
+                shouldShowNotification = true;
+                duration = 8000;
                 break;
             case 'order_cancelled':
                 toastType = 'danger';
-                soundType = 'error';
-                duration = 12000;
-                break;
-            case 'pickup_confirmed':
-                toastType = 'info';
-                soundType = 'attention';
-                duration = 6000;
+                shouldShowNotification = true;
+                duration = 10000;
                 break;
             default:
-                // Handle legacy format
+                // Handle legacy format - only show critical status changes
                 if (order && order.status) {
                     if (order.status === 'Delivered') {
                         toastType = 'success';
-                        soundType = 'success';
-                        duration = 8000;
+                        shouldShowNotification = true;
+                        duration = 6000;
                     } else if (order.status === 'Cancelled') {
                         toastType = 'danger';
-                        soundType = 'error';
-                        duration = 10000;
+                        shouldShowNotification = true;
+                        duration = 8000;
                     } else if (order.status === 'Out for delivery') {
                         toastType = 'primary';
-                        soundType = 'attention';
-                        duration = 7000;
-                    } else if (order.status === 'Accepted') {
-                        toastType = 'primary';
-                        soundType = 'attention';
-                        duration = 7000;
+                        shouldShowNotification = true;
+                        duration = 5000;
                     }
                 }
                 break;
         }
 
-        // Show enhanced notification
-        showNotification(message, toastType, duration);
-        playCustomSound(soundType);
+        // Show notification only for critical updates
+        if (shouldShowNotification) {
+            showNotification(message, toastType, duration);
+        }
 
-        // Update UI elements with enhanced functionality
+        // Update UI elements
         if (order) {
             updateOrderStatus(order);
             
@@ -255,135 +222,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'out_for_delivery':
                     enableOrderTracking(order);
                     break;
-                case 'pickup_confirmed':
-                    updatePickupStatus(order);
-                    break;
             }
         }
-    }
-
-    // Enhanced sound system with different tones
-    function playCustomSound(type = 'default') {
-        try {
-            if (!window.audioContext) {
-                window.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            
-            const audioContext = window.audioContext;
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            // Enhanced sound patterns for different notification types
-            switch (type) {
-                case 'success':
-                    // Happy upward melody
-                    playMelody([523, 659, 784], [0.15, 0.15, 0.3], audioContext);
-                    return;
-                case 'attention':
-                    // Gentle notification sound
-                    playTone(800, 0.2, audioContext);
-                    setTimeout(() => playTone(600, 0.2, audioContext), 250);
-                    return;
-                case 'error':
-                    // Lower tone for errors
-                    playTone(400, 0.4, audioContext);
-                    return;
-                default:
-                    // Simple notification
-                    playTone(600, 0.2, audioContext);
-                    return;
-            }
-        } catch (error) {
-            console.log('Audio notification not available:', error.message);
-        }
-    }
-
-    // Helper function to play a single tone
-    function playTone(frequency, duration, audioContext) {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-        oscillator.type = 'sine';
-        
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + duration);
-    }
-
-    // Helper function to play a melody
-    function playMelody(frequencies, durations, audioContext) {
-        let currentTime = audioContext.currentTime;
-        
-        frequencies.forEach((freq, index) => {
-            const duration = durations[index] || 0.2;
-            setTimeout(() => {
-                playTone(freq, duration, audioContext);
-            }, currentTime * 1000 + (index * 200));
-        });
-    }
-
-    // Enhanced order status update with more detailed UI changes
-    function updateOrderStatus(order) {
-        // Update order status in any order lists or tracking pages
-        const orderElements = document.querySelectorAll(`[data-order-id="${order.id}"]`);
-        
-        orderElements.forEach(element => {
-            // Update status text with enhanced styling
-            const statusElement = element.querySelector('.order-status, .status');
-            if (statusElement) {
-                statusElement.textContent = order.status;
-                statusElement.className = `order-status badge ${getStatusBadgeClass(order.status)}`;
-                
-                // Add animation for status change
-                statusElement.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    statusElement.style.transform = 'scale(1)';
-                }, 200);
-            }
-
-            // Update delivery person info with enhanced details
-            if (order.delivery_person) {
-                const deliveryPersonElement = element.querySelector('.delivery-person');
-                if (deliveryPersonElement) {
-                    deliveryPersonElement.innerHTML = `
-                        <strong>Delivery Person:</strong> ${order.delivery_person}
-                        ${order.delivery_person_phone ? `<br><small>Phone: ${order.delivery_person_phone}</small>` : ''}
-                    `;
-                }
-            }
-
-            // Update estimated time with enhanced display
-            if (order.estimated_delivery || order.estimated_time) {
-                const etaElement = element.querySelector('.estimated-time, .eta');
-                if (etaElement) {
-                    const eta = order.estimated_delivery || order.estimated_time;
-                    etaElement.innerHTML = `<i class="ri-time-line"></i> ETA: ${eta}`;
-                }
-            }
-
-            // Update tracking message if available
-            if (order.tracking_message) {
-                const trackingElement = element.querySelector('.tracking-message');
-                if (trackingElement) {
-                    trackingElement.textContent = order.tracking_message;
-                }
-            }
-        });
-
-        // Enhanced order tracking updates
-        updateOrderTracking(order);
-        
-        // Update progress indicators
-        updateProgressTracking(order.status);
     }
 
     // Enhanced delivery person info update
@@ -399,28 +239,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (order.delivery_person_phone) {
                     const phoneElement = element.querySelector('.driver-phone, .contact-info');
                     if (phoneElement) {
-                        phoneElement.innerHTML = `📞 <a href="tel:${order.delivery_person_phone}">${order.delivery_person_phone}</a>`;
+                        phoneElement.textContent = order.delivery_person_phone;
                     }
                 }
             });
         }
     }
 
-    // Show enhanced rating prompt
+    // Show rating prompt
     function showRatingPrompt(orderId, restaurantName) {
-        const ratingModal = document.getElementById('rating-modal');
+        const ratingModal = showRatingModal(orderId, restaurantName);
         if (ratingModal) {
-            ratingModal.dataset.orderId = orderId;
-            ratingModal.querySelector('.restaurant-name').textContent = restaurantName;
-            if (window.bootstrap) {
-                const modal = new bootstrap.Modal(ratingModal);
-                modal.show();
-            }
-        } else {
-            // Fallback: show a simple rating prompt
-            if (confirm(`How was your order from ${restaurantName}? Click OK to rate your experience.`)) {
-                window.location.href = `/rate-order/${orderId}/`;
-            }
+            ratingModal.show();
         }
     }
 
@@ -428,280 +258,216 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCancelledOrderUI(order) {
         const orderElements = document.querySelectorAll(`[data-order-id="${order.id}"]`);
         orderElements.forEach(element => {
-            element.style.opacity = '0.6';
-            element.classList.add('cancelled-order');
-            
-            // Add refund information if available
-            if (order.refund_amount) {
-                const refundInfo = document.createElement('div');
-                refundInfo.className = 'refund-info alert alert-info mt-2';
-                refundInfo.innerHTML = `
-                    <i class="ri-refund-line"></i> 
-                    Refund of $${order.refund_amount} will be processed within ${order.refund_timeline || '3-5 business days'}
-                `;
-                element.appendChild(refundInfo);
+            element.classList.add('order-cancelled');
+            const statusElement = element.querySelector('.order-status, .status');
+            if (statusElement) {
+                statusElement.className = 'order-status badge bg-danger';
+                statusElement.textContent = 'Cancelled';
             }
         });
     }
 
     // Enable order tracking features
     function enableOrderTracking(order) {
-        if (order.can_track) {
-            const trackingButtons = document.querySelectorAll('.track-order-btn');
-            trackingButtons.forEach(btn => {
-                btn.disabled = false;
-                btn.textContent = 'Track Live';
-                btn.classList.add('btn-primary');
-            });
+        const trackingButton = document.querySelector(`[data-order-id="${order.id}"] .track-order-btn`);
+        if (trackingButton) {
+            trackingButton.style.display = 'block';
+            trackingButton.href = `/order-tracking/${order.id}/`;
         }
     }
 
-    // Get CSS class for status badges with enhanced styling
+    // Get CSS class for status badges
     function getStatusBadgeClass(status) {
         const statusClasses = {
-            'Pending': 'bg-secondary',
-            'Confirmed': 'bg-primary',
-            'Preparing': 'bg-info',
-            'Ready for Delivery': 'bg-warning text-dark',
-            'Accepted': 'bg-success',
+            'Pending': 'bg-warning',
+            'Confirmed': 'bg-info',
+            'Preparing': 'bg-primary',
+            'Ready for Delivery': 'bg-warning',
+            'Accepted': 'bg-info',
             'Out for delivery': 'bg-primary',
             'Delivered': 'bg-success',
             'Cancelled': 'bg-danger'
         };
-        
         return statusClasses[status] || 'bg-secondary';
     }
 
-    // Show rating modal (enhanced version)
+    // Show rating modal
     function showRatingModal(orderId, restaurantName = '') {
-        const ratingModal = document.getElementById('rating-modal');
-        if (ratingModal) {
-            // Set order ID in modal
-            ratingModal.dataset.orderId = orderId;
-            if (restaurantName && ratingModal.querySelector('.restaurant-name')) {
-                ratingModal.querySelector('.restaurant-name').textContent = restaurantName;
-            }
-            // Show modal using Bootstrap
-            if (window.bootstrap) {
-                const modal = new bootstrap.Modal(ratingModal);
-                modal.show();
-            }
-        } else {
-            // Fallback: redirect to rating page or show simple prompt
-            if (restaurantName) {
-                if (confirm(`How was your order from ${restaurantName}? Click OK to rate your experience.`)) {
-                    window.location.href = `/rate-order/${orderId}/`;
-                }
-            } else {
-                if (confirm('How was your order? Click OK to rate your experience.')) {
-                    window.location.href = `/rate-order/${orderId}/`;
-                }
-            }
+        const existingModal = document.getElementById('ratingModal');
+        if (existingModal) {
+            existingModal.remove();
         }
-    }
 
-    // Update connection status indicator
-    function updateConnectionStatus(connected) {
-        const statusIndicator = document.getElementById('connection-status');
-        if (statusIndicator) {
-            if (connected) {
-                statusIndicator.innerHTML = '<span class="badge bg-success">Live Updates Active</span>';
-            } else {
-                statusIndicator.innerHTML = '<span class="badge bg-warning">Reconnecting...</span>';
-            }
-        }
-    }
-
-    // Enhanced utility functions for new notification types
-    function updateDeliveryPersonInfo(order) {
-        const deliveryInfoElements = document.querySelectorAll('.delivery-person-info, .driver-info');
-        
-        deliveryInfoElements.forEach(element => {
-            if (order.delivery_person) {
-                element.innerHTML = `
-                    <div class="delivery-person-details">
-                        <strong>${order.delivery_person}</strong>
-                        ${order.delivery_person_phone ? `<br><small>📞 ${order.delivery_person_phone}</small>` : ''}
-                        ${order.estimated_delivery ? `<br><small>🕒 ETA: ${order.estimated_delivery}</small>` : ''}
-                    </div>
-                `;
-                element.style.display = 'block';
-            }
-        });
-    }
-
-    function updatePickupStatus(order) {
-        const pickupElements = document.querySelectorAll('.pickup-status');
-        pickupElements.forEach(element => {
-            element.innerHTML = `
-                <div class="alert alert-info">
-                    <i class="fas fa-check-circle"></i>
-                    Your order has been picked up and is on the way!
-                </div>
-            `;
-        });
-    }
-
-    function enableOrderTracking(order) {
-        const trackingElements = document.querySelectorAll('.order-tracking');
-        trackingElements.forEach(element => {
-            if (order.can_track) {
-                element.style.display = 'block';
-                element.innerHTML = `
-                    <div class="tracking-active">
-                        <h6>📍 Live Tracking Available</h6>
-                        <p>${order.tracking_message || 'Your order is on the way!'}</p>
-                    </div>
-                `;
-            }
-        });
-    }
-
-    function updateCancelledOrderUI(order) {
-        const orderElements = document.querySelectorAll(`[data-order-id="${order.id}"]`);
-        
-        orderElements.forEach(element => {
-            // Add cancelled styling
-            element.classList.add('order-cancelled');
-            element.style.opacity = '0.7';
-            
-            // Update status
-            const statusElement = element.querySelector('.order-status, .status');
-            if (statusElement) {
-                statusElement.className = 'order-status badge bg-danger';
-                statusElement.textContent = 'Cancelled';
-            }
-            
-            // Show refund information if available
-            if (order.refund_amount) {
-                const refundElement = document.createElement('div');
-                refundElement.className = 'refund-info mt-2';
-                refundElement.innerHTML = `
-                    <small class="text-muted">
-                        💰 Refund of ${order.refund_amount} will be processed within ${order.refund_timeline}
-                    </small>
-                `;
-                element.appendChild(refundElement);
-            }
-        });
-    }
-
-    function showRatingPrompt(orderId, restaurantName) {
-        // Only show if not already shown
-        if (document.querySelector('.rating-prompt')) return;
-        
-        const ratingModal = document.createElement('div');
-        ratingModal.className = 'rating-prompt modal fade show';
-        ratingModal.style.display = 'block';
-        ratingModal.innerHTML = `
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Rate Your Experience</h5>
-                        <button type="button" class="btn-close" onclick="this.closest('.rating-prompt').remove()"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>How was your experience with ${restaurantName}?</p>
-                        <div class="rating-stars mb-3">
-                            ${[1,2,3,4,5].map(star => `
-                                <span class="star" data-rating="${star}">⭐</span>
-                            `).join('')}
+        const modalHtml = `
+            <div class="modal fade" id="ratingModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Rate Your Experience</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <textarea class="form-control" placeholder="Leave a review (optional)"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="this.closest('.rating-prompt').remove()">Maybe Later</button>
-                        <button type="button" class="btn btn-primary" onclick="submitRating(${orderId})">Submit Rating</button>
+                        <div class="modal-body">
+                            <p>How was your experience with ${restaurantName}?</p>
+                            <div class="rating-stars text-center mb-3">
+                                ${[1,2,3,4,5].map(i => `<i class="ri-star-line fs-2 text-warning rating-star" data-rating="${i}"></i>`).join('')}
+                            </div>
+                            <textarea class="form-control" placeholder="Leave a comment (optional)" id="ratingComment"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Skip</button>
+                            <button type="button" class="btn btn-primary" id="submitRating">Submit Rating</button>
+                        </div>
                     </div>
                 </div>
             </div>
         `;
+
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
         
-        document.body.appendChild(ratingModal);
+        const modal = new bootstrap.Modal(document.getElementById('ratingModal'));
         
-        // Add click handlers for stars
-        ratingModal.querySelectorAll('.star').forEach(star => {
+        // Add rating functionality
+        const stars = document.querySelectorAll('.rating-star');
+        let selectedRating = 0;
+        
+        stars.forEach(star => {
             star.addEventListener('click', function() {
-                const rating = this.dataset.rating;
-                ratingModal.querySelectorAll('.star').forEach((s, index) => {
-                    s.style.opacity = index < rating ? '1' : '0.3';
+                selectedRating = parseInt(this.dataset.rating);
+                stars.forEach((s, index) => {
+                    if (index < selectedRating) {
+                        s.classList.remove('ri-star-line');
+                        s.classList.add('ri-star-fill');
+                    } else {
+                        s.classList.remove('ri-star-fill');
+                        s.classList.add('ri-star-line');
+                    }
                 });
             });
         });
+
+        document.getElementById('submitRating').addEventListener('click', function() {
+            if (selectedRating > 0) {
+                // Submit rating logic would go here
+                modal.hide();
+                showNotification('Thank you for your rating!', 'success');
+            } else {
+                showNotification('Please select a rating', 'warning');
+            }
+        });
+
+        return modal;
     }
 
-    // WebSocket event handlers
-    socket.onopen = function(event) {
-        console.log('Customer WebSocket connected');
-        reconnectAttempts = 0;
-        updateConnectionStatus(true);
-        showNotification('Connected to live order updates', 'success', 3000);
-    };
-
-    socket.onmessage = function(event) {
-        console.log('Customer WebSocket message received:', event.data);
-        
-        try {
-            const data = JSON.parse(event.data);
-            
-            // Handle different message types
-            switch(data.type) {
-                case 'order_update':
-                    handleOrderUpdate(data);
-                    break;
-                case 'delivery_update':
-                    handleOrderUpdate(data);
-                    break;
-                case 'payment_update':
-                    showNotification(data.message, 'info');
-                    break;
-                case 'general_notification':
-                    showNotification(data.message, 'info');
-                    break;
-                default:
-                    // Handle legacy format
-                    if (data.message) {
-                        showNotification(data.message, 'info');
-                    }
-                    if (data.order) {
-                        updateOrderStatus(data.order);
-                    }
+    // Update connection status indicator
+    function updateConnectionStatus(connected) {
+        const statusElement = document.getElementById('ws-connection-status');
+        if (statusElement) {
+            if (connected) {
+                statusElement.innerHTML = '<span class="badge bg-success"><i class="ri-wifi-line"></i> Connected</span>';
+                statusElement.style.display = 'block';
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                }, 3000);
+            } else {
+                statusElement.innerHTML = '<span class="badge bg-danger"><i class="ri-wifi-off-line"></i> Disconnected</span>';
+                statusElement.style.display = 'block';
             }
+        }
+    }
+
+    // Optimized WebSocket connection function
+    function connectWebSocket() {
+        if (socket && (socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN)) {
+            return; // Already connecting or connected
+        }
+
+        if (isReconnecting) {
+            return; // Already attempting to reconnect
+        }
+
+        try {
+            socket = new WebSocket(wsUrl);
+
+            socket.onopen = function(event) {
+                const wasReconnecting = reconnectAttempts > 0;
+                reconnectAttempts = 0;
+                isReconnecting = false;
+                if (reconnectTimeout) {
+                    clearTimeout(reconnectTimeout);
+                    reconnectTimeout = null;
+                }
+                updateConnectionStatus(true);
+                
+                // Only show reconnection success message if we just reconnected
+                if (wasReconnecting && hasConnectedBefore) {
+                    showNotification('Connected to live order updates', 'success', 3000);
+                }
+                hasConnectedBefore = true;
+            };
+
+            socket.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleOrderUpdate(data);
+                } catch (error) {
+                    // Invalid JSON received, ignore silently
+                }
+            };
+
+            socket.onclose = function(event) {
+                updateConnectionStatus(false);
+
+                // Only attempt reconnection if we had a connection before and it wasn't a normal close
+                if (hasConnectedBefore && !isReconnecting && reconnectAttempts < maxReconnectAttempts && event.code !== 1000) {
+                    isReconnecting = true;
+                    reconnectAttempts++;
+                    
+                    const delay = Math.min(baseReconnectDelay * Math.pow(1.5, reconnectAttempts - 1), 10000);
+                    
+                    if (reconnectAttempts === 1) {
+                        showNotification('Connection lost. Attempting to reconnect...', 'warning', 3000);
+                    }
+                    
+                    reconnectTimeout = setTimeout(() => {
+                        isReconnecting = false;
+                        connectWebSocket();
+                    }, delay);
+                } else if (reconnectAttempts >= maxReconnectAttempts) {
+                    showNotification('Unable to maintain connection. Please refresh the page.', 'danger', 10000);
+                }
+            };
+
+            socket.onerror = function(error) {
+                updateConnectionStatus(false);
+                // Production: Don't show error notifications unless critical
+            };
+
         } catch (error) {
-            console.error('Error parsing WebSocket message:', error);
+            if (reconnectAttempts < maxReconnectAttempts) {
+                setTimeout(() => connectWebSocket(), baseReconnectDelay);
+            }
         }
-    };
+    }
 
-    socket.onclose = function(event) {
-        console.log('Customer WebSocket disconnected');
-        updateConnectionStatus(false);
-        
-        // Attempt to reconnect
-        if (reconnectAttempts < maxReconnectAttempts) {
-            reconnectAttempts++;
-            const timeout = Math.min(1000 * reconnectAttempts, 5000); // Exponential backoff
-            
-            showNotification(`Connection lost. Reconnecting in ${timeout/1000} seconds...`, 'warning', 3000);
-            
-            setTimeout(() => {
-                console.log(`Attempting to reconnect... (Attempt ${reconnectAttempts})`);
-                window.location.reload(); // Simple reconnection by reloading
-            }, timeout);
-        } else {
-            showNotification('Connection lost. Please refresh the page to restore live updates.', 'danger', 10000);
-        }
-    };
-
-    socket.onerror = function(error) {
-        console.error('Customer WebSocket error:', error);
-        updateConnectionStatus(false);
-        showNotification('Connection error. Live updates may be unavailable.', 'warning', 5000);
-    };
+    // Initialize connection
+    connectWebSocket();
 
     // Cleanup on page unload
     window.addEventListener('beforeunload', function() {
+        if (reconnectTimeout) {
+            clearTimeout(reconnectTimeout);
+        }
         if (socket && socket.readyState === WebSocket.OPEN) {
             socket.close();
+        }
+    });
+
+    // Handle page visibility changes to manage connections efficiently
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            if (!socket || socket.readyState === WebSocket.CLOSED) {
+                connectWebSocket();
+            }
         }
     });
 });

@@ -171,48 +171,27 @@ def update_order_status(request, order_id):
                     },
                 )
 
-                # Enhanced notification to customer about readiness for delivery
-                async_to_sync(channel_layer.group_send)(
-                    f"user_{order.user.id}",
-                    {
-                        "type": "order_update",
-                        "message": f"🍳 Great news! Your order from {order.restaurant.name} is ready and will be picked up by a delivery person soon.",
-                        "order": {
-                            "id": order.id,
-                            "status": order.status,
-                            "restaurant": order.restaurant.name,
-                            "estimated_pickup_time": "5-10 minutes",
-                            "next_step": "A delivery person will accept your order and pick it up",
-                            "tracking_enabled": True,
-                        },
-                        "notification_type": "ready_for_delivery",
-                        "priority": "medium"
-                    },
-                )
+                # Backend-only notification - customers will be notified when delivery person accepts
+                # No frontend notification sent to customer to reduce noise
                 
             elif order.status in ["Preparing", "Confirmed"]:
-                # Enhanced notifications to customer about order preparation status
-                status_messages = {
-                    "Confirmed": "🎉 Your order has been confirmed! The restaurant is starting to prepare your delicious food.",
-                    "Preparing": "👨‍🍳 Your order is being prepared with care by our kitchen team. It won't be long now!"
-                }
-                
-                async_to_sync(channel_layer.group_send)(
-                    f"user_{order.user.id}",
-                    {
-                        "type": "order_update",
-                        "message": status_messages.get(order.status, f"Your order status has been updated to {order.status}."),
-                        "order": {
-                            "id": order.id,
-                            "status": order.status,
-                            "restaurant": order.restaurant.name,
-                            "estimated_prep_time": "15-20 minutes" if order.status == "Preparing" else "20-25 minutes",
-                            "next_step": "Ready for delivery" if order.status == "Preparing" else "Preparing",
+                # Backend-only status tracking - customers don't need constant preparation updates
+                # Only send notification for initial confirmation
+                if order.status == "Confirmed":
+                    async_to_sync(channel_layer.group_send)(
+                        f"user_{order.user.id}",
+                        {
+                            "type": "order_update",
+                            "message": "🎉 Your order has been confirmed! The restaurant is preparing your delicious food.",
+                            "order": {
+                                "id": order.id,
+                                "status": order.status,
+                                "restaurant": order.restaurant.name,
+                            },
+                            "notification_type": "payment_confirmed",
+                            "priority": "high"
                         },
-                        "notification_type": "preparation_update",
-                        "priority": "medium"
-                    },
-                )
+                    )
                 
             elif order.status == "Cancelled":
                 # Enhanced notifications for order cancellation with refund information

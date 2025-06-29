@@ -47,8 +47,8 @@
                     <div class="title">
                         <div class="loader-line"></div>
                         <h3>Customer Orders</h3>
-                        <div id="notification-box" class="position-fixed" style="top: 80px; right: 20px; z-index: 1050; max-width: 400px;"></div>
                     </div>
+                    <div id="notification-box" class="mb-3"></div>
                     <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
                 <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
                     <ul class="order-box-list">
@@ -494,12 +494,10 @@
             // Create notification div
             const notification = document.createElement('div');
             notification.className = `alert ${alertClass} alert-dismissible fade show mb-2`;
-            notification.style.maxWidth = '380px';
-            notification.style.wordBreak = 'break-word';
             notification.innerHTML = `
                 <div class="d-flex align-items-start">
                     <div class="flex-grow-1">${message}</div>
-                    <button type="button" class="btn-close btn-close-white ms-2" aria-label="Close"></button>
+                    <button type="button" class="btn-close ms-2" aria-label="Close"></button>
                 </div>
             `;
             
