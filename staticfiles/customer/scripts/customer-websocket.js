@@ -1,4 +1,4 @@
-// Customer WebSocket for real-time order updates - Production Optimized
+// Customer WebSocket for real-time order updates - Production Ready
 document.addEventListener('DOMContentLoaded', function() {
     // Only initialize WebSocket if user is authenticated and user ID is available
     const userDataElement = document.getElementById('user-data');
@@ -7,14 +7,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const userId = userDataElement.dataset.userId;
     if (!userId) return;
 
-    // WebSocket connection management
+    // WebSocket connection management - optimized for production
     let socket = null;
     let reconnectAttempts = 0;
     let reconnectTimeout = null;
     let isReconnecting = false;
-    let connectionLost = false;
-    const maxReconnectAttempts = 3;
-    const baseReconnectDelay = 3000;
+    let hasConnectedBefore = false;
+    const maxReconnectAttempts = 5;
+    const baseReconnectDelay = 2000;
     
     // Set up WebSocket connection
     const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const message = data.message;
         const notificationType = data.notification_type || 'general';
 
-        // Only show important notifications to users
+        // Only show critical notifications to users
         let shouldShowNotification = false;
         let toastType = 'info';
         let duration = 5000;
@@ -159,48 +159,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 toastType = 'success';
                 shouldShowNotification = true;
                 break;
-            case 'ready_for_delivery':
-                toastType = 'warning';
-                shouldShowNotification = true;
-                duration = 7000;
-                break;
             case 'delivery_accepted':
             case 'out_for_delivery':
                 toastType = 'primary';
                 shouldShowNotification = true;
-                duration = 8000;
+                duration = 6000;
                 break;
             case 'delivery_completed':
                 toastType = 'success';
                 shouldShowNotification = true;
-                duration = 10000;
+                duration = 8000;
                 break;
             case 'order_cancelled':
                 toastType = 'danger';
                 shouldShowNotification = true;
-                duration = 12000;
+                duration = 10000;
                 break;
             default:
-                // Handle legacy format - only show important status changes
+                // Handle legacy format - only show critical status changes
                 if (order && order.status) {
                     if (order.status === 'Delivered') {
                         toastType = 'success';
                         shouldShowNotification = true;
-                        duration = 8000;
+                        duration = 6000;
                     } else if (order.status === 'Cancelled') {
                         toastType = 'danger';
                         shouldShowNotification = true;
-                        duration = 10000;
+                        duration = 8000;
                     } else if (order.status === 'Out for delivery') {
                         toastType = 'primary';
                         shouldShowNotification = true;
-                        duration = 7000;
+                        duration = 5000;
                     }
                 }
                 break;
         }
 
-        // Show notification only for important updates
+        // Show notification only for critical updates
         if (shouldShowNotification) {
             showNotification(message, toastType, duration);
         }
@@ -394,19 +389,20 @@ document.addEventListener('DOMContentLoaded', function() {
             socket = new WebSocket(wsUrl);
 
             socket.onopen = function(event) {
+                const wasReconnecting = reconnectAttempts > 0;
                 reconnectAttempts = 0;
                 isReconnecting = false;
-                connectionLost = false;
                 if (reconnectTimeout) {
                     clearTimeout(reconnectTimeout);
                     reconnectTimeout = null;
                 }
                 updateConnectionStatus(true);
                 
-                // Only show reconnection message if we were previously disconnected
-                if (reconnectAttempts > 0 || connectionLost) {
+                // Only show reconnection success message if we just reconnected
+                if (wasReconnecting && hasConnectedBefore) {
                     showNotification('Connected to live order updates', 'success', 3000);
                 }
+                hasConnectedBefore = true;
             };
 
             socket.onmessage = function(event) {
@@ -414,25 +410,19 @@ document.addEventListener('DOMContentLoaded', function() {
                     const data = JSON.parse(event.data);
                     handleOrderUpdate(data);
                 } catch (error) {
-                    // Invalid JSON received, ignore
+                    // Invalid JSON received, ignore silently
                 }
             };
 
             socket.onclose = function(event) {
-                if (!connectionLost) {
-                    connectionLost = true;
-                    updateConnectionStatus(false);
-                }
+                updateConnectionStatus(false);
 
-                if (!isReconnecting && reconnectAttempts < maxReconnectAttempts) {
+                // Only attempt reconnection if we had a connection before and it wasn't a normal close
+                if (hasConnectedBefore && !isReconnecting && reconnectAttempts < maxReconnectAttempts && event.code !== 1000) {
                     isReconnecting = true;
                     reconnectAttempts++;
                     
-                    const delay = baseReconnectDelay * Math.pow(2, reconnectAttempts - 1);
-                    
-                    if (reconnectAttempts === 1) {
-                        showNotification('Connection lost. Attempting to reconnect...', 'warning', 3000);
-                    }
+                    const delay = Math.min(baseReconnectDelay * Math.pow(1.5, reconnectAttempts - 1), 10000);
                     
                     reconnectTimeout = setTimeout(() => {
                         isReconnecting = false;
@@ -445,7 +435,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             socket.onerror = function(error) {
                 updateConnectionStatus(false);
-                // Don't show error notifications in production unless it's critical
+                // Production: Don't show error notifications unless critical
             };
 
         } catch (error) {

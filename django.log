@@ -1,23 +1,14 @@
-2025-06-30 02:55:37,726 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
-2025-06-30 02:55:37,726 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-06-30 02:55:37,726 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
-2025-06-30 02:55:37,727 INFO     Listening on TCP address 0.0.0.0:8060
-2025-06-30 02:55:58,744 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
-2025-06-30 02:56:02,002 WARNING  Not Found: /404.html
-2025-06-30 02:56:02,367 WARNING  Not Found: /404.html
-2025-06-30 02:56:03,249 WARNING  Not Found: /404.html
-2025-06-30 02:56:14,504 WARNING  Not Found: /404.html
-2025-06-30 02:56:15,301 WARNING  Not Found: /404.html
-2025-06-30 02:56:15,351 WARNING  Not Found: /404.html
-2025-06-30 02:56:23,895 WARNING  Not Found: /404.html
-2025-06-30 02:56:24,482 WARNING  Not Found: /404.html
-2025-06-30 02:56:24,819 WARNING  Not Found: /404.html
-2025-06-30 02:56:24,851 WARNING  Not Found: /404.html
-2025-06-30 02:56:33,029 INFO     Starting add_to_cart view
-2025-06-30 02:56:34,173 INFO     Item added to cart: 1
-2025-06-30 02:56:38,730 WARNING  Not Found: /404.html
-2025-06-30 02:56:39,342 WARNING  Not Found: /404.html
-2025-06-30 02:56:39,404 WARNING  Not Found: /404.html
-2025-06-30 02:58:24,295 WARNING  Not Found: /404.html
-2025-06-30 02:58:25,212 WARNING  Not Found: /404.html
-2025-06-30 02:58:25,230 WARNING  Not Found: /404.html
+2025-06-30 03:24:46,613 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
+2025-06-30 03:24:46,614 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-06-30 03:24:46,614 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
+2025-06-30 03:24:46,615 INFO     Listening on TCP address 0.0.0.0:8060
+2025-06-30 03:24:48,047 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
+2025-06-30 03:24:52,102 WARNING  Not Found: /404.html
+2025-06-30 03:24:52,561 WARNING  Not Found: /404.html
+2025-06-30 03:24:53,410 WARNING  Not Found: /404.html
+2025-06-30 03:24:58,957 WARNING  Not Found: /404.html
+2025-06-30 03:24:59,425 WARNING  Not Found: /404.html
+2025-06-30 03:24:59,460 WARNING  Not Found: /404.html
+2025-06-30 03:25:06,299 WARNING  Not Found: /404.html
+2025-06-30 03:25:06,640 WARNING  Not Found: /404.html
+2025-06-30 03:25:06,724 WARNING  Not Found: /404.html
