@@ -152,16 +152,62 @@ show_nginx_config() {
     echo -e "${BLUE}   sudo systemctl reload nginx${NC}"
 }
 
+# Function to handle shutdown signals
+cleanup() {
+    echo -e "\n${YELLOW}🛑 Received shutdown signal...${NC}"
+    
+    # Kill Django server
+    if lsof -ti:8060 > /dev/null; then
+        echo -e "${BLUE}🔧 Stopping Django server...${NC}"
+        kill -TERM $(lsof -ti:8060) 2>/dev/null || true
+        sleep 2
+        # Force kill if still running
+        kill -9 $(lsof -ti:8060) 2>/dev/null || true
+    fi
+    
+    echo -e "${GREEN}✅ Services stopped${NC}"
+    exit 0
+}
+
+# Set up signal handlers
+trap cleanup SIGTERM SIGINT SIGQUIT
+
+# Function to monitor services and keep script alive
+monitor_services() {
+    echo -e "${BLUE}👁️  Starting service monitor (PM2 mode)...${NC}"
+    echo -e "${YELLOW}💡 Press Ctrl+C to stop all services${NC}"
+    
+    while true; do
+        # Check if Django is still running
+        if ! lsof -ti:8060 > /dev/null; then
+            echo -e "${RED}❌ Django server stopped unexpectedly, restarting...${NC}"
+            start_django
+        fi
+        
+        # Sleep for 30 seconds before next check
+        sleep 30
+    done
+}
+
 # Main execution
 main() {
     echo -e "${BLUE}🎯 TenGo Application Startup${NC}"
     echo "================================"
     
-    # Parse arguments for refresh option
-    if [[ "$1" == "--refresh" ]] || [[ "$1" == "-r" ]]; then
-        echo -e "${YELLOW}🔄 Running with cache refresh...${NC}"
-        clear_caches
-    fi
+    # Parse arguments
+    DAEMON_MODE=false
+    for arg in "$@"; do
+        case $arg in
+            --refresh|-r)
+                echo -e "${YELLOW}🔄 Running with cache refresh...${NC}"
+                clear_caches
+                ;;
+            --daemon|-d)
+                DAEMON_MODE=true
+                echo -e "${YELLOW}🔄 Running in daemon mode (PM2 compatible)...${NC}"
+                ;;
+        esac
+    done
     
     # Start Redis
     start_redis
@@ -191,11 +237,18 @@ main() {
     check_service "redis-server" "Redis"
     check_service "daphne.*8060" "Django ASGI Server"
     echo ""
-    echo -e "${BLUE}🛠️  Useful commands:${NC}"
-    echo -e "${BLUE}   Stop Django: kill \$(lsof -ti:8060)${NC}"
-    echo -e "${BLUE}   Stop Redis: sudo systemctl stop redis${NC}"
-    echo -e "${BLUE}   View Django logs: tail -f $PROJECT_DIR/django.log${NC}"
-    echo -e "${BLUE}   Test WebSocket: wscat -c ws://localhost:8060/ws/delivery/${NC}"
+    
+    # If daemon mode, start monitoring
+    if [ "$DAEMON_MODE" = true ]; then
+        monitor_services
+    else
+        echo -e "${BLUE}🛠️  Useful commands:${NC}"
+        echo -e "${BLUE}   Stop Django: kill \$(lsof -ti:8060)${NC}"
+        echo -e "${BLUE}   Stop Redis: sudo systemctl stop redis${NC}"
+        echo -e "${BLUE}   View Django logs: tail -f $PROJECT_DIR/django.log${NC}"
+        echo -e "${BLUE}   Test WebSocket: wscat -c ws://localhost:8060/ws/delivery/${NC}"
+        echo -e "${YELLOW}   Run with PM2: pm2 start start_services.sh -- --daemon${NC}"
+    fi
 }
 
 # Run if script is executed directly

@@ -5,3 +5,5 @@ tengo_venv/
 .vscode/
 .env
 TenGo.code-workspace
+*.log
+django.log
