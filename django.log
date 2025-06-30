@@ -1,14 +1,9 @@
-2025-06-30 03:24:46,613 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
-2025-06-30 03:24:46,614 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
-2025-06-30 03:24:46,614 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
-2025-06-30 03:24:46,615 INFO     Listening on TCP address 0.0.0.0:8060
-2025-06-30 03:24:48,047 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
-2025-06-30 03:24:52,102 WARNING  Not Found: /404.html
-2025-06-30 03:24:52,561 WARNING  Not Found: /404.html
-2025-06-30 03:24:53,410 WARNING  Not Found: /404.html
-2025-06-30 03:24:58,957 WARNING  Not Found: /404.html
-2025-06-30 03:24:59,425 WARNING  Not Found: /404.html
-2025-06-30 03:24:59,460 WARNING  Not Found: /404.html
-2025-06-30 03:25:06,299 WARNING  Not Found: /404.html
-2025-06-30 03:25:06,640 WARNING  Not Found: /404.html
-2025-06-30 03:25:06,724 WARNING  Not Found: /404.html
+2025-06-30 04:25:59,469 INFO     Starting server at tcp:port=8060:interface=0.0.0.0
+2025-06-30 04:25:59,469 INFO     HTTP/2 support not enabled (install the http2 and tls Twisted extras)
+2025-06-30 04:25:59,469 INFO     Configuring endpoint tcp:port=8060:interface=0.0.0.0
+2025-06-30 04:25:59,470 INFO     Listening on TCP address 0.0.0.0:8060
+2025-06-30 04:26:01,013 INFO     /home/thisisemmanuel-tengo/htdocs/tengo.thisisemmanuel.pro/./customer/.env doesn't exist - if you're not configuring your environment separately, create one.
+2025-06-30 04:26:05,745 WARNING  Not Found: /404.html
+2025-06-30 04:26:06,088 WARNING  Not Found: /404.html
+2025-06-30 04:26:06,889 WARNING  Not Found: /404.html
+2025-06-30 04:26:06,898 WARNING  Not Found: /404.html

@@ -397,11 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     reconnectTimeout = null;
                 }
                 updateConnectionStatus(true);
-                
-                // Only show reconnection success message if we just reconnected
-                if (wasReconnecting && hasConnectedBefore) {
-                    showNotification('Connected to live order updates', 'success', 3000);
-                }
+ 
                 hasConnectedBefore = true;
             };
 

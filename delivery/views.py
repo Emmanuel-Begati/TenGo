@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Order, DeliveryPerson
+from .models import DeliveryPerson
+from restaurant.models import Order
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib import messages

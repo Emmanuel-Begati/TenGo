@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     const pendingDeliveriesTableBody = document.querySelector('#pending-deliveries-table tbody');
-    const acceptedDeliveriesTableBody = document.querySelector('table:not(#pending-deliveries-table) tbody');
+    const acceptedDeliveriesTableBody = document.querySelector('#accepted-deliveries-table tbody');
     
     // Keep track of processed orders to avoid duplicate notifications
     const processedOrders = new Set();
@@ -111,6 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 statusCell.textContent = order.status;
                 statusCell.className = `badge order-status ${getStatusClass(order.status)}`;
             }
+            
+            // Update action buttons based on status
+            const actionCell = existingRow.querySelector('td:last-child');
+            if (actionCell) {
+                updateActionButtons(actionCell, order);
+            }
         } else {
             // Create new row in accepted deliveries
             const newRow = document.createElement('tr');
@@ -124,25 +130,43 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${order.customer_name || 'Customer'}</td>
                 <td>${order.customer_address || order.delivery_address || 'Address pending'}</td>
                 <td><span class="badge order-status ${getStatusClass(order.status)}">${order.status}</span></td>
-                <td>
-                    ${order.status === 'Accepted' ? `
-                        <form method="POST" action="/delivery/mark-out-for-delivery/${order.id}/" style="display: inline;">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
-                            <button type="submit" class="btn btn-primary btn-sm">Mark Out for Delivery</button>
-                        </form>
-                    ` : ''}
-                    ${order.status === 'Out for delivery' ? `
-                        <form method="POST" action="/delivery/mark-delivered/${order.id}/" style="display: inline;">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
-                            <button type="submit" class="btn btn-success btn-sm">Mark Delivered</button>
-                        </form>
-                    ` : ''}
-                </td>
+                <td></td>
             `;
             
             if (acceptedDeliveriesTableBody) {
                 acceptedDeliveriesTableBody.appendChild(newRow);
+                // Update action buttons after adding the row
+                const actionCell = newRow.querySelector('td:last-child');
+                updateActionButtons(actionCell, order);
             }
+        }
+    }
+
+    function updateActionButtons(actionCell, order) {
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value || '';
+        
+        if (order.status === 'Accepted') {
+            actionCell.innerHTML = `
+                <form method="POST" class="status-form d-inline" data-order-id="${order.id}">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="" disabled selected>Update Status</option>
+                        <option value="Out for delivery">Mark Out for Delivery</option>
+                    </select>
+                </form>
+            `;
+        } else if (order.status === 'Out for delivery') {
+            actionCell.innerHTML = `
+                <form method="POST" class="status-form d-inline" data-order-id="${order.id}">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="" disabled selected>Update Status</option>
+                        <option value="Delivered">Mark as Delivered</option>
+                    </select>
+                </form>
+            `;
+        } else {
+            actionCell.innerHTML = `<span class="text-muted">${order.status}</span>`;
         }
     }
 
@@ -313,4 +337,182 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial count update
     updatePendingCount();
+
+    // Handle status form submissions for OTP popup
+    document.addEventListener('change', function(e) {
+        if (e.target.name === 'status' && e.target.value) {
+            e.preventDefault(); // Prevent any default behavior
+            
+            const form = e.target.closest('form');
+            const orderId = form.dataset.orderId;
+            const status = e.target.value;
+            
+            console.log('Status change detected:', {orderId, status}); // Debug log
+            
+            // Reset the select to show "Update Status" option
+            e.target.value = '';
+            
+            // Show OTP modal
+            showOTPModal(orderId, status);
+        }
+    });
+
+    // Prevent form submission for status forms
+    document.addEventListener('submit', function(e) {
+        if (e.target.classList.contains('status-form')) {
+            e.preventDefault();
+            console.log('Form submission prevented for status form');
+        }
+    });
+
+    function showOTPModal(orderId, status) {
+        console.log('showOTPModal called with:', {orderId, status}); // Debug log
+        
+        const modal = document.getElementById('myModal');
+        const otpForm = document.getElementById('otpForm');
+        const orderIdInput = document.getElementById('order_id');
+        const statusInput = document.getElementById('status');
+        const otpCodeInput = document.getElementById('otp_code');
+        const messageContainer = document.getElementById('messageContainer');
+        
+        if (!modal) {
+            console.error('Modal element not found');
+            return;
+        }
+        
+        if (!otpForm) {
+            console.error('OTP form not found');
+            return;
+        }
+        
+        // Clear previous messages and OTP input
+        if (messageContainer) {
+            messageContainer.innerHTML = '';
+        }
+        if (otpCodeInput) {
+            otpCodeInput.value = '';
+        }
+        
+        // Set form data
+        if (orderIdInput) {
+            orderIdInput.value = orderId;
+        }
+        if (statusInput) {
+            statusInput.value = status;
+        }
+        if (otpForm) {
+            otpForm.action = `/delivery/update/${orderId}/`;
+        }
+        
+        // Update modal title based on status
+        const modalTitle = document.getElementById('exampleModalLabel');
+        if (modalTitle) {
+            if (status === 'Out for delivery') {
+                modalTitle.textContent = 'Enter Restaurant OTP Code';
+            } else if (status === 'Delivered') {
+                modalTitle.textContent = 'Enter Customer OTP Code';
+            }
+        }
+        
+        console.log('About to show modal'); // Debug log
+        
+        // Show the modal
+        try {
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            console.log('Modal shown successfully'); // Debug log
+        } catch (error) {
+            console.error('Error showing modal:', error);
+            // Fallback - try to show modal using jQuery if available
+            if (typeof $ !== 'undefined') {
+                console.log('Trying jQuery modal fallback');
+                $(modal).modal('show');
+            } else {
+                // Last resort - direct style manipulation
+                modal.style.display = 'block';
+                modal.classList.add('show');
+                document.body.classList.add('modal-open');
+            }
+        }
+    }
+
+    // Handle OTP form submission
+    const otpForm = document.getElementById('otpForm');
+    if (otpForm) {
+        otpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('OTP form submitted'); // Debug log
+            
+            const formData = new FormData(this);
+            const orderId = formData.get('order_id');
+            const status = formData.get('status');
+            const otpCode = formData.get('otp_code');
+            
+            console.log('Form data:', {orderId, status, otpCode}); // Debug log
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Verifying...';
+            submitBtn.disabled = true;
+            
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                console.log('Response received:', response); // Debug log
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response data:', data); // Debug log
+                if (data.success) {
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('myModal'));
+                    if (modal) {
+                        modal.hide();
+                    }
+                    
+                    // Show success notification
+                    showNotification(`Order #${orderId} status updated to: ${status}`, 'success');
+                    
+                    // Refresh the page to reflect changes
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                } else {
+                    // Show error in modal
+                    const messageContainer = document.getElementById('messageContainer');
+                    if (messageContainer) {
+                        messageContainer.innerHTML = `
+                            <div class="alert alert-danger">
+                                Invalid OTP code. Please try again.
+                            </div>
+                        `;
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const messageContainer = document.getElementById('messageContainer');
+                if (messageContainer) {
+                    messageContainer.innerHTML = `
+                        <div class="alert alert-danger">
+                            An error occurred. Please try again.
+                        </div>
+                    `;
+                }
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    } else {
+        console.error('OTP form not found during initialization');
+    }
 });

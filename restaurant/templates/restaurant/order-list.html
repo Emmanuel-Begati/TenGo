@@ -1,9 +1,68 @@
 {% extends "restaurant/base.html" %}
 {% load static %}
 {% block content %}
-<!-- Notification containers positioned after navbar -->
-<div id="notification-box" class="container mt-3"></div>
-<div id="notifications" class="container mb-4"></div>
+
+<!-- Fixed notification containers positioned properly below navbar -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div id="notification-box" class="notification-container"></div>
+            <div id="notifications" class="notification-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Add custom CSS for proper notification positioning -->
+<style>
+.notification-container {
+    position: fixed;
+    top: 80px; /* Adjust based on your navbar height */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    z-index: 1050;
+    pointer-events: none;
+}
+
+.notification-container .alert {
+    pointer-events: all;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: none;
+    border-radius: 8px;
+}
+
+.notification-container .notification {
+    pointer-events: all;
+    background: #fff;
+    border-left: 4px solid #28a745;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.notification-container .notification.error {
+    border-left-color: #dc3545;
+}
+
+.notification-container .notification.warning {
+    border-left-color: #ffc107;
+}
+
+.notification-container .notification.info {
+    border-left-color: #17a2b8;
+}
+
+/* Ensure notifications appear above other content */
+@media (max-width: 768px) {
+    .notification-container {
+        top: 70px;
+        width: 95%;
+    }
+}
+</style>
 
 <!-- profile section starts -->
 <section class="profile-section section-b-space">
@@ -346,25 +405,8 @@
             const orderElement = document.querySelector(`li:has(#order-${orderData.id})`);
             
             if (orderData.status === 'Accepted') {
-                // Show notification about delivery acceptance
-                if (typeof showNotification === 'function') {
-                    showNotification(`✅ Order #${orderData.id} has been accepted by ${orderData.delivery_person || 'a delivery person'}!`, 'success');
-                } else {
-                    // Fallback notification display
-                    const notificationBox = document.getElementById('notification-box');
-                    if (notificationBox) {
-                        notificationBox.innerHTML = `
-                            <div class="alert alert-success alert-dismissible fade show">
-                                ✅ Order #${orderData.id} has been accepted by ${orderData.delivery_person || 'a delivery person'}!
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                        `;
-                        setTimeout(() => {
-                            const alert = notificationBox.querySelector('.alert');
-                            if (alert) alert.remove();
-                        }, 5000);
-                    }
-                }
+                // Remove duplicate notification - the detailed one comes from the backend
+                // The backend already sends a detailed notification message
 
                 // Update the order status in the UI if the element exists
                 if (orderElement) {
@@ -496,6 +538,10 @@
             // Create notification div
             const notification = document.createElement('div');
             notification.className = `alert ${alertClass} alert-dismissible fade show mb-2`;
+            notification.style.cssText = `
+                animation: slideInDown 0.3s ease-out;
+                max-width: 100%;
+            `;
             notification.innerHTML = `
                 <div class="d-flex align-items-start">
                     <div class="flex-grow-1">${message}</div>
@@ -503,26 +549,44 @@
                 </div>
             `;
             
+            // Add slide-in animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInDown {
+                    from { transform: translateY(-100%); opacity: 0; }
+                    to { transform: translateY(0); opacity: 1; }
+                }
+                @keyframes slideOutUp {
+                    from { transform: translateY(0); opacity: 1; }
+                    to { transform: translateY(-100%); opacity: 0; }
+                }
+            `;
+            if (!document.querySelector('style[data-notification-styles]')) {
+                style.setAttribute('data-notification-styles', 'true');
+                document.head.appendChild(style);
+            }
+            
             // Add click handler for close button
             const closeBtn = notification.querySelector('.btn-close');
             closeBtn.addEventListener('click', () => {
-                notification.remove();
+                notification.style.animation = 'slideOutUp 0.3s ease-in';
+                setTimeout(() => notification.remove(), 300);
             });
             
             // Add to notification container
             notificationBox.appendChild(notification);
             
-            // Auto-dismiss after 8 seconds
+            // Auto-dismiss after 6 seconds
             setTimeout(() => {
                 if (notification && notification.parentNode) {
-                    notification.classList.remove('show');
+                    notification.style.animation = 'slideOutUp 0.3s ease-in';
                     setTimeout(() => {
                         if (notification.parentNode) {
                             notification.remove();
                         }
                     }, 300);
                 }
-            }, 8000);
+            }, 6000);
         } else {
             // Fallback to console if no notification area
             console.log(`Notification: ${message}`);
