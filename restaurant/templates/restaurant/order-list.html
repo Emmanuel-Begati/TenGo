@@ -1,6 +1,10 @@
 {% extends "restaurant/base.html" %}
 {% load static %}
 {% block content %}
+<!-- Notification containers positioned after navbar -->
+<div id="notification-box" class="container mt-3"></div>
+<div id="notifications" class="container mb-4"></div>
+
 <!-- profile section starts -->
 <section class="profile-section section-b-space">
     <div class="container">
@@ -48,8 +52,6 @@
                         <div class="loader-line"></div>
                         <h3>Customer Orders</h3>
                     </div>
-                    <div id="notification-box" class="mb-3"></div>
-                    <div id="notifications" class="mb-4"></div> <!-- Add this container for notifications -->
                 <div id="restaurant-data" data-restaurant-id="{{ restaurant.id }}"></div>
                     <ul class="order-box-list">
                         {% for order in orders %}
